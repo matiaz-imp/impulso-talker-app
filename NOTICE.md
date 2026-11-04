@@ -18,12 +18,12 @@ Las demás dependencias de Rust y de JavaScript conservan sus propias licencias 
 
 Los modelos **no** se incluyen en este repositorio: cada persona los descarga desde la app y cada uno trae su licencia.
 
-| Modelo                                                          | Autor       | Licencia  | Obligación                                                                 |
-| --------------------------------------------------------------- | ----------- | --------- | -------------------------------------------------------------------------- |
-| Whisper (small, medium, large, large v3 turbo)                  | OpenAI      | MIT       | Conservar el aviso de licencia                                             |
-| Parakeet TDT 0.6B v3                                            | NVIDIA      | CC-BY-4.0 | **Dar crédito a NVIDIA** (este archivo y la pantalla «Acerca de» lo hacen) |
-| Silero VAD                                                      | Silero Team | MIT       | Detecta silencios; viene incluido en la app                                |
-| Otros modelos del catálogo (Qwen3-ASR, Canary, Moonshine, etc.) | Varios      | Varias    | Revisar la ficha de cada modelo antes de usarlo fuera de un uso personal   |
+| Modelo                                                          | Autor       | Licencia                                                                                            | Obligación                                                                 |
+| --------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Whisper (small, medium, large, large v3 turbo)                  | OpenAI      | MIT (las conversiones GGUF que descarga la app, publicadas por handy-computer, declaran Apache-2.0) | Conservar el aviso de licencia                                             |
+| Parakeet TDT 0.6B v3                                            | NVIDIA      | CC-BY-4.0                                                                                           | **Dar crédito a NVIDIA** (este archivo y la pantalla «Acerca de» lo hacen) |
+| Silero VAD                                                      | Silero Team | MIT                                                                                                 | Detecta silencios; viene incluido en la app                                |
+| Otros modelos del catálogo (Qwen3-ASR, Canary, Moonshine, etc.) | Varios      | Varias                                                                                              | Revisar la ficha de cada modelo antes de usarlo fuera de un uso personal   |
 
 Algunos modelos del catálogo tienen licencia de **uso no comercial** (por ejemplo, Granite Speech 5.0 «Non-Commercial»).
 Impulso Talker es de uso personal, pero si algún día se usa con fines comerciales hay que revisar cada licencia.
