@@ -39,8 +39,9 @@ gh release download --repo matiaz-imp/impulso-talker --pattern "*x64-setup.exe" 
 Como la app **no está firmada**, el sistema avisa la primera vez (ver el README: «Avisos de seguridad del sistema»).
 Explícaselo a la persona antes de que lo vea.
 
-> Estado: estos instaladores los genera GitHub Actions al publicar una versión (etiqueta `v*`). Hasta que exista
-> la primera release, usa el Camino B.
+> Estado: los instaladores los genera GitHub Actions (pestaña _Actions → Release → Run workflow_, o al empujar una etiqueta `v*`).
+> El de Windows ya se generó y pasó la verificación automática, sin uso real todavía. El de Apple Silicon aún no se ha generado.
+> Si el instalador que necesitas no está en _Releases_, usa el Camino B.
 
 ## Camino B: compilar en el equipo (Mac con Intel, o cuando no hay release)
 

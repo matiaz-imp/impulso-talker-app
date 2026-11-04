@@ -11,3 +11,5 @@ Basada en Handy 0.10.0 (commit `82dfab9f`).
 - Guía de instalación para agentes (`INSTALL.md`), instalador para macOS (`scripts/install-macos.sh`), instalador para Windows sin probar
   (`scripts/install-windows.ps1`), diagnóstico (`scripts/doctor.sh`).
 - Publicación automática de instaladores para Apple Silicon, Mac Intel (experimental) y Windows al empujar una etiqueta `v*`.
+
+- Instalador de Windows (`.exe` y `.msi`) generado por GitHub Actions el 4-nov-2026; pasó la verificación automática del paquete. Sin prueba en un equipo real.
