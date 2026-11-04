@@ -36,6 +36,28 @@ jobs:
           $salida
           if ($salida -notmatch "compute device") { throw "--list-devices no listó dispositivos de cómputo" }
 
+      - name: Transcribir una frase en español con un modelo real (motor y modelo, sin micrófono)
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:LOCALAPPDATA "Impulso Talker\handy.exe"
+          $d = Join-Path $env:APPDATA "cl.agenciaimpulsa.talker"
+          New-Item -ItemType Directory -Force (Join-Path $d "models") | Out-Null
+          $f = "whisper-small-Q5_K_M.gguf"
+          $ruta = Join-Path $d "models\$f"
+          Invoke-WebRequest "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/c0214bd34be9296695486f838e0142f900803159/$f" -OutFile $ruta
+          $hash = (Get-FileHash $ruta -Algorithm SHA256).Hash.ToLower()
+          if ($hash -ne "326cd00c3e7217c751667c7c1600eaf7e0de174e186ca2c16b4bf590251c3c3b") { throw "El modelo descargado no coincide con la suma esperada: $hash" }
+          $store = Join-Path $d "settings_store.json"
+          $json = if (Test-Path $store) { Get-Content $store -Raw | ConvertFrom-Json -AsHashtable } else { @{} }
+          if (-not $json.ContainsKey("settings")) { $json["settings"] = @{} }
+          $json["settings"]["selected_model"] = "handy-computer/whisper-small-gguf/$f"
+          $json["settings"]["selected_language"] = "es"
+          $json | ConvertTo-Json -Depth 20 | Set-Content $store -Encoding utf8
+          $salida = (& $exe --transcribe-file (Join-Path $PWD "tests\fixtures\frase-es.wav") 2>&1 | Out-String)
+          $salida
+          if ($salida -notmatch "(?i)reuni[oó]n" -or $salida -notmatch "(?i)tarde") { throw "La transcripción no contiene la frase esperada (reunión ... tarde)" }
+          "OK: transcribió la frase en español"
+
       - name: Abrir la app y capturar la pantalla (3 momentos) con diagnóstico
         shell: pwsh
         run: |
@@ -107,6 +129,28 @@ jobs:
       - name: Comprobar que arranca y detecta dispositivos de audio
         run: |
           "/Applications/Impulso Talker.app/Contents/MacOS/handy" --list-devices
+
+      - name: Transcribir una frase en español con un modelo real (motor y modelo, sin micrófono)
+        run: |
+          d="$HOME/Library/Application Support/cl.agenciaimpulsa.talker"
+          mkdir -p "$d/models"
+          f=whisper-small-Q5_K_M.gguf
+          curl -fL -o "$d/models/$f" "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/c0214bd34be9296695486f838e0142f900803159/$f"
+          real=$(shasum -a 256 "$d/models/$f" | awk '{print $1}')
+          [ "$real" = "326cd00c3e7217c751667c7c1600eaf7e0de174e186ca2c16b4bf590251c3c3b" ] || { echo "Suma distinta: $real"; exit 1; }
+          python3 - "$d/settings_store.json" <<'PY'
+          import json, os, sys
+          p = sys.argv[1]
+          j = json.load(open(p)) if os.path.exists(p) else {}
+          j.setdefault("settings", {})
+          j["settings"]["selected_model"] = "handy-computer/whisper-small-gguf/whisper-small-Q5_K_M.gguf"
+          j["settings"]["selected_language"] = "es"
+          json.dump(j, open(p, "w"))
+          PY
+          salida=$("/Applications/Impulso Talker.app/Contents/MacOS/handy" --transcribe-file tests/fixtures/frase-es.wav 2>&1)
+          echo "$salida" | grep -E "^(model|text)" || echo "$salida" | tail -20
+          echo "$salida" | grep -i -E "reuni[oó]n" >/dev/null && echo "$salida" | grep -i "tarde" >/dev/null || { echo "No contiene la frase esperada"; exit 1; }
+          echo "OK: transcribió la frase en español"
 
       - name: Abrir la app y capturar la pantalla
         run: |
