@@ -1,0 +1,101 @@
+name: "Smoke de instaladores"
+
+# Instala la última release (publicada o en borrador) en un Windows / Mac de pruebas de GitHub,
+# comprueba que el programa arranca y guarda una captura de pantalla de la ventana.
+# No prueba el micrófono ni los permisos (no hay).
+on:
+  workflow_dispatch:
+    inputs:
+      mac:
+        description: "Probar también el instalador de Mac con Apple Silicon (gasta 10 veces más minutos)"
+        type: boolean
+        default: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Instalar con el script de la guía
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./scripts/install-windows.ps1 -Repo "${{ github.repository }}" -Silencioso -IncluirBorrador
+
+      - name: Comprobar que arranca y detecta dispositivos de audio
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:LOCALAPPDATA "Impulso Talker\handy.exe"
+          if (-not (Test-Path $exe)) { throw "No se instaló en $exe" }
+          (Get-Item $exe).VersionInfo | Format-List ProductName, FileDescription, ProductVersion
+          & $exe --list-devices
+          if ($LASTEXITCODE -ne 0) { throw "--list-devices terminó con código $LASTEXITCODE" }
+
+      - name: Abrir la app y capturar la pantalla
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:LOCALAPPDATA "Impulso Talker\handy.exe"
+          Start-Process $exe
+          Start-Sleep -Seconds 30
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          $b = [System.Windows.Forms.SystemInformation]::VirtualScreen
+          $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+          $g = [System.Drawing.Graphics]::FromImage($bmp)
+          $g.CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
+          $bmp.Save("pantalla-windows.png")
+          Get-Process handy -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, MainWindowTitle | Format-Table
+          Get-ChildItem "$env:APPDATA\cl.agenciaimpulsa.talker" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 15 FullName
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: pantalla-windows
+          path: pantalla-windows.png
+
+  mac-apple:
+    if: ${{ inputs.mac }}
+    runs-on: macos-26
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Descargar el .dmg de la última release (publicada o en borrador)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          id=$(gh api "repos/$GITHUB_REPOSITORY/releases" --jq '[.[] | select(.prerelease == false)][0].assets[] | select(.name | endswith("aarch64.dmg")) | .id')
+          [ -n "$id" ] || { echo "No hay .dmg de Apple Silicon en la última release"; exit 1; }
+          curl -fL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/octet-stream" \
+            -o app.dmg "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/assets/$id"
+          ls -lh app.dmg
+
+      - name: Instalar como lo haría una persona (montar y arrastrar a Aplicaciones)
+        run: |
+          hdiutil attach app.dmg -nobrowse -mountpoint /Volumes/talker
+          ls /Volumes/talker
+          cp -R "/Volumes/talker/Impulso Talker.app" /Applications/
+          hdiutil detach /Volumes/talker
+          codesign -dv "/Applications/Impulso Talker.app" 2>&1 | grep -E "Identifier|Signature" || true
+          /usr/libexec/PlistBuddy -c "Print :CFBundleName" -c "Print :CFBundleShortVersionString" "/Applications/Impulso Talker.app/Contents/Info.plist"
+
+      - name: Comprobar que arranca y detecta dispositivos de audio
+        run: |
+          "/Applications/Impulso Talker.app/Contents/MacOS/handy" --list-devices
+
+      - name: Abrir la app y capturar la pantalla
+        run: |
+          open "/Applications/Impulso Talker.app"
+          sleep 30
+          screencapture -x pantalla-mac.png || true
+          pgrep -fl "Impulso Talker" || true
+          ls -la pantalla-mac.png || true
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: pantalla-mac
+          path: pantalla-mac.png
+          if-no-files-found: ignore
