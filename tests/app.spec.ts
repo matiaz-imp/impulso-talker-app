@@ -19,7 +19,8 @@ test.describe("Impulso Talker", () => {
   test("la marca es Impulso Talker y no Handy", async ({ page }) => {
     await page.goto("/");
     expect(await page.title()).toBe("Impulso Talker");
-    const html = await page.content();
-    expect(html).not.toMatch(/\bHandy\b/);
+    // Solo el texto visible: los comentarios de CSS heredados de Handy no cuentan.
+    const visible = await page.locator("body").innerText();
+    expect(visible).not.toMatch(/\bHandy\b/);
   });
 });
