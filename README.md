@@ -32,7 +32,7 @@ Elige según tu computador. Si usas un agente (Claude, ChatGPT u otro), pásale 
 | Windows 10/11 (64 bits)             | Descarga el instalador `…x64-setup.exe` desde [Releases](../../releases) y ejecútalo.                                                |
 | Mac con Intel                       | Se compila en tu equipo: `./scripts/install-macos.sh` (tarda ~15 min la primera vez; instala sus herramientas sin tocar el sistema). |
 
-> **Estado de las pruebas.** La versión para Mac con Intel está compilada y probada de punta a punta. El instalador de
+> **Estado de las pruebas.** La versión para Mac con Intel está compilada, arranca y transcribe audios de prueba; falta usarla con micrófono real. El instalador de
 > **Windows** ya se generó en GitHub y pasó la verificación automática (el programa arranca y detecta micrófonos en un
 > Windows de pruebas), pero **nadie lo ha usado todavía en un computador real**. El de **Apple Silicon** aún no se ha
 > generado. Si usas alguno de los dos, cuéntame cómo te fue.
