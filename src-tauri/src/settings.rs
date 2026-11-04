@@ -606,7 +606,8 @@ fn default_update_checks_enabled() -> bool {
 }
 
 fn default_show_whats_new_on_update() -> bool {
-    true
+    // Impulso Talker no publica notas de versión dentro de la app.
+    false
 }
 
 fn default_whats_new_last_seen_version() -> String {
@@ -1029,7 +1030,7 @@ pub fn get_default_settings() -> AppSettings {
         clamshell_microphone: None,
         selected_output_device: None,
         translate_to_english: false,
-        selected_language: "auto".to_string(),
+        selected_language: default_selected_language(),
         overlay_position: default_overlay_position(),
         debug_mode: false,
         log_level: default_log_level(),

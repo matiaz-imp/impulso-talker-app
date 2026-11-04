@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # Diagnóstico rápido de Impulso Talker en macOS. Solo lee: no cambia nada.
+#   ./scripts/doctor.sh           revisa instalación, modelo, ajustes y registro
+#   ./scripts/doctor.sh --probar  además genera una frase con la voz del sistema y la transcribe (sin micrófono)
 APP_NAME="Impulso Talker"
 ID="cl.agenciaimpulsa.talker"
 DATA="$HOME/Library/Application Support/$ID"
 LOGS="$HOME/Library/Logs/$ID"
 problemas=0
+PROBAR=0
+[ "${1:-}" = "--probar" ] && PROBAR=1
 
 ok()      { printf '  OK        %s\n' "$*"; }
 revisar() { printf '  REVISAR   %s\n' "$*"; problemas=$((problemas + 1)); }
@@ -34,14 +38,30 @@ echo
 echo "Datos y modelos"
 if [ -d "$DATA" ]; then
   ok "carpeta de datos: $DATA"
-  modelos="$(find "$DATA/models" -type f \( -name '*.bin' -o -name '*.gguf' \) ! -iname '*silero*' 2>/dev/null | head -20)"
-  if [ -n "$modelos" ]; then
-    n="$(printf '%s\n' "$modelos" | wc -l | tr -d ' ')"
-    ok "$n archivo(s) de modelo descargado(s)"
-  else
-    revisar "no hay ningún modelo descargado: ábrela y elige uno en Ajustes → Modelos"
-  fi
   store="$DATA/settings_store.json"
+  # El modelo elegido puede estar en la carpeta de la app o en la caché de Hugging Face (org/repo/archivo)
+  modelo="$(python3 - "$store" <<'PY' 2>/dev/null
+import json,sys
+try:
+    d=json.load(open(sys.argv[1])); print(d.get("settings",d).get("selected_model",""))
+except Exception:
+    print("")
+PY
+)"
+  hf="${HF_HOME:-$HOME/.cache/huggingface}/hub"
+  encontrado=0
+  if [ -n "$modelo" ]; then
+    archivo="$(basename "$modelo")"
+    carpeta="models--$(echo "$modelo" | awk -F/ 'NF>=3 {print $1"--"$2}')"
+    if [ -e "$DATA/models/$archivo" ] || ls "$hf/$carpeta"/snapshots/*/"$archivo" >/dev/null 2>&1; then encontrado=1; fi
+  fi
+  if [ "$encontrado" = "1" ]; then
+    ok "modelo seleccionado y descargado: $modelo"
+  elif find "$DATA/models" -type f \( -name '*.bin' -o -name '*.gguf' \) 2>/dev/null | grep -q .; then
+    ok "hay modelos descargados en la carpeta de la app (pero ninguno está seleccionado: elige uno en Ajustes → Modelos)"
+  else
+    revisar "no hay un modelo descargado y seleccionado: ábrela y elige uno en Ajustes → Modelos"
+  fi
   if [ -f "$store" ]; then
     idioma="$(python3 - "$store" <<'PY' 2>/dev/null
 import json,sys
@@ -66,6 +86,26 @@ if [ -n "$ult" ]; then
   else ok "sin errores en el último registro"; fi
 else
   info "no hay registros todavía"
+fi
+
+if [ "$PROBAR" = "1" ]; then
+  echo
+  echo "Prueba de transcripción (sin micrófono)"
+  voz="$(say -v '?' 2>/dev/null | grep -E '[[:space:]]es_(CL|MX|ES|AR|CO)[[:space:]]' | head -1 | sed -E 's/[[:space:]]+es_.*//')"
+  if [ -z "$APP" ]; then revisar "no se puede probar: la app no está instalada"
+  elif ! command -v say >/dev/null || ! command -v afconvert >/dev/null; then info "faltan 'say' o 'afconvert': prueba omitida"
+  else
+    tmp="$(mktemp -d)"
+    say ${voz:+-v "$voz"} -o "$tmp/frase.aiff" "Hola, estoy probando el dictado. Mañana tenemos una reunión a las tres de la tarde." 2>/dev/null
+    afconvert -f WAVE -d LEI16@16000 -c 1 "$tmp/frase.aiff" "$tmp/frase.wav" 2>/dev/null
+    salida="$("$APP/Contents/MacOS/handy" --transcribe-file "$tmp/frase.wav" 2>&1 | grep -E "^(text:|model=)" )"
+    if printf '%s' "$salida" | grep -q "^text: ."; then
+      ok "transcribió una frase de prueba${voz:+ (voz $voz)}:"; printf '%s\n' "$salida" | cut -c1-200 | sed 's/^/            /'
+    else
+      revisar "la transcripción de prueba no devolvió texto (¿modelo sin descargar?)"
+    fi
+    rm -rf "$tmp"
+  fi
 fi
 
 echo
