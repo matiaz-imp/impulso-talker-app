@@ -59,6 +59,19 @@ jobs:
           $log = Get-ChildItem "$env:APPDATA\cl.agenciaimpulsa.talker", "$env:LOCALAPPDATA\cl.agenciaimpulsa.talker" -Recurse -Filter "*.log" -ErrorAction SilentlyContinue | Select-Object -First 1
           if ($log) { "--- $($log.FullName)"; Get-Content $log.FullName -Tail 40 }
 
+      - name: Desinstalar y comprobar que no quedan restos del programa
+        shell: pwsh
+        run: |
+          Get-Process handy -ErrorAction SilentlyContinue | Stop-Process -Force
+          Start-Sleep -Seconds 3
+          $dir = Join-Path $env:LOCALAPPDATA "Impulso Talker"
+          $un = Join-Path $dir "uninstall.exe"
+          if (-not (Test-Path $un)) { throw "No hay desinstalador en $un" }
+          Start-Process $un -ArgumentList "/S" -Wait
+          Start-Sleep -Seconds 5
+          if (Test-Path (Join-Path $dir "handy.exe")) { throw "handy.exe sigue instalado tras desinstalar" }
+          "Desinstalado: handy.exe ya no existe"
+
       - uses: actions/upload-artifact@v7
         with:
           name: pantalla-windows
