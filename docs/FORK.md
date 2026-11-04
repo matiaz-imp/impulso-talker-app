@@ -7,18 +7,18 @@ Impulso Talker nació como una copia (fork) de [Handy](https://github.com/cjpais
 
 Se mantuvo el cambio lo más chico posible; casi todo es marca y valores por defecto.
 
-| Qué | Dónde |
-|---|---|
-| Nombre, versión (0.1.0), identificador `cl.agenciaimpulsa.talker`, sin firma ni actualizador | `src-tauri/tauri.conf.json`, `package.json`, `src-tauri/Cargo.toml` |
-| Actualizador de Handy **apagado siempre** (para no instalar por error una versión de Handy) | `src-tauri/src/settings.rs` (`update_checks_forced_disabled`, `default_update_checks_enabled`) |
-| Idioma de transcripción por defecto: español si el sistema está en español | `src-tauri/src/settings.rs` (`default_selected_language`) |
-| Muletilla «eh» en español | `src-tauri/src/audio_toolkit/text.rs` |
-| Textos de la ventana, bandeja y cliente de IA | `src-tauri/src/lib.rs`, `tray.rs`, `cli.rs`, `llm_client.rs` |
-| Colores y logos | `src/styles/theme.css`, `src/components/icons/*` |
-| Íconos de app y de bandeja | `src-tauri/icons/`, `src-tauri/resources/*.png` (generados desde `branding/`) |
-| «Handy» → «Impulso Talker» en las 25 traducciones; pantalla «Acerca de» sin donaciones | `src/i18n/locales/*/translation.json`, `AboutSettings.tsx` |
-| Publicación de versiones solo para Mac y Windows, sin firma | `.github/workflows/release.yml` |
-| Quitado: notas de versión, donaciones, Nix, plantillas de issues | varios |
+| Qué                                                                                          | Dónde                                                                                          |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Nombre, versión (0.1.0), identificador `cl.agenciaimpulsa.talker`, sin firma ni actualizador | `src-tauri/tauri.conf.json`, `package.json`, `src-tauri/Cargo.toml`                            |
+| Actualizador de Handy **apagado siempre** (para no instalar por error una versión de Handy)  | `src-tauri/src/settings.rs` (`update_checks_forced_disabled`, `default_update_checks_enabled`) |
+| Idioma de transcripción por defecto: español si el sistema está en español                   | `src-tauri/src/settings.rs` (`default_selected_language`)                                      |
+| Muletilla «eh» en español                                                                    | `src-tauri/src/audio_toolkit/text.rs`                                                          |
+| Textos de la ventana, bandeja y cliente de IA                                                | `src-tauri/src/lib.rs`, `tray.rs`, `cli.rs`, `llm_client.rs`                                   |
+| Colores y logos                                                                              | `src/styles/theme.css`, `src/components/icons/*`                                               |
+| Íconos de app y de bandeja                                                                   | `src-tauri/icons/`, `src-tauri/resources/*.png` (generados desde `branding/`)                  |
+| «Handy» → «Impulso Talker» en las 25 traducciones; pantalla «Acerca de» sin donaciones       | `src/i18n/locales/*/translation.json`, `AboutSettings.tsx`                                     |
+| Publicación de versiones solo para Mac y Windows, sin firma                                  | `.github/workflows/release.yml`                                                                |
+| Quitado: notas de versión, donaciones, Nix, plantillas de issues                             | varios                                                                                         |
 
 ## Traer mejoras de Handy
 

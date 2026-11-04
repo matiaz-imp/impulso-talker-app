@@ -26,11 +26,11 @@ no es un producto comercial ni tiene soporte formal.
 
 Elige según tu computador. Si usas un agente (Claude, ChatGPT u otro), pásale [`INSTALL.md`](INSTALL.md): ahí están los pasos para que lo instale por ti.
 
-| Tu computador | Cómo |
-|---|---|
-| Mac con chip Apple (M1 o posterior) | Descarga el `.dmg` desde [Releases](../../releases), arrástralo a Aplicaciones. |
-| Windows 10/11 (64 bits) | Descarga el instalador `…x64-setup.exe` desde [Releases](../../releases) y ejecútalo. |
-| Mac con Intel | Se compila en tu equipo: `./scripts/install-macos.sh` (tarda ~15 min la primera vez; instala sus herramientas sin tocar el sistema). |
+| Tu computador                       | Cómo                                                                                                                                 |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Mac con chip Apple (M1 o posterior) | Descarga el `.dmg` desde [Releases](../../releases), arrástralo a Aplicaciones.                                                      |
+| Windows 10/11 (64 bits)             | Descarga el instalador `…x64-setup.exe` desde [Releases](../../releases) y ejecútalo.                                                |
+| Mac con Intel                       | Se compila en tu equipo: `./scripts/install-macos.sh` (tarda ~15 min la primera vez; instala sus herramientas sin tocar el sistema). |
 
 > **Estado de las pruebas.** La versión de Mac con Intel está compilada y probada de punta a punta. Los instaladores de Apple Silicon y de Windows se generan con la automatización de GitHub y **todavía no se han probado en un equipo real**: si los usas, cuéntame cómo te fue.
 
@@ -38,17 +38,18 @@ Elige según tu computador. Si usas un agente (Claude, ChatGPT u otro), pásale 
 
 La app **no está firmada** con un certificado de desarrollador (cuesta ~US$99 al año), así que el sistema pide confirmación la primera vez:
 
-- **macOS:** si dice que no se puede abrir, ve a *Ajustes del Sistema → Privacidad y seguridad* y pulsa **Abrir de todos modos**. Alternativa en Terminal: `xattr -dr com.apple.quarantine "/Applications/Impulso Talker.app"`. Si la compilaste tú (Mac Intel), no aparece este aviso.
+- **macOS:** si dice que no se puede abrir, ve a _Ajustes del Sistema → Privacidad y seguridad_ y pulsa **Abrir de todos modos**. Alternativa en Terminal: `xattr -dr com.apple.quarantine "/Applications/Impulso Talker.app"`. Si la compilaste tú (Mac Intel), no aparece este aviso.
 - **Windows:** en la ventana azul de SmartScreen pulsa **Más información → Ejecutar de todas formas**.
 
 ## Primer uso
 
 1. Abre la app. Una guía corta te lleva por los pasos.
-2. **Permisos.** En Mac te pedirá dos, que se dan en *Ajustes del Sistema → Privacidad y seguridad*:
+2. **Permisos.** En Mac te pedirá dos, que se dan en _Ajustes del Sistema → Privacidad y seguridad_:
    - **Micrófono**, para escucharte.
    - **Accesibilidad**, para escribir el texto en la app donde estás y detectar el atajo.
 
    En Windows solo pregunta por el micrófono la primera vez.
+
 3. **Elige un modelo.** Se descarga una vez (de unos 200 MB a 1,6 GB según el modelo).
    - Computador lento o Mac Intel: **Whisper Small**.
    - Computador rápido: **Whisper Large v3 Turbo** (el más preciso) o **Parakeet v3** (rápido, 25 idiomas europeos).
@@ -61,27 +62,27 @@ Si reinstalas la app en Mac y el atajo deja de responder aunque Accesibilidad ap
 
 - La transcripción es **local**: el audio no se envía a ningún lado.
 - La app descarga los **modelos** desde Hugging Face (con respaldo en los servidores del proyecto base, Handy). Es lo único que sale a internet por defecto.
-- Si activas la **limpieza con IA**, el *texto* dictado (no el audio) se envía al proveedor que elijas, con tu propia clave. Revisa su política de datos. Sin clave no se envía nada.
+- Si activas la **limpieza con IA**, el _texto_ dictado (no el audio) se envía al proveedor que elijas, con tu propia clave. Revisa su política de datos. Sin clave no se envía nada.
 - No hay telemetría ni cuentas (no encontré código de analítica en la app al revisarla). Tus datos viven en `~/Library/Application Support/cl.agenciaimpulsa.talker` (Mac) o `%APPDATA%\cl.agenciaimpulsa.talker` (Windows).
 
 ## Problemas frecuentes
 
-| Síntoma | Qué hacer |
-|---|---|
-| Hablo y no aparece nada | Revisa que el micrófono correcto esté elegido en Ajustes y que hayas dado el permiso de Micrófono. |
-| Transcribe pero no escribe el texto | Falta el permiso de **Accesibilidad**. Después de darlo, ciérrala y ábrela de nuevo. |
-| El atajo no hace nada | Puede chocar con otra app. Cámbialo en Ajustes → Atajos. En Mac, revisa el permiso de Accesibilidad. |
-| Tarda mucho | Usa un modelo más chico (Whisper Small) o cierra apps pesadas. En equipos Intel antiguos es lo esperable. |
-| Quedó en otro idioma | En Ajustes → Idioma elige *Español* en vez de *Automático*. |
-| Windows Defender o el antivirus bloquea la app | Escribe teclas por ti, y eso a veces alerta a los antivirus. Permítela desde *Seguridad de Windows → Historial de protección*. Si no te fías, compílala tú mismo desde el código. |
-| Tengo Handy instalado también | Pueden convivir (guardan datos aparte), pero comparten el atajo por defecto: cambia uno de los dos en Ajustes → Atajos. |
+| Síntoma                                        | Qué hacer                                                                                                                                                                         |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hablo y no aparece nada                        | Revisa que el micrófono correcto esté elegido en Ajustes y que hayas dado el permiso de Micrófono.                                                                                |
+| Transcribe pero no escribe el texto            | Falta el permiso de **Accesibilidad**. Después de darlo, ciérrala y ábrela de nuevo.                                                                                              |
+| El atajo no hace nada                          | Puede chocar con otra app. Cámbialo en Ajustes → Atajos. En Mac, revisa el permiso de Accesibilidad.                                                                              |
+| Tarda mucho                                    | Usa un modelo más chico (Whisper Small) o cierra apps pesadas. En equipos Intel antiguos es lo esperable.                                                                         |
+| Quedó en otro idioma                           | En Ajustes → Idioma elige _Español_ en vez de _Automático_.                                                                                                                       |
+| Windows Defender o el antivirus bloquea la app | Escribe teclas por ti, y eso a veces alerta a los antivirus. Permítela desde _Seguridad de Windows → Historial de protección_. Si no te fías, compílala tú mismo desde el código. |
+| Tengo Handy instalado también                  | Pueden convivir (guardan datos aparte), pero comparten el atajo por defecto: cambia uno de los dos en Ajustes → Atajos.                                                           |
 
 Para un diagnóstico rápido en Mac: `./scripts/doctor.sh`.
 
 ## Desinstalar
 
 - **Mac:** borra `Impulso Talker.app` de Aplicaciones y, si quieres, la carpeta de datos de arriba (borra también los modelos).
-- **Windows:** *Configuración → Aplicaciones → Impulso Talker → Desinstalar*.
+- **Windows:** _Configuración → Aplicaciones → Impulso Talker → Desinstalar_.
 
 ## Para quien quiera tocar el código
 

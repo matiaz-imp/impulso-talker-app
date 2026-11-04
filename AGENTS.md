@@ -3,7 +3,7 @@
 > **Impulso Talker** es una versión de [Handy](https://github.com/cjpais/Handy) con marca y ajustes propios de Agencia Impulsa.
 > El resto de este archivo es la guía de desarrollo original de Handy y sigue siendo válida (las rutas y los comandos no cambiaron).
 
-## Si tu tarea es *instalar* la app para una persona
+## Si tu tarea es _instalar_ la app para una persona
 
 No uses esta guía de desarrollo: sigue [`INSTALL.md`](INSTALL.md). Reglas que importan aquí:
 

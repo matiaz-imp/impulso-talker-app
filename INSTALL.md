@@ -21,7 +21,7 @@ Linux y Windows con ARM **no están soportados**.
 
 ## Camino A: instalador ya compilado (recomendado: Apple Silicon y Windows)
 
-Descarga el último instalador desde la página de *Releases* del repositorio (el repositorio es privado: la persona
+Descarga el último instalador desde la página de _Releases_ del repositorio (el repositorio es privado: la persona
 debe estar con sesión iniciada o tener `gh auth login` hecho).
 
 ```bash
@@ -44,7 +44,7 @@ Explícaselo a la persona antes de que lo vea.
 
 ## Camino B: compilar en el equipo (Mac con Intel, o cuando no hay release)
 
-Requisitos: macOS 13 o superior y las *Command Line Tools* (`xcode-select --install`). No hace falta Xcode.
+Requisitos: macOS 13 o superior y las _Command Line Tools_ (`xcode-select --install`). No hace falta Xcode.
 
 ```bash
 git clone https://github.com/<dueño>/impulso-talker.git
@@ -66,9 +66,9 @@ está en [`docs/upstream/BUILD-handy.md`](docs/upstream/BUILD-handy.md). Para pe
 ## Paso final: lo que debe hacer la persona (el agente no puede)
 
 1. Abrir la app y seguir la guía de bienvenida.
-2. **Mac:** conceder **Micrófono** y **Accesibilidad** (*Ajustes del Sistema → Privacidad y seguridad*). Después de dar
+2. **Mac:** conceder **Micrófono** y **Accesibilidad** (_Ajustes del Sistema → Privacidad y seguridad_). Después de dar
    Accesibilidad, cerrar la app y abrirla de nuevo.
-3. Elegir y descargar un **modelo**: *Whisper Small* si el equipo es lento o Intel; *Whisper Large v3 Turbo* o *Parakeet v3* si es rápido.
+3. Elegir y descargar un **modelo**: _Whisper Small_ si el equipo es lento o Intel; _Whisper Large v3 Turbo_ o _Parakeet v3_ si es rápido.
 4. Probar: abrir un campo de texto, mantener el atajo (`Option + Espacio` en Mac, `Ctrl + Espacio` en Windows) y hablar.
 
 ## Verificación (macOS)
@@ -83,8 +83,8 @@ dictando una frase.
 
 ## Personalización opcional
 
-- **Palabras propias** (nombres, marcas, términos técnicos): *Ajustes → Avanzado → Palabras personalizadas*.
-- **Limpieza con IA**: *Ajustes → Posprocesamiento*. Requiere la clave de API de un proveedor (Anthropic, OpenAI, OpenRouter,
+- **Palabras propias** (nombres, marcas, términos técnicos): _Ajustes → Avanzado → Palabras personalizadas_.
+- **Limpieza con IA**: _Ajustes → Posprocesamiento_. Requiere la clave de API de un proveedor (Anthropic, OpenAI, OpenRouter,
   Ollama local…) que **la persona** escribe. Una suscripción de claude.ai o de ChatGPT **no** sirve como clave de API. Sin clave, no pasa nada.
 
 ## Problemas frecuentes
