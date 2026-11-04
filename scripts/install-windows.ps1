@@ -53,10 +53,12 @@ try {
 } catch {
   throw "No pude leer las releases de $Repo. Si el repositorio es privado, ejecuta 'gh auth login' (GitHub CLI) o define GH_TOKEN y repite."
 }
-$release = $releases | Where-Object { -not $_.prerelease -and ($IncluirBorrador -or -not $_.draft) } | Select-Object -First 1
-if (-not $release) { throw "No hay ninguna release publicada en $Repo todavía (¿está en borrador? usa -IncluirBorrador)." }
+# La primera release (la más nueva) que traiga un instalador de Windows
+$release = $releases | Where-Object {
+  -not $_.prerelease -and ($IncluirBorrador -or -not $_.draft) -and ($_.assets | Where-Object { $_.name -like "*x64-setup.exe" })
+} | Select-Object -First 1
+if (-not $release) { throw "No hay ninguna release publicada en $Repo con un instalador *x64-setup.exe (¿está en borrador? usa -IncluirBorrador)." }
 $asset = $release.assets | Where-Object { $_.name -like "*x64-setup.exe" } | Select-Object -First 1
-if (-not $asset) { throw "La release $($release.tag_name) no tiene un instalador *x64-setup.exe." }
 
 $destino = Join-Path $env:TEMP "impulso-talker-instalador"
 New-Item -ItemType Directory -Force -Path $destino | Out-Null
