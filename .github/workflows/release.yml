@@ -7,8 +7,41 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      plataformas:
+        description: "Qué instaladores generar (los de Mac gastan 10 veces más minutos de GitHub que los de Windows)"
+        type: choice
+        default: todas
+        options:
+          - todas
+          - solo-windows
+          - solo-mac-apple
+          - solo-mac-intel
 
 jobs:
+  # Elige qué plataformas se compilan: en una etiqueta v* siempre todas.
+  matriz:
+    runs-on: ubuntu-latest
+    outputs:
+      incluir: ${{ steps.m.outputs.incluir }}
+    steps:
+      - id: m
+        shell: bash
+        env:
+          SELECCION: ${{ inputs.plataformas || 'todas' }}
+        run: |
+          mac_arm='{"platform":"macos-26","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin"}'
+          mac_x64='{"platform":"macos-latest","args":"--target x86_64-apple-darwin","target":"x86_64-apple-darwin"}'
+          win='{"platform":"windows-latest","args":"","target":"x86_64-pc-windows-msvc"}'
+          case "$SELECCION" in
+            solo-windows) lista="$win" ;;
+            solo-mac-apple) lista="$mac_arm" ;;
+            solo-mac-intel) lista="$mac_x64" ;;
+            *) lista="$mac_arm,$mac_x64,$win" ;;
+          esac
+          echo "incluir=[$lista]" >> "$GITHUB_OUTPUT"
+          echo "Plataformas: [$lista]"
+
   create-release:
     permissions:
       contents: write
@@ -47,20 +80,12 @@ jobs:
   publish-tauri:
     permissions:
       contents: write
-    needs: create-release
+    needs: [create-release, matriz]
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - platform: "macos-26" # Macs con Apple Silicon (M1 en adelante)
-            args: "--target aarch64-apple-darwin"
-            target: "aarch64-apple-darwin"
-          - platform: "macos-latest" # Macs Intel: compilación cruzada, experimental
-            args: "--target x86_64-apple-darwin"
-            target: "x86_64-apple-darwin"
-          - platform: "windows-latest"
-            args: ""
-            target: "x86_64-pc-windows-msvc"
+        # macos-26: Macs con Apple Silicon. macos-latest + x86_64: Macs Intel (compilación cruzada, experimental).
+        include: ${{ fromJSON(needs.matriz.outputs.incluir) }}
 
     uses: ./.github/workflows/build.yml
     with:
