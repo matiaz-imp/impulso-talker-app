@@ -79,7 +79,7 @@ jobs:
 
   mac-apple:
     if: ${{ inputs.mac }}
-    runs-on: macos-26
+    runs-on: macos-15
     permissions:
       contents: write
     steps:

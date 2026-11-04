@@ -30,8 +30,8 @@ jobs:
         env:
           SELECCION: ${{ inputs.plataformas || 'todas' }}
         run: |
-          mac_arm='{"platform":"macos-26","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin"}'
-          mac_x64='{"platform":"macos-latest","args":"--target x86_64-apple-darwin","target":"x86_64-apple-darwin"}'
+          mac_arm='{"platform":"macos-15","args":"--target aarch64-apple-darwin","target":"aarch64-apple-darwin"}'
+          mac_x64='{"platform":"macos-15-intel","args":"--target x86_64-apple-darwin","target":"x86_64-apple-darwin"}'
           win='{"platform":"windows-latest","args":"","target":"x86_64-pc-windows-msvc"}'
           case "$SELECCION" in
             solo-windows) lista="$win" ;;
@@ -97,7 +97,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos-26: Macs con Apple Silicon. macos-latest + x86_64: Macs Intel (compilación cruzada, experimental).
+        # macos-15: Macs con Apple Silicon (macos-26 tenía cola infinita por falta de capacidad). macos-15-intel: Macs Intel, compilación nativa.
         include: ${{ fromJSON(needs.matriz.outputs.incluir) }}
 
     uses: ./.github/workflows/build.yml
