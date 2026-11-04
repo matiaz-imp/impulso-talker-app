@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mac:
-        description: "Probar también el instalador de Mac con Apple Silicon (gasta 10 veces más minutos)"
+        description: "Probar también los instaladores de Mac, Apple Silicon e Intel (gasta 10 veces más minutos)"
         type: boolean
         default: false
 
@@ -121,4 +121,50 @@ jobs:
         with:
           name: pantalla-mac
           path: pantalla-mac.png
+          if-no-files-found: ignore
+
+  mac-intel:
+    if: ${{ inputs.mac }}
+    runs-on: macos-15-intel
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Descargar el .dmg de la última release (publicada o en borrador)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          id=$(gh api "repos/$GITHUB_REPOSITORY/releases" --jq '[.[] | select(.prerelease == false)][0].assets[] | select(.name | endswith("x64.dmg")) | .id')
+          [ -n "$id" ] || { echo "No hay .dmg de Intel en la última release"; exit 1; }
+          curl -fL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/octet-stream" \
+            -o app-intel.dmg "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/assets/$id"
+          ls -lh app-intel.dmg
+
+      - name: Instalar como lo haría una persona (montar y arrastrar a Aplicaciones)
+        run: |
+          hdiutil attach app-intel.dmg -nobrowse -mountpoint /Volumes/talker-intel
+          ls /Volumes/talker-intel
+          cp -R "/Volumes/talker-intel/Impulso Talker.app" /Applications/
+          hdiutil detach /Volumes/talker-intel
+          codesign -dv "/Applications/Impulso Talker.app" 2>&1 | grep -E "Identifier|Signature" || true
+          /usr/libexec/PlistBuddy -c "Print :CFBundleName" -c "Print :CFBundleShortVersionString" "/Applications/Impulso Talker.app/Contents/Info.plist"
+
+      - name: Comprobar que arranca y detecta dispositivos de audio
+        run: |
+          "/Applications/Impulso Talker.app/Contents/MacOS/handy" --list-devices
+
+      - name: Abrir la app y capturar la pantalla
+        run: |
+          open "/Applications/Impulso Talker.app"
+          sleep 30
+          screencapture -x pantalla-mac-intel.png || true
+          pgrep -fl "Impulso Talker" || true
+          ls -la pantalla-mac-intel.png || true
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: pantalla-mac-intel
+          path: pantalla-mac-intel.png
           if-no-files-found: ignore

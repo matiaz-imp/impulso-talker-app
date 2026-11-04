@@ -25,9 +25,9 @@ Descarga el último instalador desde la página de _Releases_ del repositorio (e
 debe estar con sesión iniciada o tener `gh auth login` hecho).
 
 ```bash
-# macOS con chip Apple
-gh release download --repo matiaz-imp/impulso-talker --pattern "*aarch64.dmg" --dir ~/Downloads
-open ~/Downloads/*aarch64.dmg        # la persona arrastra la app a Aplicaciones
+# macOS: *aarch64.dmg = chip Apple (M1 o posterior), *x64.dmg = Intel. Se ve con: uname -m (arm64 / x86_64)
+gh release download --repo matiaz-imp/impulso-talker --pattern "*aarch64.dmg" --dir ~/Downloads   # o "*x64.dmg"
+open ~/Downloads/*.dmg               # la persona arrastra la app a Aplicaciones
 ```
 
 ```powershell
@@ -41,7 +41,7 @@ Explícaselo a la persona antes de que lo vea.
 
 > Estado: los instaladores los genera GitHub Actions (pestaña _Actions → Release → Run workflow_, o al empujar una etiqueta `v*`).
 > El de Windows y el de Apple Silicon se probaron en máquinas de prueba de GitHub (instalan, abren y, en Windows, desinstalan).
-> No hay instalador para Mac con Intel: usa el Camino B.
+> Para Mac con Intel hay `*x64.dmg`; si falla, usa el Camino B.
 
 ## Camino B: compilar en el equipo (Mac con Intel, o cuando no hay release)
 

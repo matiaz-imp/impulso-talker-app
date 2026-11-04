@@ -26,16 +26,16 @@ no es un producto comercial ni tiene soporte formal.
 
 Elige según tu computador. Si usas un agente (Claude, ChatGPT u otro), pásale [`INSTALL.md`](INSTALL.md): ahí están los pasos para que lo instale por ti.
 
-| Tu computador                       | Cómo                                                                                                                                 |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Mac con chip Apple (M1 o posterior) | Descarga el `.dmg` desde [Releases](../../releases), arrástralo a Aplicaciones.                                                      |
-| Windows 10/11 (64 bits)             | Descarga el instalador `…x64-setup.exe` desde [Releases](../../releases) y ejecútalo.                                                |
-| Mac con Intel                       | Se compila en tu equipo: `./scripts/install-macos.sh` (tarda ~15 min la primera vez; instala sus herramientas sin tocar el sistema). |
+| Tu computador                       | Cómo                                                                                                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Mac con chip Apple (M1 o posterior) | Descarga el `.dmg` desde [Releases](../../releases), arrástralo a Aplicaciones.                                                                              |
+| Windows 10/11 (64 bits)             | Descarga el instalador `…x64-setup.exe` desde [Releases](../../releases) y ejecútalo.                                                                        |
+| Mac con Intel                       | Descarga `Impulso.Talker_0.1.0_x64.dmg` desde [Releases](../../releases). Si prefieres compilarla tú: `./scripts/install-macos.sh` (~15 min la primera vez). |
 
 > **Estado de las pruebas.** Los instaladores de **Windows** y de **Mac con chip Apple** se probaron en máquinas de
 > prueba de GitHub: se instalan, abren con la marca correcta, muestran la guía de bienvenida y (en Windows) se
 > desinstalan. Lo que **nadie ha probado todavía en un computador real es el micrófono, el atajo y el pegado**, porque
-> necesitan permisos de una persona. El **Mac con Intel** se compila en tu equipo y se probó transcribiendo audios.
+> necesitan permisos de una persona. El **Mac con Intel** se probó además transcribiendo audios en esta misma máquina.
 > Si algo falla en tu computador, cuéntame.
 
 ### Avisos de seguridad del sistema (es normal)
