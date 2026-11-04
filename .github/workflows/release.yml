@@ -67,16 +67,16 @@ jobs:
         with:
           script: |
             const tag = `v${{ steps.get-version.outputs.version }}`;
-            // Si ya hay un borrador de esta versión (de otra plataforma), se reutiliza:
+            // Si ya hay una release (borrador o publicada) de esta versión, se reutiliza:
             // así los instaladores de Mac y de Windows quedan en la misma release.
             const existentes = await github.paginate(github.rest.repos.listReleases, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               per_page: 50,
             });
-            const borrador = existentes.find((r) => r.draft && r.tag_name === tag);
+            const borrador = existentes.find((r) => r.tag_name === tag);
             if (borrador) {
-              core.info(`Se reutiliza el borrador ${borrador.id} (${tag})`);
+              core.info(`Se reutiliza la release ${borrador.id} (${tag}, borrador=${borrador.draft})`);
               return borrador.id;
             }
             const { data } = await github.rest.repos.createRelease({
