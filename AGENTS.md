@@ -1,5 +1,22 @@
 # AGENTS.md
 
+> **Impulso Talker** es una versión de [Handy](https://github.com/cjpais/Handy) con marca y ajustes propios de Agencia Impulsa.
+> El resto de este archivo es la guía de desarrollo original de Handy y sigue siendo válida (las rutas y los comandos no cambiaron).
+
+## Si tu tarea es *instalar* la app para una persona
+
+No uses esta guía de desarrollo: sigue [`INSTALL.md`](INSTALL.md). Reglas que importan aquí:
+
+- Hay que conservar la marca de Impulso Talker y **no** reintroducir el nombre ni el logo de Handy (ver `docs/FORK.md`).
+- El actualizador está apagado a propósito (`update_checks_forced_disabled` en `src-tauri/src/settings.rs`).
+- Textos de la interfaz: siempre por i18n; si agregas claves, hay que ponerlas en las 25 traducciones (`bun run check:translations`).
+- El binario de Rust se sigue llamando `handy` (nombre del paquete de Cargo); el producto es «Impulso Talker».
+- Compilar en Mac con Command Line Tools: `export CMAKE_POLICY_VERSION_MINIMUM=3.5 && bun run tauri build --bundles app`.
+- Los íconos se regeneran con `branding/generate-icons.swift` (ver el comentario de su cabecera) y `bun tauri icon branding/icon-azul-1024.png`.
+- Antes de dar algo por terminado: `bun run lint`, `bun run format:check`, `bun run check:translations`, y una compilación real.
+
+---
+
 This file provides guidance to AI coding assistants working with code in this repository.
 
 ## Development Commands

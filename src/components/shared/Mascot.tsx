@@ -11,7 +11,7 @@ interface MascotProps {
 // The design's 357×400 image box, kept so sizes and the wave's pivot match it.
 const BOX_ASPECT = 357 / 400;
 
-/** Handy's mascot glove, optionally animated. */
+/** Impulso Talker's mark, optionally animated. */
 export const Mascot: React.FC<MascotProps> = ({ size, animation = null }) => (
   <span
     style={{ width: size * BOX_ASPECT, height: size }}

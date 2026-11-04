@@ -319,6 +319,7 @@ fn gated_filler_words_for_language(lang: &str) -> &'static [&'static str] {
         "en" => &["um", "ah", "eh"],
         "de" => &["äh", "ähm"],
         "fr" => &["euh"],
+        "es" => &["eh"],
         _ => &[],
     }
 }

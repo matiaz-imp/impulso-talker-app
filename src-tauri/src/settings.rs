@@ -602,7 +602,7 @@ fn default_autostart_enabled() -> bool {
 }
 
 fn default_update_checks_enabled() -> bool {
-    true
+    false
 }
 
 fn default_show_whats_new_on_update() -> bool {
@@ -614,7 +614,15 @@ fn default_whats_new_last_seen_version() -> String {
 }
 
 fn default_selected_language() -> String {
-    "auto".to_string()
+    // Impulso Talker nace para hispanohablantes: si el sistema está en español, se parte en
+    // español (más preciso y rápido que autodetectar); el resto parte en autodetección.
+    if cfg!(test) {
+        return "auto".to_string();
+    }
+    match tauri_plugin_os::locale() {
+        Some(l) if l.to_lowercase().starts_with("es") => "es".to_string(),
+        _ => "auto".to_string(),
+    }
 }
 
 fn default_overlay_position() -> OverlayPosition {
@@ -1387,7 +1395,12 @@ fn os_languages() -> &'static [String] {
 pub fn update_checks_forced_disabled() -> bool {
     use std::sync::OnceLock;
     static IS_UPDATER_DISABLED: OnceLock<bool> = OnceLock::new();
-    *IS_UPDATER_DISABLED.get_or_init(|| utils::env_flag_enabled("HANDY_DISABLE_UPDATER"))
+    // Impulso Talker no se actualiza solo: las versiones salen en GitHub Releases (o con `git pull` + compilar).
+    // Así la app nunca instala por error una versión de Handy. Se mantiene el interruptor de Handy por compatibilidad.
+    *IS_UPDATER_DISABLED.get_or_init(|| {
+        let _ = utils::env_flag_enabled("HANDY_DISABLE_UPDATER");
+        true
+    })
 }
 
 /// Effective updater state: the user's stored preference, overridden to `false`

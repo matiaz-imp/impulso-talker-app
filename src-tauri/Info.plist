@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
   <key>NSMicrophoneUsageDescription</key>
-  <string>Request microphone access to transcribe audio locally</string>
+  <string>Impulso Talker usa el micrófono para transcribir tu voz en este equipo. El audio no se envía a ningún servicio.</string>
 </dict>
 </plist>
