@@ -31,8 +31,10 @@ jobs:
           $exe = Join-Path $env:LOCALAPPDATA "Impulso Talker\handy.exe"
           if (-not (Test-Path $exe)) { throw "No se instaló en $exe" }
           (Get-Item $exe).VersionInfo | Format-List ProductName, FileDescription, ProductVersion
-          & $exe --list-devices
-          if ($LASTEXITCODE -ne 0) { throw "--list-devices terminó con código $LASTEXITCODE" }
+          # handy.exe es una app de ventana: al llamarla directo PowerShell no espera. Con la tubería sí.
+          $salida = (& $exe --list-devices 2>&1 | Out-String)
+          $salida
+          if ($salida -notmatch "compute device") { throw "--list-devices no listó dispositivos de cómputo" }
 
       - name: Abrir la app y capturar la pantalla
         shell: pwsh
