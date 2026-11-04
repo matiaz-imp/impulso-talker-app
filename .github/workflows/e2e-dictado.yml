@@ -71,7 +71,7 @@ jobs:
           sleep 25
           APP="/Applications/Impulso Talker.app/Contents/MacOS/handy"
           open -a TextEdit; sleep 2          # vuelve a poner TextEdit al frente para recibir el pegado
-          echo "== iniciar grabación"; timeout 20 "$APP" --toggle-transcription; echo "código $?"
+          echo "== iniciar grabación"; "$APP" --toggle-transcription; echo "código $?"
           sleep 4
           echo "== reproducir la frase hacia el micrófono virtual"
           if ! afplay tests/fixtures/frase-es.wav; then
@@ -79,7 +79,7 @@ jobs:
             brew install sox >/dev/null 2>&1 && play -q tests/fixtures/frase-es.wav || echo "sox también falló"
           fi
           sleep 2
-          echo "== detener grabación"; timeout 20 "$APP" --toggle-transcription; echo "código $?"
+          echo "== detener grabación"; "$APP" --toggle-transcription; echo "código $?"
           sleep 25
 
       - name: Diagnóstico (registro, historial, pantalla)
