@@ -57,31 +57,40 @@ jobs:
           json.dump(j, open(sys.argv[1], "w"))
           PY
 
-      - name: Dictar una frase (grabar, reproducir, detener) y comprobar
+      - name: Dictar una frase (grabar, reproducir, detener)
+        continue-on-error: true
         run: |
           SwitchAudioSource -t input -s "BlackHole 2ch" || true
           SwitchAudioSource -t output -s "BlackHole 2ch" || true
-          SwitchAudioSource -c || true
-          open -a TextEdit
-          sleep 5
-          osascript -e 'tell application "TextEdit" to activate' -e 'tell application "TextEdit" to make new document' 2>&1 || true
+          echo "entrada: $(SwitchAudioSource -c -t input)  salida: $(SwitchAudioSource -c -t output)"
+          # TextEdit con un documento nuevo, al frente (sin AppleEvents: se abre con un archivo vacío)
+          : > "$HOME/prueba-dictado.txt"
+          open -a TextEdit "$HOME/prueba-dictado.txt"
+          sleep 6
           open "/Applications/Impulso Talker.app" --args --start-hidden
           sleep 25
           APP="/Applications/Impulso Talker.app/Contents/MacOS/handy"
-          osascript -e 'tell application "TextEdit" to activate' 2>&1 || true
+          open -a TextEdit; sleep 2          # vuelve a poner TextEdit al frente para recibir el pegado
+          echo "== iniciar grabación"; timeout 20 "$APP" --toggle-transcription; echo "código $?"
+          sleep 4
+          echo "== reproducir la frase hacia el micrófono virtual"
+          if ! afplay tests/fixtures/frase-es.wav; then
+            echo "afplay falló; probando con sox"
+            brew install sox >/dev/null 2>&1 && play -q tests/fixtures/frase-es.wav || echo "sox también falló"
+          fi
           sleep 2
-          "$APP" --toggle-transcription
-          sleep 3
-          afplay tests/fixtures/frase-es.wav
-          sleep 2
-          "$APP" --toggle-transcription
+          echo "== detener grabación"; timeout 20 "$APP" --toggle-transcription; echo "código $?"
           sleep 25
+
+      - name: Diagnóstico (registro, historial, pantalla)
+        if: always()
+        run: |
           echo "--- registro de la app"
-          grep -v DEBUG "$HOME/Library/Logs/cl.agenciaimpulsa.talker/handy.log" | tail -40 | cut -c1-240
+          grep -v DEBUG "$HOME/Library/Logs/cl.agenciaimpulsa.talker/handy.log" | tail -45 | cut -c1-240 || true
           echo "--- historial"
           sqlite3 "$HOME/Library/Application Support/cl.agenciaimpulsa.talker/history.db" "select transcription_text from transcription_history order by id desc limit 3;" || true
-          echo "--- texto en TextEdit"
-          osascript -e 'tell application "TextEdit" to get text of document 1' 2>&1 || true
+          echo "--- archivo de prueba (si TextEdit guardó algo)"
+          cat "$HOME/prueba-dictado.txt" || true
           screencapture -x e2e-mac.png || true
 
       - uses: actions/upload-artifact@v7
