@@ -36,25 +36,33 @@ jobs:
           $salida
           if ($salida -notmatch "compute device") { throw "--list-devices no listó dispositivos de cómputo" }
 
-      - name: Abrir la app y capturar la pantalla
+      - name: Abrir la app y capturar la pantalla (3 momentos) con diagnóstico
         shell: pwsh
         run: |
           $exe = Join-Path $env:LOCALAPPDATA "Impulso Talker\handy.exe"
-          Start-Process $exe
-          Start-Sleep -Seconds 30
           Add-Type -AssemblyName System.Windows.Forms, System.Drawing
-          $b = [System.Windows.Forms.SystemInformation]::VirtualScreen
-          $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
-          $g = [System.Drawing.Graphics]::FromImage($bmp)
-          $g.CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
-          $bmp.Save("pantalla-windows.png")
-          Get-Process handy -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, MainWindowTitle | Format-Table
-          Get-ChildItem "$env:APPDATA\cl.agenciaimpulsa.talker" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 15 FullName
+          function Capturar($nombre) {
+            $b = [System.Windows.Forms.SystemInformation]::VirtualScreen
+            $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+            $g = [System.Drawing.Graphics]::FromImage($bmp)
+            $g.CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
+            $bmp.Save($nombre)
+          }
+          $wv = Get-ItemProperty "HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" -ErrorAction SilentlyContinue
+          "WebView2 runtime: $($wv.pv)"
+          Start-Process $exe
+          Start-Sleep -Seconds 20; Capturar "pantalla-windows-20s.png"
+          Start-Sleep -Seconds 40; Capturar "pantalla-windows-60s.png"
+          Start-Sleep -Seconds 60; Capturar "pantalla-windows-120s.png"
+          Get-Process handy, msedgewebview2 -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, MainWindowTitle | Format-Table
+          Get-ChildItem "$env:APPDATA\cl.agenciaimpulsa.talker", "$env:LOCALAPPDATA\cl.agenciaimpulsa.talker" -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Extension -in ".log",".json" } | Select-Object FullName
+          $log = Get-ChildItem "$env:APPDATA\cl.agenciaimpulsa.talker", "$env:LOCALAPPDATA\cl.agenciaimpulsa.talker" -Recurse -Filter "*.log" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($log) { "--- $($log.FullName)"; Get-Content $log.FullName -Tail 40 }
 
       - uses: actions/upload-artifact@v7
         with:
           name: pantalla-windows
-          path: pantalla-windows.png
+          path: pantalla-windows-*.png
 
   mac-apple:
     if: ${{ inputs.mac }}
