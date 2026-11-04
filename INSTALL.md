@@ -26,14 +26,14 @@ debe estar con sesión iniciada o tener `gh auth login` hecho).
 
 ```bash
 # macOS con chip Apple
-gh release download --repo <dueño>/impulso-talker --pattern "*aarch64.dmg" --dir ~/Downloads
+gh release download --repo matiaz-imp/impulso-talker --pattern "*aarch64.dmg" --dir ~/Downloads
 open ~/Downloads/*aarch64.dmg        # la persona arrastra la app a Aplicaciones
 ```
 
 ```powershell
 # Windows 64 bits
-gh release download --repo <dueño>/impulso-talker --pattern "*x64-setup.exe" --dir $HOME\Downloads
-# o: .\scripts\install-windows.ps1 -Repo <dueño>/impulso-talker
+gh release download --repo matiaz-imp/impulso-talker --pattern "*x64-setup.exe" --dir $HOME\Downloads
+# o: .\scripts\install-windows.ps1 -Repo matiaz-imp/impulso-talker
 ```
 
 Como la app **no está firmada**, el sistema avisa la primera vez (ver el README: «Avisos de seguridad del sistema»).
@@ -47,7 +47,7 @@ Explícaselo a la persona antes de que lo vea.
 Requisitos: macOS 13 o superior y las _Command Line Tools_ (`xcode-select --install`). No hace falta Xcode.
 
 ```bash
-git clone https://github.com/<dueño>/impulso-talker.git
+git clone https://github.com/matiaz-imp/impulso-talker.git
 cd impulso-talker
 ./scripts/install-macos.sh
 ```

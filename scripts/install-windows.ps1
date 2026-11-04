@@ -16,7 +16,7 @@
   Instala sin ventanas (parámetro /S del instalador NSIS).
 
 .EXAMPLE
-  .\scripts\install-windows.ps1 -Repo agenciaimpulsa/impulso-talker
+  .\scripts\install-windows.ps1 -Repo matiaz-imp/impulso-talker
 #>
 param(
   [string]$Repo = $env:IMPULSO_TALKER_REPO,
