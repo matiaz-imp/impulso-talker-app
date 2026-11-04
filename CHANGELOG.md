@@ -12,4 +12,4 @@ Basada en Handy 0.10.0 (commit `82dfab9f`).
   (`scripts/install-windows.ps1`), diagnóstico (`scripts/doctor.sh`).
 - Publicación automática de instaladores para Apple Silicon, Mac Intel (experimental) y Windows al empujar una etiqueta `v*`.
 
-- Instalador de Windows (`.exe` y `.msi`) generado por GitHub Actions el 4-nov-2026; pasó la verificación automática del paquete. Sin prueba en un equipo real.
+- Instaladores de Windows (`.exe` y `.msi`) y de Mac con chip Apple (`.dmg`) generados por GitHub Actions el 4-nov-2026 y probados en máquinas de prueba (instalar, abrir con la marca correcta, desinstalar en Windows). Sin prueba con micrófono real.

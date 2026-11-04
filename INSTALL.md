@@ -40,8 +40,8 @@ Como la app **no está firmada**, el sistema avisa la primera vez (ver el README
 Explícaselo a la persona antes de que lo vea.
 
 > Estado: los instaladores los genera GitHub Actions (pestaña _Actions → Release → Run workflow_, o al empujar una etiqueta `v*`).
-> El de Windows ya se generó y pasó la verificación automática, sin uso real todavía. El de Apple Silicon aún no se ha generado.
-> Si el instalador que necesitas no está en _Releases_, usa el Camino B.
+> El de Windows y el de Apple Silicon se probaron en máquinas de prueba de GitHub (instalan, abren y, en Windows, desinstalan).
+> No hay instalador para Mac con Intel: usa el Camino B.
 
 ## Camino B: compilar en el equipo (Mac con Intel, o cuando no hay release)
 
