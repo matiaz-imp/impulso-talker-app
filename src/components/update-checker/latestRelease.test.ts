@@ -12,7 +12,8 @@ assert(compareVersions("0.1.0", "1.0.0") === -1, "older");
 
 const ok = parseLatestRelease({
   tag_name: "v0.2.0",
-  html_url: "https://github.com/matiaz-imp/impulso-talker-app/releases/tag/v0.2.0",
+  html_url:
+    "https://github.com/matiaz-imp/impulso-talker-app/releases/tag/v0.2.0",
 });
 assert(ok?.version === "0.2.0", "strips the v");
 assert(

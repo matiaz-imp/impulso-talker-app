@@ -11,7 +11,8 @@ import { compareVersions, parseLatestRelease } from "./latestRelease";
 // never downloads or installs anything: it opens the release page instead.
 const LATEST_RELEASE_URL =
   "https://api.github.com/repos/matiaz-imp/impulso-talker-app/releases/latest";
-const RELEASES_PAGE = "https://github.com/matiaz-imp/impulso-talker-app/releases";
+const RELEASES_PAGE =
+  "https://github.com/matiaz-imp/impulso-talker-app/releases";
 const LAST_CHECK_KEY = "update-check-at";
 const CHECK_EVERY_MS = 24 * 60 * 60 * 1000;
 
