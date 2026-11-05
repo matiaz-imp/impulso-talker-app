@@ -17,6 +17,7 @@ mod languages;
 mod llm_client;
 mod managers;
 mod memory;
+mod modes;
 mod notices;
 mod overlay;
 mod paste_tx;
@@ -689,6 +690,9 @@ pub fn run(cli_args: CliArgs) {
             shortcut::change_audio_feedback_setting,
             shortcut::change_audio_feedback_volume_setting,
             shortcut::change_sound_theme_setting,
+            modes::set_modes,
+            modes::change_modes_enabled_setting,
+            modes::detect_app,
             shortcut::change_theme_setting,
             shortcut::change_start_hidden_setting,
             shortcut::change_autostart_setting,
@@ -806,6 +810,7 @@ pub fn run(cli_args: CliArgs) {
             commands::history::toggle_history_entry_saved,
             commands::history::get_audio_file_path,
             commands::history::delete_history_entry,
+            commands::history::delete_all_history,
             commands::history::retry_history_entry_transcription,
             commands::history::cancel_history_entry_transcription,
             commands::history::transcribe_file,
@@ -929,7 +934,6 @@ pub fn run(cli_args: CliArgs) {
     let mut app = builder
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_process::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_os::init())
         .plugin(system_languages::init())
         .plugin(tauri_plugin_clipboard_manager::init())

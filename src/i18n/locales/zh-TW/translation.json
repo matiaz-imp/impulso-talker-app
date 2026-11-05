@@ -19,7 +19,9 @@
     "postProcessing": "後處理",
     "history": "歷史紀錄",
     "debug": "偵錯",
-    "about": "關於"
+    "about": "關於",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "官方不支援",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "音量",
         "description": "調整聲音回饋的音量"
+      },
+      "soundTheme": {
+        "label": "聲音主題",
+        "description": "選擇錄製開始和停止回饋的聲音主題",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "顯示更多",
       "showLess": "收合",
       "dropTitle": "拖放到此處進行轉錄",
-      "dropDescription": "它會出現在歷史記錄中。"
+      "dropDescription": "它會出現在歷史記錄中。",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "偵錯",
@@ -772,10 +782,6 @@
         "title": "模型遷移",
         "description": "實際開啟舊格式模型更新畫面：會下載替代模型、切換模型並刪除舊檔案",
         "button": "開啟"
-      },
-      "soundTheme": {
-        "label": "聲音主題",
-        "description": "選擇錄製開始和停止回饋的聲音主題"
       },
       "wordCorrectionThreshold": {
         "title": "詞彙修正閾值",
@@ -880,11 +886,6 @@
         "title": "應用程式資料目錄",
         "description": "Impulso Talker 儲存資料的位置"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "支持開發",
         "description": "幫助我們繼續開發 Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "針對 OpenAI Whisper 自動語音辨識模型的高效能推理引擎",
           "details": "Impulso Talker 使用 ggml 進行快速的本機語音轉文字處理。感謝 Georgi Gerganov 和貢獻者們的傑出工作"
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "檢查更新中...",
-    "updateAvailableShort": "有可用更新",
     "upToDate": "已是最新版本",
     "updateCheckingDisabled": "更新檢查已停用",
-    "downloading": "下載中... {{progress}}%",
-    "installing": "安裝中...",
-    "preparing": "準備中...",
     "checkForUpdates": "檢查更新",
-    "portableUpdateTitle": "需要手動更新",
-    "portableUpdateMessage": "可攜式安裝無法自動更新。請透過下方按鈕下載適用於你的系統的安裝程式，執行後安裝到相同資料夾，你的 Data/ 資料夾（設定、模型、錄音）會保留在原處。",
-    "portableUpdateButton": "下載安裝程式",
-    "portableUpdateBrowseMessage": "可攜式安裝無法自動更新。請從 GitHub Releases 下載適用於你的系統的最新版本，並安裝到相同資料夾，你的 Data/ 資料夾（設定、模型、錄音）會保留在原處。",
-    "portableUpdateBrowseButton": "開啟 GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Impulso Talker v{{version}} 新功能"
@@ -927,7 +926,8 @@
     "open": "開啟",
     "copy": "複製",
     "clear": "清除",
-    "noOptionsFound": "未找到選項"
+    "noOptionsFound": "未找到選項",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "載入目錄時發生錯誤: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "如何解決",
     "recorderBlocked": "目前無法錄製快捷鍵——macOS 的 Secure Input 正在阻擋按鍵事件。請先解決 Secure Input 警告。",
     "dismiss": "關閉"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

@@ -25,6 +25,7 @@
   --color-ink-3: var(--color-ink-3);
   --color-line: var(--color-line);
   --color-line-strong: var(--color-line-strong);
+  --color-cursor: var(--color-cursor);
 }
 
 /* Noto Sans CJK subset (see src/lib/utils/cjkFont.ts): Windows' CJK fonts
@@ -36,9 +37,21 @@
   font-display: block;
 }
 
+/* Plus Jakarta Sans (SIL OFL 1.1): the Impulso family's display face, used for the
+   "Impulso Talker" name (see NOTICE.md). Latin subset, variable weight. */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("./assets/fonts/plus-jakarta-sans-latin-wght.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: block;
+}
+
 /* Onboarding's scale in px (rem steps land on fractions at a 15px root).
    Names avoid Tailwind's defaults, which Settings still uses. */
 @theme {
+  --font-brand:
+    "Plus Jakarta Sans", ui-rounded, "SF Pro Rounded", system-ui, -apple-system,
+    "Segoe UI Variable Display", "Segoe UI", sans-serif;
   --font-display:
     ui-rounded, "SF Pro Rounded", system-ui, -apple-system,
     "Segoe UI Variable Display", "Segoe UI", sans-serif;

@@ -19,7 +19,9 @@
     "postProcessing": "Post-traitement",
     "history": "Historique",
     "debug": "Débogage",
-    "about": "À propos"
+    "about": "À propos",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Non officiellement pris en charge",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Volume",
         "description": "Ajuster le volume du signal sonore"
+      },
+      "soundTheme": {
+        "label": "Thème sonore",
+        "description": "Choisir un thème sonore pour les retours de début et de fin d'enregistrement",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Afficher plus",
       "showLess": "Afficher moins",
       "dropTitle": "Déposez pour transcrire",
-      "dropDescription": "Il apparaîtra dans l'historique."
+      "dropDescription": "Il apparaîtra dans l'historique.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Débogage",
@@ -772,10 +782,6 @@
         "title": "Migration des modèles",
         "description": "Ouvrir pour de vrai l'écran de mise à jour des modèles à l'ancien format : il télécharge les remplacements, change de modèle et supprime les anciens fichiers",
         "button": "Ouvrir"
-      },
-      "soundTheme": {
-        "label": "Thème sonore",
-        "description": "Choisir un thème sonore pour les retours de début et de fin d'enregistrement"
       },
       "wordCorrectionThreshold": {
         "title": "Seuil de correction des mots",
@@ -880,11 +886,6 @@
         "title": "Emplacement des données de l'application",
         "description": "Emplacement où Impulso Talker stocke ses données"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Soutenir le développement",
         "description": "Aidez-nous à continuer à construire Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Inférence haute performance du modèle de reconnaissance vocale automatique Whisper d'OpenAI",
           "details": "Impulso Talker utilise ggml pour un traitement rapide et local de la parole en texte. Merci au travail incroyable de Georgi Gerganov et des contributeurs."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Recherche de mises à jour...",
-    "updateAvailableShort": "Mise à jour disponible",
     "upToDate": "À jour",
     "updateCheckingDisabled": "Vérification des mises à jour désactivée",
-    "downloading": "Téléchargement... {{progress}}%",
-    "installing": "Installation...",
-    "preparing": "Préparation...",
     "checkForUpdates": "Rechercher des mises à jour",
-    "portableUpdateTitle": "Mise à jour manuelle requise",
-    "portableUpdateMessage": "Les installations portables ne peuvent pas être mises à jour automatiquement. Téléchargez ci-dessous l’installateur correspondant à votre système, exécutez-le et installez-le dans le même dossier : votre dossier Data/ (paramètres, modèles, enregistrements) est conservé.",
-    "portableUpdateButton": "Télécharger l’installateur",
-    "portableUpdateBrowseMessage": "Les installations portables ne peuvent pas être mises à jour automatiquement. Téléchargez la dernière version correspondant à votre système depuis GitHub Releases et installez-la dans le même dossier : votre dossier Data/ (paramètres, modèles, enregistrements) est conservé.",
-    "portableUpdateBrowseButton": "Ouvrir GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Nouveautés de Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Ouvrir",
     "copy": "Copier",
     "clear": "Effacer",
-    "noOptionsFound": "Aucune option trouvée"
+    "noOptionsFound": "Aucune option trouvée",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Erreur lors du chargement du répertoire : {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Comment résoudre ce problème",
     "recorderBlocked": "Impossible d'enregistrer un raccourci pour le moment : Secure Input de macOS bloque les événements clavier. Résolvez d'abord l'avertissement Secure Input.",
     "dismiss": "Ignorer"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

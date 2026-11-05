@@ -19,7 +19,9 @@
     "postProcessing": "Efterbehandling",
     "history": "Historik",
     "debug": "Fejlfinding",
-    "about": "Om"
+    "about": "Om",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Ikke officielt understøttet",
@@ -96,7 +98,7 @@
       "title": "Tal i stedet for at skrive, i enhver app",
       "subtitle": "Vælg de sprog, du vil diktere på",
       "languagesLabel": "Sprog",
-      "noMatch": "Intet sprog matcher »{{query}}«. Handys modeller dækker omkring 100 sprog; flere findes i indstillingerne.",
+      "noMatch": "Intet sprog matcher »{{query}}«. Impulso Talkers modeller dækker omkring 100 sprog; flere findes i indstillingerne.",
       "appLanguage": "Appens sprog",
       "menusIn": "Menuer på <b>{{language}}</b>",
       "chinese": {
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Lydstyrke",
         "description": "Juster lydstyrken for lydfeedback"
+      },
+      "soundTheme": {
+        "label": "Lydtema",
+        "description": "Vælg et lydtema til feedback ved start og stop af optagelse",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Vis mere",
       "showLess": "Vis mindre",
       "dropTitle": "Slip for at transskribere",
-      "dropDescription": "Den vises i historikken."
+      "dropDescription": "Den vises i historikken.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Fejlfinding",
@@ -772,10 +782,6 @@
         "title": "Modelmigrering",
         "description": "Åbn opdateringsskærmen for modeller i det gamle format for alvor: den downloader erstatninger, skifter model og sletter gamle filer",
         "button": "Åbn"
-      },
-      "soundTheme": {
-        "label": "Lydtema",
-        "description": "Vælg et lydtema til feedback ved start og stop af optagelse"
       },
       "wordCorrectionThreshold": {
         "title": "Tærskel for ordkorrektion",
@@ -880,11 +886,6 @@
         "title": "Appdatamappe",
         "description": "Placering, hvor Impulso Talker gemmer sine data"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Støt udviklingen",
         "description": "Hjælp os med at fortsætte udviklingen af Impulso Talker",
@@ -895,25 +896,23 @@
         "ggml": {
           "title": "ggml",
           "description": "Højtydende tensor-bibliotek til maskinlæringsinferens på enheden",
-          "details": "Handys lokale tale-til-tekst funktionalitet er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde af Georgi Gerganov og bidragyderne."
+          "details": "Impulso Talkers lokale tale-til-tekst funktionalitet er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde af Georgi Gerganov og bidragyderne."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Tjekker for opdateringer...",
-    "updateAvailableShort": "Opdatering tilgængelig",
     "upToDate": "Opdateret",
     "updateCheckingDisabled": "Tjek for opdateringer deaktiveret",
-    "downloading": "Downloader... {{progress}}%",
-    "installing": "Installerer...",
-    "preparing": "Forbereder...",
     "checkForUpdates": "Tjek for opdateringer",
-    "portableUpdateTitle": "Manuel opdatering påkrævet",
-    "portableUpdateMessage": "Flytbare installationer kan ikke opdateres automatisk. Download installeren til dit system nedenfor, kør den, og installer i den samme mappe — din Data/-mappe (indstillinger, modeller, optagelser) bliver bevaret.",
-    "portableUpdateButton": "Download installer",
-    "portableUpdateBrowseMessage": "Flytbare installationer kan ikke opdateres automatisk. Download den nyeste version til dit system fra GitHub Releases, og installer den i den samme mappe — din Data/-mappe (indstillinger, modeller, optagelser) bliver bevaret.",
-    "portableUpdateBrowseButton": "Åbn GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Nyt i Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Åbn",
     "copy": "Kopiér",
     "clear": "Ryd",
-    "noOptionsFound": "Ingen muligheder fundet"
+    "noOptionsFound": "Ingen muligheder fundet",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Fejl ved indlæsning af mappe: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Sådan løser du det",
     "recorderBlocked": "Genveje kan ikke optages lige nu — macOS Secure Input blokerer tastehændelser. Løs advarslen om Secure Input først.",
     "dismiss": "Afvis"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

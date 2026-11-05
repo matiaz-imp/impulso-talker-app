@@ -830,8 +830,11 @@ impl ShortcutAction for TranscribeAction {
 
                             // The user's hook only changes what gets pasted;
                             // history above keeps the text as produced.
+                            // Retoques del modo de la app donde se va a pegar.
+                            let moded =
+                                crate::modes::apply_for_active_app(&ah, processed.final_text);
                             let Some(final_text) = complete_unless_cancelled(
-                                crate::transcription_hook::apply(&ah, processed.final_text),
+                                crate::transcription_hook::apply(&ah, moded),
                                 || rm.was_cancelled_since(cancel_generation),
                             )
                             .await

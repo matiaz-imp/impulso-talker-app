@@ -10,6 +10,7 @@ import type {
   ShortcutActivation,
   VadBackend,
   LanguageDetectionMode,
+  Mode,
 } from "@/bindings";
 import { commands } from "@/bindings";
 import { notify } from "@/stores/noticeStore";
@@ -95,6 +96,9 @@ const settingUpdaters: {
   audio_feedback_volume: (value) =>
     commands.changeAudioFeedbackVolumeSetting(value as number),
   sound_theme: (value) => commands.changeSoundThemeSetting(value as string),
+  modes_enabled: (value) =>
+    commands.changeModesEnabledSetting(value as boolean),
+  modes: (value) => commands.setModes(value as Mode[]),
   start_hidden: (value) => commands.changeStartHiddenSetting(value as boolean),
   autostart_enabled: (value) =>
     commands.changeAutostartSetting(value as boolean),

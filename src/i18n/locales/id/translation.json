@@ -19,7 +19,9 @@
     "postProcessing": "Pascaproses",
     "history": "Riwayat",
     "debug": "Debug",
-    "about": "Tentang"
+    "about": "Tentang",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Tidak didukung secara resmi",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Volume",
         "description": "Sesuaikan volume suara umpan balik audio"
+      },
+      "soundTheme": {
+        "label": "Tema Suara",
+        "description": "Pilih tema suara untuk umpan balik saat perekaman dimulai dan dihentikan",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Tampilkan lebih banyak",
       "showLess": "Tampilkan lebih sedikit",
       "dropTitle": "Lepaskan untuk mentranskripsi",
-      "dropDescription": "Akan muncul di Riwayat."
+      "dropDescription": "Akan muncul di Riwayat.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Debug",
@@ -772,10 +782,6 @@
         "title": "Migrasi Model",
         "description": "Buka layar pembaruan model format lama secara sungguhan: mengunduh pengganti, beralih model, dan menghapus file lama",
         "button": "Buka"
-      },
-      "soundTheme": {
-        "label": "Tema Suara",
-        "description": "Pilih tema suara untuk umpan balik saat perekaman dimulai dan dihentikan"
       },
       "wordCorrectionThreshold": {
         "title": "Ambang Koreksi Kata",
@@ -880,11 +886,6 @@
         "title": "Direktori Data Aplikasi",
         "description": "Lokasi Impulso Talker menyimpan datanya"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Dukung Pengembangan",
         "description": "Bantu kami terus mengembangkan Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Pustaka tensor berkinerja tinggi untuk inferensi pembelajaran mesin di perangkat",
           "details": "Fitur ucapan-ke-teks lokal Impulso Talker dibangun menggunakan transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Memeriksa pembaruan...",
-    "updateAvailableShort": "Pembaruan tersedia",
     "upToDate": "Sudah versi terbaru",
     "updateCheckingDisabled": "Pemeriksaan Pembaruan Dinonaktifkan",
-    "downloading": "Mengunduh... {{progress}}%",
-    "installing": "Menginstal...",
-    "preparing": "Menyiapkan...",
     "checkForUpdates": "Periksa pembaruan",
-    "portableUpdateTitle": "Pembaruan manual diperlukan",
-    "portableUpdateMessage": "Instalasi portabel tidak dapat diperbarui secara otomatis. Unduh penginstal untuk sistem Anda di bawah ini, jalankan, lalu instal ke folder yang sama — folder Data/ Anda (pengaturan, model, rekaman) tetap dipertahankan.",
-    "portableUpdateButton": "Unduh penginstal",
-    "portableUpdateBrowseMessage": "Instalasi portabel tidak dapat diperbarui secara otomatis. Unduh versi terbaru untuk sistem Anda dari GitHub Releases dan instal ke folder yang sama — folder Data/ Anda (pengaturan, model, rekaman) tetap dipertahankan.",
-    "portableUpdateBrowseButton": "Buka GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Baru di Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Buka",
     "copy": "Salin",
     "clear": "Bersihkan",
-    "noOptionsFound": "Tidak ada opsi yang ditemukan"
+    "noOptionsFound": "Tidak ada opsi yang ditemukan",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Kesalahan saat memuat direktori: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Cara memperbaiki",
     "recorderBlocked": "Pintasan tidak dapat direkam saat ini — macOS Secure Input memblokir peristiwa tombol. Selesaikan peringatan Secure Input terlebih dahulu.",
     "dismiss": "Tutup"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

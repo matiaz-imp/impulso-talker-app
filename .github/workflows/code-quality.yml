@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "src/**"
+      - "src-tauri/src/**"
+      - "src-tauri/Cargo.toml"
       - "src-tauri/src/catalog/catalog.json"
       - "scripts/**"
       - "package.json"
@@ -18,6 +20,8 @@ on:
   pull_request:
     paths:
       - "src/**"
+      - "src-tauri/src/**"
+      - "src-tauri/Cargo.toml"
       - "src-tauri/src/catalog/catalog.json"
       - "scripts/**"
       - "package.json"
@@ -57,6 +61,12 @@ jobs:
 
       - name: Test keyboard utilities
         run: bun run test:keyboard
+
+      - name: Test the new-version notice
+        run: bun run test:updates
+
+      - name: Check privacy (no unexpected network use)
+        run: bun run check:privacy
 
       - name: Run ESLint
         run: bun run lint

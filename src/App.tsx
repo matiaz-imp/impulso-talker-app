@@ -26,6 +26,7 @@ import {
   type OnboardingStep as OnboardingPreviewStep,
 } from "./components/onboarding/onboardingStore";
 import { DebugSettings, ModelsSettings } from "./components/settings";
+import { HomeSettings } from "./components/home/HomeSettings";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { FileDropOverlay } from "./components/FileDropOverlay";
 import { Sidebar, SidebarSection, SECTIONS_CONFIG } from "./components/Sidebar";
@@ -52,6 +53,9 @@ const renderSettingsContent = (
   onRunModelMigration: () => void,
   onSectionChange: (section: SidebarSection) => void,
 ) => {
+  if (section === "home") {
+    return <HomeSettings onShowHistory={() => onSectionChange("history")} />;
+  }
   if (section === "models") {
     return (
       <ModelsSettings onChangeLanguages={() => onSectionChange("general")} />
@@ -82,8 +86,7 @@ function App() {
   // Set when a returning user's selected model is a retired (ONNX) model that
   // is still on disk: they must update it before the app can transcribe.
   const [migrationModelId, setMigrationModelId] = useState<string | null>(null);
-  const [currentSection, setCurrentSection] =
-    useState<SidebarSection>("general");
+  const [currentSection, setCurrentSection] = useState<SidebarSection>("home");
   const showHistory = useCallback(() => setCurrentSection("history"), []);
   const { settings, updateSetting } = useSettings();
   const direction = getLanguageDirection(i18n.language);
@@ -325,7 +328,7 @@ function App() {
           <WhatsNewGate />
         </ErrorBoundary>
         {/* Main content area that takes remaining space */}
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden">
           <Sidebar
             activeSection={currentSection}
             onSectionChange={setCurrentSection}

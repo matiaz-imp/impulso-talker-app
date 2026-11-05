@@ -61,6 +61,30 @@ async changeSoundThemeSetting(theme: string) : Promise<Result<null, string>> {
     else return { status: "error", error: e  as any };
 }
 },
+async setModes(modes: Mode[]) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("set_modes", { modes }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async changeModesEnabledSetting(enabled: boolean) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("change_modes_enabled_setting", { enabled }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async detectApp(seconds: number) : Promise<Result<ActiveApp | null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("detect_app", { seconds }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 async changeThemeSetting(theme: string) : Promise<Result<null, string>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("change_theme_setting", { theme }) };
@@ -727,6 +751,14 @@ async downloadLanguageDetector() : Promise<Result<null, string>> {
 async isLanguageDetectorDownloaded() : Promise<boolean> {
     return await TAURI_INVOKE("is_language_detector_downloaded");
 },
+async deleteAllHistory() : Promise<Result<number, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("delete_all_history") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 async deleteModel(modelId: string) : Promise<Result<null, string>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("delete_model", { modelId }) };
@@ -1081,6 +1113,22 @@ transcriptionJob: "transcription-job"
 
 /** user-defined types **/
 
+export type ActiveApp = { 
+/**
+ * Bundle id en macOS, nombre del programa en Windows.
+ */
+id: string; name: string }
+export type EndMark = "as_is" | "remove" | "add"
+export type FirstLetter = "as_is" | "upper" | "lower"
+export type Mode = { id: string; name: string; 
+/**
+ * Identificadores, nombres de programa o nombres visibles de las apps.
+ */
+apps?: string[]; first_letter?: FirstLetter; end_mark?: EndMark; 
+/**
+ * Junta todo en una línea (sin saltos), como en una caja de búsqueda.
+ */
+single_line?: boolean }
 /**
  * The container-level `serde(default)` (backed by the `Default` impl below)
  * guarantees every field — including ones added in the future — falls back to
@@ -1138,7 +1186,7 @@ airpods_mode?: boolean; keyboard_implementation?: KeyboardImplementation; show_t
  * after the target app actually reads the transcript, instead of after a
  * fixed delay. See `paste_tx`. macOS and Windows only.
  */
-reliable_paste?: boolean; typing_tool?: TypingTool; external_script_path?: string | null; filler_word_removal_enabled?: boolean; custom_filler_words?: string[] | null; 
+modes_enabled?: boolean; modes?: Mode[]; reliable_paste?: boolean; typing_tool?: TypingTool; external_script_path?: string | null; filler_word_removal_enabled?: boolean; custom_filler_words?: string[] | null; 
 /**
  * Fresh installs default from the OS locale; existing stores are migrated
  * in `apply_settings_migrations`.
@@ -1466,7 +1514,7 @@ export type ShortcutActivation =
  */
 "hold_or_toggle"
 export type ShortcutBinding = { id: string; name: string; description: string; default_binding: string; current_binding: string }
-export type SoundTheme = "marimba" | "pop" | "custom"
+export type SoundTheme = "capsula" | "micro" | "burbuja" | "custom"
 /**
  * Phase of the streaming overlay card, emitted to drive its UI state.
  */

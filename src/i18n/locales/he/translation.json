@@ -19,7 +19,9 @@
     "postProcessing": "עיבוד משלים",
     "history": "היסטוריה",
     "debug": "ניפוי שגיאות",
-    "about": "אודות"
+    "about": "אודות",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "לא נתמך באופן רשמי",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "עוצמת קול",
         "description": "כוונן את עוצמת צלילי המשוב"
+      },
+      "soundTheme": {
+        "label": "ערכת צלילים",
+        "description": "בחר ערכת צלילים להתחלה ולסיום ההקלטה",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "הצג עוד",
       "showLess": "הצג פחות",
       "dropTitle": "שחררו כדי לתמלל",
-      "dropDescription": "הוא יופיע בהיסטוריה."
+      "dropDescription": "הוא יופיע בהיסטוריה.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "ניפוי שגיאות",
@@ -772,10 +782,6 @@
         "title": "העברת מודלים",
         "description": "פתח באמת את מסך עדכון המודלים בפורמט הישן: הוא מוריד תחליפים, מחליף מודלים ומוחק קבצים ישנים",
         "button": "פתח"
-      },
-      "soundTheme": {
-        "label": "ערכת צלילים",
-        "description": "בחר ערכת צלילים להתחלה ולסיום ההקלטה"
       },
       "wordCorrectionThreshold": {
         "title": "סף תיקון מילים",
@@ -880,11 +886,6 @@
         "title": "תיקיית נתוני אפליקציה",
         "description": "המיקום שבו Impulso Talker שומר את הנתונים שלו"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "תמיכה בפיתוח",
         "description": "עזור לנו להמשיך לבנות את Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "הסקה מהירה לביצועים גבוהים עבור מודל זיהוי הדיבור Whisper של OpenAI",
           "details": "Impulso Talker משתמש ב-ggml לתמלול מהיר ומקומי. תודה לעבודה המדהימה של Georgi Gerganov וכל התורמים."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "בודק עדכונים...",
-    "updateAvailableShort": "יש עדכון זמין",
     "upToDate": "מעודכן",
     "updateCheckingDisabled": "בדיקת העדכונים כבויה",
-    "downloading": "מוריד... {{progress}}%",
-    "installing": "מתקין...",
-    "preparing": "מכין...",
     "checkForUpdates": "בדוק עדכונים",
-    "portableUpdateTitle": "נדרש עדכון ידני",
-    "portableUpdateMessage": "התקנות ניידות אינן מתעדכנות אוטומטית. הורד למטה את המתקין המתאים למערכת שלך, הפעל אותו והתקן לאותה תיקייה — תיקיית Data/ (הגדרות, מודלים, הקלטות) נשמרת במקומה.",
-    "portableUpdateButton": "הורדת המתקין",
-    "portableUpdateBrowseMessage": "התקנות ניידות אינן מתעדכנות אוטומטית. הורד את הגרסה האחרונה המתאימה למערכת שלך מ-GitHub Releases והתקן אותה לאותה תיקייה — תיקיית Data/ (הגדרות, מודלים, הקלטות) נשמרת במקומה.",
-    "portableUpdateBrowseButton": "פתח את GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "חדש ב-Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "פתח",
     "copy": "העתק",
     "clear": "נקה",
-    "noOptionsFound": "לא נמצאו אפשרויות"
+    "noOptionsFound": "לא נמצאו אפשרויות",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "שגיאה בטעינת תיקייה: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "איך לתקן את זה",
     "recorderBlocked": "לא ניתן להקליט קיצורים כרגע — Secure Input של macOS חוסם אירועי מקשים. פתור תחילה את אזהרת Secure Input.",
     "dismiss": "התעלם"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

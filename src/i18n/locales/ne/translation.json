@@ -19,7 +19,9 @@
     "postProcessing": "पोस्ट प्रोसेस",
     "history": "हिस्ट्री",
     "debug": "डिबग",
-    "about": "बारेमा"
+    "about": "बारेमा",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "आधिकारिक रूपमा समर्थित छैन",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "भोल्युम",
         "description": "अडियो फिडब्याक आवाजको भोल्युम मिलाउनुहोस्"
+      },
+      "soundTheme": {
+        "label": "साउन्ड थिम",
+        "description": "रेकर्डिङ सुरु र बन्द फिडब्याकका लागि साउन्ड थिम छान्नुहोस्",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "थप देखाउनुहोस्",
       "showLess": "कम देखाउनुहोस्",
       "dropTitle": "ट्रान्सक्राइब गर्न छोड्नुहोस्",
-      "dropDescription": "यो इतिहासमा देखिनेछ।"
+      "dropDescription": "यो इतिहासमा देखिनेछ।",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "डिबग",
@@ -772,10 +782,6 @@
         "title": "मोडेल माइग्रेसन",
         "description": "पुरानो ढाँचाका मोडेलको अपडेट स्क्रिन साँचो रूपमा खोल्नुहोस्: यसले प्रतिस्थापन डाउनलोड गर्छ, मोडेल बदल्छ र पुराना फाइल मेटाउँछ",
         "button": "खोल्नुहोस्"
-      },
-      "soundTheme": {
-        "label": "साउन्ड थिम",
-        "description": "रेकर्डिङ सुरु र बन्द फिडब्याकका लागि साउन्ड थिम छान्नुहोस्"
       },
       "wordCorrectionThreshold": {
         "title": "शब्द सुधार थ्रेसहोल्ड",
@@ -880,11 +886,6 @@
         "title": "एप डेटा डाइरेक्टरी",
         "description": "Impulso Talker ले आफ्नो डेटा भण्डारण गर्ने स्थान"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "विकासलाई सहयोग गर्नुहोस्",
         "description": "Impulso Talker निर्माण जारी राख्न हामीलाई सहयोग गर्नुहोस्",
@@ -897,23 +898,21 @@
           "description": "अन-डिभाइस मेसिन लर्निङ अनुमानका लागि उच्च-प्रदर्शन टेन्सर लाइब्रेरी",
           "details": "Impulso Talker को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "अपडेटहरू जाँच गरिँदैछ...",
-    "updateAvailableShort": "अपडेट उपलब्ध छ",
     "upToDate": "अद्यावधिक छ",
     "updateCheckingDisabled": "अपडेट जाँच अफ छ",
-    "downloading": "डाउनलोड गरिँदैछ... {{progress}}%",
-    "installing": "इन्स्टल गरिँदैछ...",
-    "preparing": "तयारी गरिँदैछ...",
     "checkForUpdates": "अपडेटहरू जाँच गर्नुहोस्",
-    "portableUpdateTitle": "म्यानुअल अपडेट आवश्यक",
-    "portableUpdateMessage": "पोर्टेबल इन्स्टलहरू स्वतः अपडेट गर्न सकिँदैन। तलबाट आफ्नो प्रणालीका लागि इन्स्टलर डाउनलोड गर्नुहोस्, चलाउनुहोस् र उही फोल्डरमा इन्स्टल गर्नुहोस् — तपाईंको Data/ फोल्डर (सेटिङ, मोडेल, रेकर्डिङ) जस्ताको तस्तै रहन्छ।",
-    "portableUpdateButton": "इन्स्टलर डाउनलोड गर्नुहोस्",
-    "portableUpdateBrowseMessage": "पोर्टेबल इन्स्टलहरू स्वतः अपडेट गर्न सकिँदैन। GitHub Releases बाट आफ्नो प्रणालीका लागि पछिल्लो संस्करण डाउनलोड गर्नुहोस् र उही फोल्डरमा इन्स्टल गर्नुहोस् — तपाईंको Data/ फोल्डर (सेटिङ, मोडेल, रेकर्डिङ) जस्ताको तस्तै रहन्छ।",
-    "portableUpdateBrowseButton": "GitHub Releases खोल्नुहोस्"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Impulso Talker v{{version}} मा नयाँ"
@@ -927,7 +926,8 @@
     "open": "खोल्नुहोस्",
     "copy": "कपी गर्नुहोस्",
     "clear": "खाली गर्नुहोस्",
-    "noOptionsFound": "कुनै विकल्प भेटिएन"
+    "noOptionsFound": "कुनै विकल्प भेटिएन",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "डाइरेक्टरी लोड गर्दा त्रुटि: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "यसलाई कसरी ठिक गर्ने",
     "recorderBlocked": "अहिले सर्टकट रेकर्ड गर्न सकिँदैन — macOS Secure Input ले कुञ्जी इभेन्टहरू रोकिरहेको छ। पहिले Secure Input चेतावनी समाधान गर्नुहोस्।",
     "dismiss": "हटाउनुहोस्"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

@@ -5,16 +5,21 @@ import { PlayIcon } from "lucide-react";
 import { SettingContainer } from "../ui/SettingContainer";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useSettings } from "../../hooks/useSettings";
+import { useTranslation } from "react-i18next";
+import type { SoundTheme } from "@/bindings";
 
 interface SoundPickerProps {
   label: string;
   description: string;
+  disabled?: boolean;
 }
 
 export const SoundPicker: React.FC<SoundPickerProps> = ({
   label,
   description,
+  disabled = false,
 }) => {
+  const { t } = useTranslation();
   const { getSetting, updateSetting } = useSettings();
   const playTestSound = useSettingsStore((state) => state.playTestSound);
   const customSounds = useSettingsStore((state) => state.customSounds);
@@ -22,15 +27,16 @@ export const SoundPicker: React.FC<SoundPickerProps> = ({
     (state) => state.checkCustomSounds,
   );
 
-  const selectedTheme = getSetting("sound_theme") ?? "marimba";
+  const selectedTheme = getSetting("sound_theme") ?? "capsula";
 
   useEffect(() => {
     checkCustomSounds();
   }, [checkCustomSounds]);
 
   const options: DropdownOption[] = [
-    { value: "marimba", label: "Marimba" },
-    { value: "pop", label: "Pop" },
+    { value: "capsula", label: "Cápsula" },
+    { value: "micro", label: "Micro" },
+    { value: "burbuja", label: "Burbuja" },
   ];
 
   // Only add Custom option if both custom sound files exist
@@ -49,21 +55,25 @@ export const SoundPicker: React.FC<SoundPickerProps> = ({
       description={description}
       grouped
       layout="horizontal"
+      disabled={disabled}
     >
       <div className="flex items-center gap-2">
         <Dropdown
           selectedValue={selectedTheme}
           onSelect={(value) =>
-            updateSetting("sound_theme", value as "marimba" | "pop" | "custom")
+            updateSetting("sound_theme", value as SoundTheme)
           }
           options={options}
+          disabled={disabled}
           onOpen={checkCustomSounds}
         />
         <Button
           variant="ghost"
           size="sm"
           onClick={handlePlayBothSounds}
-          title="Preview sound theme (plays start then stop)"
+          title={t("settings.sound.soundTheme.preview")}
+          aria-label={t("settings.sound.soundTheme.preview")}
+          disabled={disabled}
         >
           <PlayIcon className="h-4 w-4" />
         </Button>

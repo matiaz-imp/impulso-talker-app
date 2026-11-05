@@ -8,6 +8,7 @@ import { SettingsGroup } from "../../ui/SettingsGroup";
 import { OutputDeviceSelector } from "../OutputDeviceSelector";
 import { ShortcutActivationSetting } from "../ShortcutActivation";
 import { AudioFeedback } from "../AudioFeedback";
+import { SoundPicker } from "../SoundPicker";
 import { useSettings } from "../../../hooks/useSettings";
 import { VolumeSlider } from "../VolumeSlider";
 import { MuteWhileRecording } from "../MuteWhileRecording";
@@ -44,6 +45,11 @@ export const GeneralSettings: React.FC = () => {
         <ChannelSelector descriptionMode="tooltip" grouped={true} />
         <MuteWhileRecording descriptionMode="tooltip" grouped={true} />
         <AudioFeedback descriptionMode="tooltip" grouped={true} />
+        <SoundPicker
+          label={t("settings.sound.soundTheme.label")}
+          description={t("settings.sound.soundTheme.description")}
+          disabled={!audioFeedbackEnabled}
+        />
         <OutputDeviceSelector
           descriptionMode="tooltip"
           grouped={true}

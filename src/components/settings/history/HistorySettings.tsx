@@ -292,6 +292,21 @@ export const HistorySettings: React.FC = () => {
     }
   };
 
+  const [confirmingClear, setConfirmingClear] = useState(false);
+  const clearAll = async () => {
+    setConfirmingClear(false);
+    try {
+      const result = await commands.deleteAllHistory();
+      if (result.status !== "ok") throw new Error(String(result.error));
+      setEntries([]);
+      setHasMore(false);
+    } catch (error) {
+      console.error("Failed to clear history:", error);
+      notify({ title: t("settings.history.clearError") });
+      loadPage();
+    }
+  };
+
   const openRecordingsFolder = async () => {
     try {
       const result = await commands.openRecordingsFolder();
@@ -366,6 +381,37 @@ export const HistorySettings: React.FC = () => {
               label={t("settings.history.openFolder")}
               icon={FolderOpen}
             />
+            {confirmingClear ? (
+              <>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={clearAll}
+                  className="flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>{t("settings.history.clearConfirm")}</span>
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setConfirmingClear(false)}
+                >
+                  {t("common.cancel")}
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="danger-ghost"
+                size="sm"
+                onClick={() => setConfirmingClear(true)}
+                disabled={entries.length === 0}
+                className="flex items-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>{t("settings.history.clearAll")}</span>
+              </Button>
+            )}
           </div>
         </div>
         <div className="bg-background border border-line rounded-lg overflow-visible">

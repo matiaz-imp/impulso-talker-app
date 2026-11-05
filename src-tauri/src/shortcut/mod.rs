@@ -629,12 +629,13 @@ pub fn change_audio_feedback_volume_setting(app: AppHandle, volume: f32) -> Resu
 pub fn change_sound_theme_setting(app: AppHandle, theme: String) -> Result<(), String> {
     let mut settings = settings::get_settings(&app);
     let parsed = match theme.as_str() {
-        "marimba" => SoundTheme::Marimba,
-        "pop" => SoundTheme::Pop,
+        "capsula" => SoundTheme::Capsula,
+        "micro" => SoundTheme::Micro,
+        "burbuja" => SoundTheme::Burbuja,
         "custom" => SoundTheme::Custom,
         other => {
-            warn!("Invalid sound theme '{}', defaulting to marimba", other);
-            SoundTheme::Marimba
+            warn!("Invalid sound theme '{}', defaulting to capsula", other);
+            SoundTheme::Capsula
         }
     };
     settings.sound_theme = parsed;

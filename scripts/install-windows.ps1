@@ -23,7 +23,7 @@
   Permite instalar desde una release en borrador (solo para pruebas).
 
 .EXAMPLE
-  .\scripts\install-windows.ps1 -Repo matiaz-imp/impulso-talker
+  .\scripts\install-windows.ps1 -Repo matiaz-imp/impulso-talker-app
 #>
 param(
   [string]$Repo = $env:IMPULSO_TALKER_REPO,

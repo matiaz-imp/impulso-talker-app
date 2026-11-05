@@ -21,19 +21,19 @@ Linux y Windows con ARM **no están soportados**.
 
 ## Camino A: instalador ya compilado (recomendado: Apple Silicon y Windows)
 
-Descarga el último instalador desde la página de _Releases_ del repositorio (el repositorio es privado: la persona
-debe estar con sesión iniciada o tener `gh auth login` hecho).
+Descarga el último instalador desde la página de _Releases_ del repositorio (es público: no hace falta cuenta de GitHub;
+el comando `gh` de abajo solo es una comodidad, también sirve el enlace directo desde el navegador).
 
 ```bash
 # macOS: *aarch64.dmg = chip Apple (M1 o posterior), *x64.dmg = Intel. Se ve con: uname -m (arm64 / x86_64)
-gh release download --repo matiaz-imp/impulso-talker --pattern "*aarch64.dmg" --dir ~/Downloads   # o "*x64.dmg"
+gh release download --repo matiaz-imp/impulso-talker-app --pattern "*aarch64.dmg" --dir ~/Downloads   # o "*x64.dmg"
 open ~/Downloads/*.dmg               # la persona arrastra la app a Aplicaciones
 ```
 
 ```powershell
 # Windows 64 bits
-gh release download --repo matiaz-imp/impulso-talker --pattern "*x64-setup.exe" --dir $HOME\Downloads
-# o: .\scripts\install-windows.ps1 -Repo matiaz-imp/impulso-talker
+gh release download --repo matiaz-imp/impulso-talker-app --pattern "*x64-setup.exe" --dir $HOME\Downloads
+# o: .\scripts\install-windows.ps1 -Repo matiaz-imp/impulso-talker-app
 ```
 
 Como la app **no está firmada**, el sistema avisa la primera vez (ver el README: «Avisos de seguridad del sistema»).
@@ -48,7 +48,7 @@ Explícaselo a la persona antes de que lo vea.
 Requisitos: macOS 13 o superior y las _Command Line Tools_ (`xcode-select --install`). No hace falta Xcode.
 
 ```bash
-git clone https://github.com/matiaz-imp/impulso-talker.git
+git clone https://github.com/matiaz-imp/impulso-talker-app.git
 cd impulso-talker
 ./scripts/install-macos.sh
 ```
@@ -61,7 +61,7 @@ El script, que no usa `sudo`:
 
 Opciones: `--solo-herramientas` (instala las herramientas y se detiene), `--sin-abrir`.
 
-En Windows, compilar desde el código fuente requiere Visual Studio Build Tools, CMake y Vulkan SDK; la guía de Handy
+En Windows, compilar desde el código fuente requiere Visual Studio Build Tools, CMake y Vulkan SDK; la guía
 está en [`docs/upstream/BUILD-handy.md`](docs/upstream/BUILD-handy.md). Para personas normales, usa el Camino A.
 
 ## Paso final: lo que debe hacer la persona (el agente no puede)

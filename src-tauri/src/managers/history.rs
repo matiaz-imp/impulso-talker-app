@@ -719,6 +719,21 @@ impl HistoryManager {
         Ok(())
     }
 
+    /// Borra todo el historial: las filas (también las guardadas con estrella),
+    /// todas las grabaciones de la carpeta y los restos del archivo de la base.
+    /// Devuelve los ids borrados para avisarle a la interfaz.
+    pub fn delete_all_entries(&self) -> Result<Vec<i64>> {
+        let conn = self.get_connection()?;
+        let ids = purge_all(&conn, &self.recordings_dir)?;
+        info!("Cleared the whole history ({} entries)", ids.len());
+        for id in &ids {
+            if let Err(e) = (HistoryUpdatePayload::Deleted { id: *id }).emit(&self.app_handle) {
+                error!("Failed to emit history-updated event: {}", e);
+            }
+        }
+        Ok(ids)
+    }
+
     fn format_timestamp_title(&self, timestamp: i64) -> String {
         if let Some(utc_datetime) = DateTime::from_timestamp(timestamp, 0) {
             // Convert UTC to local timezone
@@ -728,6 +743,35 @@ impl HistoryManager {
             format!("Recording {}", timestamp)
         }
     }
+}
+
+/// Vacía la tabla del historial y la carpeta de grabaciones.
+fn purge_all(conn: &Connection, recordings_dir: &std::path::Path) -> Result<Vec<i64>> {
+    let ids: Vec<i64> = {
+        let mut stmt = conn.prepare("SELECT id FROM transcription_history")?;
+        let mapped = stmt.query_map([], |row| row.get(0))?;
+        mapped.collect::<std::result::Result<_, _>>()?
+    };
+
+    conn.execute("DELETE FROM transcription_history", [])?;
+
+    // Todo .wav de la carpeta, esté o no en la tabla.
+    if let Ok(dir) = fs::read_dir(recordings_dir) {
+        for entry in dir.flatten() {
+            let path = entry.path();
+            if path.extension().and_then(|e| e.to_str()) == Some("wav") {
+                if let Err(e) = fs::remove_file(&path) {
+                    error!("Failed to delete recording {:?}: {}", path, e);
+                }
+            }
+        }
+    }
+
+    // Compacta la base para que el texto borrado no quede en páginas libres.
+    if let Err(e) = conn.execute_batch("VACUUM;") {
+        warn!("VACUUM after clearing history failed: {}", e);
+    }
+    Ok(ids)
 }
 
 #[cfg(test)]
@@ -894,5 +938,43 @@ mod tests {
             .expect("completed entry exists");
 
         assert_eq!(entry.transcription_text, "dictated");
+    }
+
+    #[test]
+    fn purge_all_removes_every_row_and_every_recording() {
+        let conn = setup_conn();
+        insert_entry(&conn, 1, "secreto uno", None);
+        insert_entry(&conn, 2, "secreto dos", Some("limpio"));
+        conn.execute(
+            "UPDATE transcription_history SET saved = 1 WHERE id = 1",
+            [],
+        )
+        .unwrap();
+
+        let dir = tempfile::tempdir().unwrap();
+        for name in ["handy-1.wav", "handy-2.wav", "suelto.wav"] {
+            std::fs::write(dir.path().join(name), b"RIFF").unwrap();
+        }
+        std::fs::write(dir.path().join("notas.txt"), b"no es audio").unwrap();
+
+        let ids = purge_all(&conn, dir.path()).unwrap();
+        assert_eq!(ids.len(), 2, "returns the deleted ids, starred ones too");
+
+        let left: i64 = conn
+            .query_row("SELECT COUNT(*) FROM transcription_history", [], |r| {
+                r.get(0)
+            })
+            .unwrap();
+        assert_eq!(left, 0);
+        let wavs = std::fs::read_dir(dir.path())
+            .unwrap()
+            .flatten()
+            .filter(|e| e.path().extension().and_then(|x| x.to_str()) == Some("wav"))
+            .count();
+        assert_eq!(wavs, 0, "no recording is left behind");
+        assert!(
+            dir.path().join("notas.txt").exists(),
+            "other files are untouched"
+        );
     }
 }

@@ -19,7 +19,9 @@
     "postProcessing": "Постобробка",
     "history": "Історія",
     "debug": "Дебаг",
-    "about": "Інфо"
+    "about": "Інфо",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Офіційно не підтримується",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Гучність",
         "description": "Налаштуйте гучність звукових сповіщень"
+      },
+      "soundTheme": {
+        "label": "Звукова тема",
+        "description": "Оберіть звукову тему для сповіщень про початок і зупинку запису",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Показати більше",
       "showLess": "Показати менше",
       "dropTitle": "Відпустіть, щоб розшифрувати",
-      "dropDescription": "Він з'явиться в історії."
+      "dropDescription": "Він з'явиться в історії.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Дебаг",
@@ -772,10 +782,6 @@
         "title": "Міграція моделей",
         "description": "По-справжньому відкрити екран оновлення моделей старого формату: він завантажує заміни, перемикає моделі й видаляє старі файли",
         "button": "Відкрити"
-      },
-      "soundTheme": {
-        "label": "Звукова тема",
-        "description": "Оберіть звукову тему для сповіщень про початок і зупинку запису"
       },
       "wordCorrectionThreshold": {
         "title": "Поріг корекції слів",
@@ -880,11 +886,6 @@
         "title": "Папка даних програми",
         "description": "Розташування даних Impulso Talker"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Підтримати розробку",
         "description": "Допоможіть нам продовжувати розвивати Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Високопродуктивний інференс моделі автоматичного розпізнавання мовлення Whisper від OpenAI",
           "details": "Impulso Talker використовує ggml для швидкої локальної обробки мовлення в текст. Дякуємо за чудову роботу Георгію Герганову та контриб'юторам."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Перевірка оновлень...",
-    "updateAvailableShort": "Доступне оновлення",
     "upToDate": "Актуальна версія",
     "updateCheckingDisabled": "Перевірка оновлень вимкнена",
-    "downloading": "Завантаження... {{progress}}%",
-    "installing": "Встановлення...",
-    "preparing": "Підготовка...",
     "checkForUpdates": "Перевірити оновлення",
-    "portableUpdateTitle": "Потрібне ручне оновлення",
-    "portableUpdateMessage": "Портативні встановлення не можна оновити автоматично. Завантажте нижче інсталятор для вашої системи, запустіть його та встановіть у ту саму теку — ваша тека Data/ (налаштування, моделі, записи) залишиться на місці.",
-    "portableUpdateButton": "Завантажити інсталятор",
-    "portableUpdateBrowseMessage": "Портативні встановлення не можна оновити автоматично. Завантажте найновішу версію для вашої системи зі сторінки GitHub Releases та встановіть її в ту саму теку — ваша тека Data/ (налаштування, моделі, записи) залишиться на місці.",
-    "portableUpdateBrowseButton": "Відкрити GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Нове в Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Відкрити",
     "copy": "Копіювати",
     "clear": "Очистити",
-    "noOptionsFound": "Опцій не знайдено"
+    "noOptionsFound": "Опцій не знайдено",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Помилка завантаження папки: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Як це виправити",
     "recorderBlocked": "Зараз неможливо записати комбінацію — Secure Input у macOS блокує події клавіш. Спершу усуньте попередження про Secure Input.",
     "dismiss": "Приховати"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

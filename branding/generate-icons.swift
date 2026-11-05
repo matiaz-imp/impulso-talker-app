@@ -16,8 +16,10 @@ struct RGB {
 }
 
 // Paleta: azul y marino del diseño de Impulso Creator; amarillo como guiño de chispa.
-let azul = RGB(0x155EEF), marino = RGB(0x0E1B2C), amarillo = RGB(0xFFC53D)
+let marino = RGB(0x111113), amarillo = RGB(0xF2A900)
 let amarilloSobreClaro = RGB(0xF2A900), blanco = RGB(0xFFFFFF), bordeClaro = RGB(0xC9D2E0)
+// Marca neutra: negro y plata, con el cursor ámbar.
+let negro = RGB(0x0B0B0C), plataClara = RGB(0xFFFFFF), plataOscura = RGB(0xB9BCC3), ambar = RGB(0xF2A900)
 
 struct Rect { let x, y, w, h: Double }
 
@@ -28,7 +30,8 @@ let iconCursor = Rect(x: 114, y: 32, w: 7, h: 76)
 let glyphBars = [Rect(x: 7.5, y: 23.5, w: 8, h: 17), Rect(x: 21.5, y: 14.5, w: 8, h: 35), Rect(x: 35.5, y: 20, w: 8, h: 24)]
 let glyphCursor = Rect(x: 52.5, y: 13, w: 4, h: 38)
 
-struct IconSpec { let nombre: String; let fondo: RGB; let barras: RGB; let cursor: RGB; let borde: RGB?; let cursorSVG: RGB }
+// `barras2`: si existe, las barras llevan un degradado vertical de `barras` (arriba) a `barras2` (abajo): la plata del ícono negro.
+struct IconSpec { let nombre: String; let fondo: RGB; let barras: RGB; let cursor: RGB; let borde: RGB?; let cursorSVG: RGB; var barras2: RGB? = nil }
 
 func rr(_ ctx: CGContext, _ r: Rect, _ radius: Double, _ c: RGB) {
     ctx.setFillColor(c.cg)
@@ -60,7 +63,16 @@ func drawIcon(_ ctx: CGContext, size: Double, margen: Double, spec: IconSpec) {
     } else {
         rr(ctx, Rect(x: 0, y: 0, w: 140, h: 140), 32, spec.fondo)
     }
-    for b in iconBars { rr(ctx, b, b.w / 2, spec.barras) }
+    for b in iconBars {
+        if let b2 = spec.barras2 {
+            ctx.saveGState()
+            ctx.addPath(CGPath(roundedRect: CGRect(x: b.x, y: b.y, width: b.w, height: b.h), cornerWidth: b.w / 2, cornerHeight: b.w / 2, transform: nil))
+            ctx.clip()
+            let grad = CGGradient(colorsSpace: CGColorSpace(name: CGColorSpace.sRGB)!, colors: [spec.barras.cg, b2.cg] as CFArray, locations: [0, 1])!
+            ctx.drawLinearGradient(grad, start: CGPoint(x: 0, y: b.y), end: CGPoint(x: 0, y: b.y + b.h), options: [])
+            ctx.restoreGState()
+        } else { rr(ctx, b, b.w / 2, spec.barras) }
+    }
     rr(ctx, iconCursor, iconCursor.w / 2, spec.cursor)
 }
 
@@ -80,7 +92,12 @@ func iconSVG(_ spec: IconSpec) -> String {
     if let borde = spec.borde {
         o += rectSVG(Rect(x: 0, y: 0, w: 140, h: 140), 32, borde) + "\n" + rectSVG(Rect(x: 1.2, y: 1.2, w: 137.6, h: 137.6), 30.8, spec.fondo) + "\n"
     } else { o += rectSVG(Rect(x: 0, y: 0, w: 140, h: 140), 32, spec.fondo) + "\n" }
-    for b in iconBars { o += rectSVG(b, b.w / 2, spec.barras) + "\n" }
+    if let b2 = spec.barras2 {
+        o += "<defs><linearGradient id=\"plata\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"\(spec.barras.css)\"/><stop offset=\"1\" stop-color=\"\(b2.css)\"/></linearGradient></defs>\n"
+        for b in iconBars { o += "<rect x=\"\(b.x)\" y=\"\(b.y)\" width=\"\(b.w)\" height=\"\(b.h)\" rx=\"\(b.w / 2)\" fill=\"url(#plata)\"/>\n" }
+    } else {
+        for b in iconBars { o += rectSVG(b, b.w / 2, spec.barras) + "\n" }
+    }
     o += rectSVG(iconCursor, iconCursor.w / 2, spec.cursor) + "\n</svg>\n"
     return o
 }
@@ -134,15 +151,15 @@ func trayImage(_ state: TrayState, bars: RGB, cursor: RGB) -> CGImage {
 }
 func writeTray(to dir: URL) {
     let names: [(TrayState, String)] = [(.idle, "idle"), (.recording, "recording"), (.transcribing, "transcribing")]
-    let claro = blanco, oscuro = RGB(0x1A1A1A), color = azul
+    let claro = blanco, oscuro = RGB(0x1A1A1A), color = RGB(0x6B6E76)
     for (state, n) in names {
         savePNG(trayImage(state, bars: claro, cursor: claro), dir.appendingPathComponent("tray_\(n).png"))
         savePNG(trayImage(state, bars: oscuro, cursor: oscuro), dir.appendingPathComponent("tray_\(n)_dark.png"))
     }
     savePNG(trayImage(.warning, bars: claro, cursor: claro), dir.appendingPathComponent("tray_idle_warning.png"))
     savePNG(trayImage(.warning, bars: oscuro, cursor: oscuro), dir.appendingPathComponent("tray_idle_warning_dark.png"))
-    // Tema «colorido»: azul Impulso con el cursor amarillo
-    let amarilloSolido = RGB(0xF5B400)
+    // Tema «colorido»: grafito con el cursor ámbar
+    let amarilloSolido = RGB(0xF2A900)
     savePNG(trayImage(.idle, bars: color, cursor: amarilloSolido), dir.appendingPathComponent("handy.png"))
     savePNG(trayImage(.recording, bars: color, cursor: color), dir.appendingPathComponent("recording.png"))
     savePNG(trayImage(.transcribing, bars: color, cursor: color), dir.appendingPathComponent("transcribing.png"))
@@ -154,9 +171,10 @@ try? FileManager.default.createDirectory(at: out, withIntermediateDirectories: t
 func write(_ s: String, _ n: String) { try! s.write(to: out.appendingPathComponent(n), atomically: true, encoding: .utf8) }
 
 let specs = [
-    IconSpec(nombre: "azul", fondo: azul, barras: blanco, cursor: amarillo, borde: nil, cursorSVG: amarillo),
-    IconSpec(nombre: "claro", fondo: blanco, barras: marino, cursor: amarilloSobreClaro, borde: bordeClaro, cursorSVG: amarilloSobreClaro),
-    IconSpec(nombre: "marino", fondo: marino, barras: blanco, cursor: amarillo, borde: nil, cursorSVG: amarillo),
+    // El ícono principal: negro con barras de plata y cursor ámbar.
+    IconSpec(nombre: "negro", fondo: negro, barras: plataClara, cursor: ambar, borde: nil, cursorSVG: ambar, barras2: plataOscura),
+    // Para fondos oscuros del sitio o de documentos que piden una versión clara.
+    IconSpec(nombre: "claro", fondo: RGB(0xFFFFFF), barras: RGB(0x155EEF), cursor: ambar, borde: RGB(0xE1E4EA), cursorSVG: ambar),
 ]
 for spec in specs {
     write(iconSVG(spec), "icon-\(spec.nombre).svg")

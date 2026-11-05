@@ -19,7 +19,9 @@
     "postProcessing": "Post proceso",
     "history": "Historial",
     "debug": "Depuración",
-    "about": "Acerca de"
+    "about": "Acerca de",
+    "home": "Inicio",
+    "modes": "Modos"
   },
   "onboarding": {
     "customModelDescription": "Sin soporte oficial",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Volumen",
         "description": "Ajusta el volumen de los sonidos de retroalimentación de audio"
+      },
+      "soundTheme": {
+        "label": "Sonido de inicio y fin",
+        "description": "Elige cómo suena al empezar y al terminar de dictar",
+        "preview": "Escuchar el sonido de inicio y de fin"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Mostrar más",
       "showLess": "Mostrar menos",
       "dropTitle": "Suelta para transcribir",
-      "dropDescription": "Aparecerá en el historial."
+      "dropDescription": "Aparecerá en el historial.",
+      "clearAll": "Borrar todo",
+      "clearConfirm": "Sí, borrar todo",
+      "clearError": "No se pudo borrar el historial."
     },
     "debug": {
       "title": "Depuración",
@@ -740,8 +750,8 @@
         "empty": "Esperando registros… Las entradas aparecerán aquí a medida que la aplicación las emita."
       },
       "updateChecks": {
-        "label": "Buscar actualizaciones",
-        "description": "Buscar automáticamente nuevas versiones de Impulso Talker",
+        "label": "Avisarme de versiones nuevas",
+        "description": "Una vez al día pregunta a GitHub si hay una versión nueva y te avisa en la barra de abajo. No descarga ni instala nada por sí sola.",
         "lockedDescription": "Deshabilitado por la configuración del sistema (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -772,10 +782,6 @@
         "title": "Migración de modelos",
         "description": "Abre de verdad la pantalla de actualización de modelos de formato antiguo: descarga reemplazos, cambia de modelo y elimina los archivos antiguos",
         "button": "Abrir"
-      },
-      "soundTheme": {
-        "label": "Tema de sonido",
-        "description": "Elige un tema de sonido para la retroalimentación de inicio y parada de grabación"
       },
       "wordCorrectionThreshold": {
         "title": "Umbral de corrección de palabras",
@@ -880,11 +886,6 @@
         "title": "Directorio de datos de la aplicación",
         "description": "Ubicación donde Impulso Talker almacena sus datos"
       },
-      "sourceCode": {
-        "title": "Basado en Handy",
-        "description": "Impulso Talker es una versión de Handy (licencia MIT) con marca y ajustes propios. Ver el proyecto original.",
-        "button": "Ver Handy en GitHub"
-      },
       "supportDevelopment": {
         "title": "Apoyar el desarrollo",
         "description": "Ayúdanos a continuar construyendo Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Biblioteca de tensores de alto rendimiento para inferencia de aprendizaje automático en el dispositivo",
           "details": "El habla a texto local de Impulso Talker está construido sobre transcribe.cpp y ggml. Gracias al increíble trabajo de Georgi Gerganov y colaboradores. Modelos: Whisper (OpenAI, MIT) y Parakeet (NVIDIA, CC-BY-4.0)."
         }
+      },
+      "privacy": {
+        "title": "Privacidad",
+        "description": "Tus dictados no salen de este computador",
+        "details": "El audio y el texto de cada dictado se guardan solo aquí y no se envían a nadie. La app no tiene estadísticas ni cuentas. Solo se conecta a internet para descargar modelos y, si lo activas, para preguntar a GitHub si hay una versión nueva. Puedes borrar todo en Historial → Borrar todo."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Buscando actualizaciones...",
-    "updateAvailableShort": "Actualización disponible",
     "upToDate": "Actualizado",
     "updateCheckingDisabled": "Búsqueda de actualizaciones deshabilitada",
-    "downloading": "Descargando... {{progress}}%",
-    "installing": "Instalando...",
-    "preparing": "Preparando...",
     "checkForUpdates": "Buscar actualizaciones",
-    "portableUpdateTitle": "Actualización manual necesaria",
-    "portableUpdateMessage": "Las instalaciones portátiles no se pueden actualizar automáticamente. Descarga abajo el instalador para tu sistema, ejecútalo e instálalo en la misma carpeta: tu carpeta Data/ (ajustes, modelos, grabaciones) se conserva.",
-    "portableUpdateButton": "Descargar instalador",
-    "portableUpdateBrowseMessage": "Las instalaciones portátiles no se pueden actualizar automáticamente. Descarga la versión más reciente para tu sistema desde GitHub Releases e instálala en la misma carpeta: tu carpeta Data/ (ajustes, modelos, grabaciones) se conserva.",
-    "portableUpdateBrowseButton": "Abrir GitHub Releases"
+    "newVersion": "Versión {{version}} disponible",
+    "checkFailed": "No se pudo buscar. Reintentar"
   },
   "whatsNew": {
     "title": "Nuevo en Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Abrir",
     "copy": "Copiar",
     "clear": "Limpiar",
-    "noOptionsFound": "No se encontraron opciones"
+    "noOptionsFound": "No se encontraron opciones",
+    "cancel": "Cancelar"
   },
   "errors": {
     "loadDirectory": "Error al cargar el directorio: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Cómo solucionarlo",
     "recorderBlocked": "Ahora mismo no se pueden grabar atajos: Secure Input de macOS está bloqueando los eventos de teclado. Resuelve primero el aviso de Secure Input.",
     "dismiss": "Descartar"
+  },
+  "home": {
+    "ready": "Listo para dictar",
+    "readyHint": "Presiona el atajo en cualquier app y habla.",
+    "modelLine": "Modelo: {{name}}",
+    "noModel": "Sin modelo elegido",
+    "today": "Hoy",
+    "week": "Últimos 7 días",
+    "dictations_one": "{{count}} dictado",
+    "dictations_other": "{{count}} dictados",
+    "recent": "Dictados recientes",
+    "seeAll": "Ver todo el historial",
+    "search": "Buscar en tus dictados",
+    "noResults": "No hay dictados con esa palabra.",
+    "empty": "Aún no dictas nada. Presiona el atajo y habla: aparecerá aquí.",
+    "words_one": "{{count}} palabra",
+    "words_other": "{{count}} palabras",
+    "copy": "Copiar"
+  },
+  "modes": {
+    "title": "Modos por app",
+    "enabled": "Ajustar el texto según la app",
+    "enabledHint": "Antes de pegar, retoca mayúsculas, punto final y saltos de línea según dónde estés escribiendo. Sin IA y sin costo.",
+    "name": "Nombre del modo",
+    "delete": "Eliminar modo",
+    "apps": "Apps",
+    "noApps": "Aún no hay apps",
+    "removeApp": "Quitar {{app}}",
+    "detect": "Detectar app",
+    "detecting": "Cambia a la app… {{seconds}} s",
+    "manual": "o escribe su nombre",
+    "detectFailed": "No detecté otra app. Vuelve a intentarlo.",
+    "firstLetter": "Primera letra",
+    "endMark": "Punto final",
+    "singleLine": "Líneas",
+    "asIs": "Como sale",
+    "upper": "Mayúscula",
+    "lower": "Minúscula",
+    "remove": "Quitar",
+    "add": "Agregar",
+    "manyLines": "Como salen",
+    "oneLine": "Una sola línea",
+    "new": "Nuevo modo",
+    "newName": "Modo nuevo"
   }
 }

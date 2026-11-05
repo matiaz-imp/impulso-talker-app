@@ -14,6 +14,11 @@ La licencia MIT de Handy exige conservar su aviso de derechos de autor, y por es
 
 Las demás dependencias de Rust y de JavaScript conservan sus propias licencias (ver `src-tauri/Cargo.lock` y `bun.lock`).
 
+## Tipografía
+
+El nombre «Impulso Talker» se dibuja con **Plus Jakarta Sans** (The Plus Jakarta Sans Project Authors, licencia SIL Open Font
+License 1.1). El archivo está en `src/assets/fonts/plus-jakarta-sans-latin-wght.woff2`.
+
 ## Modelos que la app puede descargar
 
 Los modelos **no** se incluyen en este repositorio: cada persona los descarga desde la app y cada uno trae su licencia.

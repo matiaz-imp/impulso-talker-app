@@ -9,18 +9,20 @@
   /* Palette source of truth. Each themed color is defined once as a
      light/dark pair; the active tokens below and the `data-theme` overrides
      in App.css reference these, so a hex value lives in exactly one place. */
-  --light-color-text: #0f0f0f;
+  /* Neutros: blanco y plata de día, negro de noche. El azul solo destaca
+     (interruptores, selección, progreso); el ámbar queda para el cursor. */
+  --light-color-text: #111113;
   --light-color-background: #fbfbfb;
   --light-color-logo-primary: #155eef;
-  --light-color-logo-stroke: #0e1b2c;
+  --light-color-logo-stroke: #111113;
 
-  --dark-color-text: #fbfbfb;
-  --dark-color-background: #121826;
-  --dark-color-logo-primary: #6ea0ff;
+  --dark-color-text: #f5f5f6;
+  --dark-color-background: #111113;
+  --dark-color-logo-primary: #4f8bff;
 
   /* Cursor amarillo del logo: más oscuro en claro para que se vea sobre blanco. */
-  --light-color-cursor: #c98200;
-  --dark-color-cursor: #f5b400;
+  --light-color-cursor: #f2a900;
+  --dark-color-cursor: #f2a900;
 
   /* Status colors. Each has a -wash tint below. */
   --light-color-warning: #d97706;
@@ -54,27 +56,27 @@
   --light-demo-wallpaper:
     radial-gradient(
       110% 80% at 90% 105%,
-      color-mix(in srgb, var(--light-color-logo-primary) 50%, #fbfbfb) 0%,
+      color-mix(in srgb, #9ea3ad 50%, #fbfbfb) 0%,
       transparent 60%
     ),
     radial-gradient(
       90% 80% at 5% -5%,
-      color-mix(in srgb, #bcd0fb 55%, #fbfbfb) 0%,
+      color-mix(in srgb, #d5d8de 55%, #fbfbfb) 0%,
       transparent 62%
     ),
-    color-mix(in srgb, #e3ecfd 60%, #fbfbfb);
+    color-mix(in srgb, #e9eaed 60%, #fbfbfb);
   --dark-demo-wallpaper:
     radial-gradient(
       110% 80% at 90% 105%,
-      color-mix(in srgb, var(--dark-color-logo-primary) 26%, #0b1220) 0%,
+      color-mix(in srgb, #5b5f69 40%, #0b0b0c) 0%,
       transparent 60%
     ),
     radial-gradient(
       90% 80% at 5% -5%,
-      color-mix(in srgb, #3f66c9 38%, #0b1220) 0%,
+      color-mix(in srgb, #3a3d44 45%, #0b0b0c) 0%,
       transparent 62%
     ),
-    #0e1523;
+    #121214;
 
   /* The wordmark. Dark mode outlines it in white to cut down on pinks. */
   --light-color-wordmark: var(--light-color-logo-primary);

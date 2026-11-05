@@ -1,5 +1,17 @@
 # Cambios
 
+## 0.2.0 — marca propia, Inicio, Modos y privacidad
+
+- Sonidos de inicio y fin propios, sintetizados desde cero (`branding/generate-sounds.py`): **Cápsula** (por defecto), **Micro** y **Burbuja**. Reemplazan a Marimba y Pop; quien los tenía guardados oye Cápsula y conserva el resto de sus ajustes.
+- Tipografía de marca (Plus Jakarta Sans) y nombre «Impulso Talker» en dos líneas junto al ícono.
+- Marca neutra: ícono claro con barras azul Impulso y cursor ámbar, interfaz blanca y plata (o negra) y azul Impulso solo para lo activo; cápsula de grabación negra; menú de secciones arriba.
+- **Inicio**: pantalla nueva con el atajo, palabras de hoy y de los últimos 7 días, buscador y dictados recientes.
+- **Modos por app**: Correo, Mensajes, Código y Notas retocan mayúscula inicial, punto final y saltos de línea según la app donde se pega (macOS y Windows), sin IA. Se pueden editar, agregar apps con «Detectar app» y apagar.
+- **Privacidad**: _Historial → Borrar todo_ (textos, audios y restos de la base), `PRIVACY.md`, texto de privacidad en Acerca de y un control automático (`bun run check:privacy`) que falla si el código abre conexiones fuera de las tres permitidas. El registro parte en nivel Info.
+- **Avisos de versión nueva** en lugar del actualizador automático: una vez al día pregunta a GitHub y, si hay una versión mayor, lo dice abajo a la izquierda y abre la página de descargas. No descarga ni instala nada solo. Se apaga en Acerca de. Se quitó el complemento de actualización automática.
+- El selector de sonido pasó a _General → Sonido_.
+- Se quitó el bloque «Basado en Handy» de Acerca de y las menciones del README; el aviso de derechos de autor sigue en `LICENSE` y `NOTICE.md`.
+
 ## 0.1.0 — primera versión de Impulso Talker
 
 Basada en Handy 0.10.0 (commit `82dfab9f`).

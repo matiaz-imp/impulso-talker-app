@@ -19,7 +19,9 @@
     "postProcessing": "Постобработка",
     "history": "История",
     "debug": "Отстраняване",
-    "about": "За приложението"
+    "about": "За приложението",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Не се поддържа официално",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Сила на звука",
         "description": "Регулирайте силата на звуците за обратна връзка"
+      },
+      "soundTheme": {
+        "label": "Звукова тема",
+        "description": "Избор на звукова тема за сигнал при старт и край на записа",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Покажи повече",
       "showLess": "Покажи по-малко",
       "dropTitle": "Пуснете за транскрибиране",
-      "dropDescription": "Ще се появи в Историята."
+      "dropDescription": "Ще се появи в Историята.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Отстраняване",
@@ -772,10 +782,6 @@
         "title": "Миграция на модели",
         "description": "Отворете наистина екрана за обновяване на модели в стар формат: изтегля заместители, превключва моделите и изтрива старите файлове",
         "button": "Отвори"
-      },
-      "soundTheme": {
-        "label": "Звукова тема",
-        "description": "Избор на звукова тема за сигнал при старт и край на записа"
       },
       "wordCorrectionThreshold": {
         "title": "Праг за корекция на думи",
@@ -880,11 +886,6 @@
         "title": "Папка с данни на приложението",
         "description": "Мястото, където Impulso Talker съхранява данните си"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Подкрепете разработката",
         "description": "Помогнете ни да продължим да развиваме Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Високопроизводително изпълнение на автоматичния модел за разпознаване на реч Whisper на OpenAI",
           "details": "Impulso Talker използва ggml за бързо локално реч-към-текст. Благодарности на Georgi Gerganov и сътрудниците за отличната работа."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Проверка за актуализации...",
-    "updateAvailableShort": "Налична актуализация",
     "upToDate": "Актуална версия",
     "updateCheckingDisabled": "Проверката за актуализации е изключена",
-    "downloading": "Изтегля се... {{progress}}%",
-    "installing": "Инсталиране...",
-    "preparing": "Подготовка...",
     "checkForUpdates": "Проверка за актуализации",
-    "portableUpdateTitle": "Необходима е ръчна актуализация",
-    "portableUpdateMessage": "Преносимите инсталации не могат да бъдат актуализирани автоматично. Изтеглете инсталатора за вашата система от бутона по-долу, стартирайте го и инсталирайте в същата папка — папката Data/ (настройки, модели, записи) остава на мястото си.",
-    "portableUpdateButton": "Изтегляне на инсталатора",
-    "portableUpdateBrowseMessage": "Преносимите инсталации не могат да бъдат актуализирани автоматично. Изтеглете най-новата версия за вашата система от GitHub Releases и я инсталирайте в същата папка — папката Data/ (настройки, модели, записи) остава на мястото си.",
-    "portableUpdateBrowseButton": "Отвори GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Ново в Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Отваряне",
     "copy": "Копиране",
     "clear": "Изчистване",
-    "noOptionsFound": "Няма намерени опции"
+    "noOptionsFound": "Няма намерени опции",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Грешка при зареждане на папката: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Как да поправите това",
     "recorderBlocked": "В момента не могат да се записват бързи клавиши — Secure Input на macOS блокира клавишните събития. Първо отстранете предупреждението за Secure Input.",
     "dismiss": "Отхвърляне"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

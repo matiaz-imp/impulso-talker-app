@@ -19,7 +19,9 @@
     "postProcessing": "Son İşlem",
     "history": "Geçmiş",
     "debug": "Hata Ayıklama",
-    "about": "Hakkında"
+    "about": "Hakkında",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Resmi olarak desteklenmiyor",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Ses Seviyesi",
         "description": "Sesli geri bildirimlerin ses seviyesini ayarlayın"
+      },
+      "soundTheme": {
+        "label": "Ses Teması",
+        "description": "Kayıt başlangıç ve bitişi için sesli geri bildirim temasını seçin",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Daha fazla göster",
       "showLess": "Daha az göster",
       "dropTitle": "Yazıya dökmek için bırakın",
-      "dropDescription": "Geçmiş'te görünecek."
+      "dropDescription": "Geçmiş'te görünecek.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Hata Ayıklama",
@@ -772,10 +782,6 @@
         "title": "Model Geçişi",
         "description": "Eski biçimli model güncelleme ekranını gerçekten açın: yedekleri indirir, modelleri değiştirir ve eski dosyaları siler",
         "button": "Aç"
-      },
-      "soundTheme": {
-        "label": "Ses Teması",
-        "description": "Kayıt başlangıç ve bitişi için sesli geri bildirim temasını seçin"
       },
       "wordCorrectionThreshold": {
         "title": "Kelime Düzeltme Eşiği",
@@ -880,11 +886,6 @@
         "title": "Uygulama Veri Dizini",
         "description": "Impulso Talker'nin verilerini sakladığı konum"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Geliştirmeyi Destekle",
         "description": "Impulso Talker'yi geliştirmeye devam etmemize yardımcı olun",
@@ -897,23 +898,21 @@
           "description": "Cihaz üzerinde makine öğrenmesi çıkarımı için yüksek performanslı tensör kütüphanesi",
           "details": "Impulso Talker'nin yerel konuşmadan metne dönüştürme özelliği transcribe.cpp ve ggml üzerine kuruludur. Georgi Gerganov'a ve katkıda bulunanlara harika çalışmaları için teşekkür ederiz."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Güncellemeler kontrol ediliyor...",
-    "updateAvailableShort": "Güncelleme mevcut",
     "upToDate": "Güncel",
     "updateCheckingDisabled": "Güncelleme Kontrolü Devre Dışı",
-    "downloading": "İndiriliyor... %{{progress}}",
-    "installing": "Yükleniyor...",
-    "preparing": "Hazırlanıyor...",
     "checkForUpdates": "Güncellemeleri kontrol et",
-    "portableUpdateTitle": "Manuel güncelleme gerekli",
-    "portableUpdateMessage": "Taşınabilir kurulumlar otomatik olarak güncellenemez. Aşağıdan sisteminize uygun yükleyiciyi indirin, çalıştırın ve aynı klasöre kurun — Data/ klasörünüz (ayarlar, modeller, kayıtlar) yerinde kalır.",
-    "portableUpdateButton": "Yükleyiciyi indir",
-    "portableUpdateBrowseMessage": "Taşınabilir kurulumlar otomatik olarak güncellenemez. Sisteminize uygun en son sürümü GitHub Releases’ten indirin ve aynı klasöre kurun — Data/ klasörünüz (ayarlar, modeller, kayıtlar) yerinde kalır.",
-    "portableUpdateBrowseButton": "GitHub Releases’i aç"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Impulso Talker v{{version}} yenilikleri"
@@ -927,7 +926,8 @@
     "open": "Aç",
     "copy": "Kopyala",
     "clear": "Temizle",
-    "noOptionsFound": "Seçenek bulunamadı"
+    "noOptionsFound": "Seçenek bulunamadı",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Dizin yüklenirken hata oluştu: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Bu nasıl düzeltilir",
     "recorderBlocked": "Şu anda kısayol kaydedilemiyor — macOS Secure Input tuş olaylarını engelliyor. Önce Secure Input uyarısını giderin.",
     "dismiss": "Kapat"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

@@ -284,16 +284,30 @@ impl ModelUnloadTimeout {
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type)]
 #[serde(rename_all = "snake_case")]
 pub enum SoundTheme {
-    Marimba,
-    Pop,
+    // Los temas de versiones anteriores (Marimba, Pop y los de prueba) ya no existen;
+    // se leen como Cápsula para que los ajustes guardados sigan cargando enteros.
+    #[serde(
+        alias = "marimba",
+        alias = "pop",
+        alias = "gota",
+        alias = "cristal",
+        alias = "pulso",
+        alias = "tecla",
+        alias = "sonar",
+        alias = "suave"
+    )]
+    Capsula,
+    Micro,
+    Burbuja,
     Custom,
 }
 
 impl SoundTheme {
     fn as_str(&self) -> &'static str {
         match self {
-            SoundTheme::Marimba => "marimba",
-            SoundTheme::Pop => "pop",
+            SoundTheme::Capsula => "capsula",
+            SoundTheme::Micro => "micro",
+            SoundTheme::Burbuja => "burbuja",
             SoundTheme::Custom => "custom",
         }
     }
@@ -528,6 +542,11 @@ pub struct AppSettings {
     pub typing_tool: TypingTool,
     #[serde(default)]
     pub external_script_path: Option<String>,
+    /// Modos por app (ver `modes.rs`): retoques gratis según dónde se pega.
+    #[serde(default = "default_modes_enabled")]
+    pub modes_enabled: bool,
+    #[serde(default = "crate::modes::default_modes")]
+    pub modes: Vec<crate::modes::Mode>,
     #[serde(default = "default_filler_word_removal_enabled")]
     pub filler_word_removal_enabled: bool,
     #[serde(default)]
@@ -602,7 +621,8 @@ fn default_autostart_enabled() -> bool {
 }
 
 fn default_update_checks_enabled() -> bool {
-    false
+    // Solo pregunta a GitHub si hay una versión nueva (ver `UpdateChecker`).
+    true
 }
 
 fn default_show_whats_new_on_update() -> bool {
@@ -653,6 +673,10 @@ fn default_language_detection_window_secs() -> u32 {
     5
 }
 
+fn default_modes_enabled() -> bool {
+    true
+}
+
 fn default_filler_word_removal_enabled() -> bool {
     true
 }
@@ -671,7 +695,8 @@ fn default_debug_mode() -> bool {
 }
 
 fn default_log_level() -> LogLevel {
-    LogLevel::Debug
+    // En Debug el registro vuelca los ajustes (incluido el vocabulario personal).
+    LogLevel::Info
 }
 
 fn default_word_correction_threshold() -> f64 {
@@ -703,7 +728,7 @@ fn default_audio_feedback_volume() -> f32 {
 }
 
 fn default_sound_theme() -> SoundTheme {
-    SoundTheme::Marimba
+    SoundTheme::Capsula
 }
 
 fn default_theme() -> Theme {
@@ -1064,6 +1089,8 @@ pub fn get_default_settings() -> AppSettings {
         reliable_paste: false,
         typing_tool: default_typing_tool(),
         external_script_path: None,
+        modes_enabled: default_modes_enabled(),
+        modes: crate::modes::default_modes(),
         filler_word_removal_enabled: default_filler_word_removal_enabled(),
         custom_filler_words: None,
         chinese_script: default_chinese_script(),
@@ -1600,7 +1627,8 @@ mod tests {
         assert_eq!(settings.selected_model, "whisper-large-v3-turbo");
         assert_eq!(settings.bindings["transcribe"].current_binding, "f13");
         assert_eq!(settings.log_level, LogLevel::Debug);
-        assert_eq!(settings.sound_theme, SoundTheme::Pop);
+        // "pop" fue un tema de versiones anteriores: hoy se lee como Cápsula.
+        assert_eq!(settings.sound_theme, SoundTheme::Capsula);
         assert!(settings.filler_word_removal_enabled);
         assert_eq!(settings.vad_backend, VadBackend::Silero);
         assert!(
@@ -1623,6 +1651,31 @@ mod tests {
         // matching legacy mode rather than the new hold-or-toggle default.
         assert_eq!(settings.shortcut_activation, ShortcutActivation::Toggle);
         assert_eq!(settings.transcribe_gpu_device, None);
+    }
+
+    #[test]
+    fn legacy_sound_themes_load_as_capsula() {
+        // Marimba y Pop (y los temas de prueba) ya no existen: quien los tenía
+        // guardados debe conservar el resto de sus ajustes y oír Cápsula.
+        for old in [
+            "marimba", "pop", "gota", "cristal", "pulso", "tecla", "sonar", "suave",
+        ] {
+            let mut stored = default_settings_json();
+            stored["sound_theme"] = serde_json::json!(old);
+            stored["selected_model"] = serde_json::json!("parakeet-tdt-0.6b-v3");
+            let settings: AppSettings = serde_json::from_value(stored)
+                .unwrap_or_else(|e| panic!("'{old}' must still parse strictly: {e}"));
+            assert_eq!(settings.sound_theme, SoundTheme::Capsula, "{old}");
+            assert_eq!(settings.selected_model, "parakeet-tdt-0.6b-v3");
+        }
+        assert_eq!(
+            SoundTheme::Capsula.to_start_path(),
+            "resources/capsula_start.wav"
+        );
+        assert_eq!(
+            SoundTheme::Burbuja.to_stop_path(),
+            "resources/burbuja_stop.wav"
+        );
     }
 
     #[test]

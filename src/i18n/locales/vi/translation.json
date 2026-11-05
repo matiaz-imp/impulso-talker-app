@@ -19,7 +19,9 @@
     "postProcessing": "Xử lý sau",
     "history": "Lịch sử",
     "debug": "Gỡ lỗi",
-    "about": "Giới thiệu"
+    "about": "Giới thiệu",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Không được hỗ trợ chính thức",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Âm lượng",
         "description": "Điều chỉnh âm lượng của âm thanh phản hồi"
+      },
+      "soundTheme": {
+        "label": "Chủ đề âm thanh",
+        "description": "Chọn chủ đề âm thanh cho phản hồi bắt đầu và kết thúc ghi âm",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Xem thêm",
       "showLess": "Thu gọn",
       "dropTitle": "Thả để chép lời",
-      "dropDescription": "Nó sẽ xuất hiện trong Lịch sử."
+      "dropDescription": "Nó sẽ xuất hiện trong Lịch sử.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Gỡ lỗi",
@@ -772,10 +782,6 @@
         "title": "Chuyển đổi mô hình",
         "description": "Mở thật màn hình cập nhật mô hình định dạng cũ: nó sẽ tải xuống bản thay thế, chuyển mô hình và xóa các tệp cũ",
         "button": "Mở"
-      },
-      "soundTheme": {
-        "label": "Chủ đề âm thanh",
-        "description": "Chọn chủ đề âm thanh cho phản hồi bắt đầu và kết thúc ghi âm"
       },
       "wordCorrectionThreshold": {
         "title": "Ngưỡng sửa từ",
@@ -880,11 +886,6 @@
         "title": "Thư mục dữ liệu ứng dụng",
         "description": "Vị trí Impulso Talker lưu trữ dữ liệu"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Hỗ trợ phát triển",
         "description": "Giúp chúng tôi tiếp tục xây dựng Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Suy luận hiệu suất cao của mô hình nhận dạng giọng nói tự động Whisper của OpenAI",
           "details": "Impulso Talker sử dụng ggml để xử lý chuyển đổi giọng nói thành văn bản nhanh, cục bộ. Cảm ơn công việc tuyệt vời của Georgi Gerganov và các cộng tác viên."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Đang kiểm tra cập nhật...",
-    "updateAvailableShort": "Có bản cập nhật",
     "upToDate": "Đã cập nhật",
     "updateCheckingDisabled": "Đã tắt kiểm tra cập nhật",
-    "downloading": "Đang tải... {{progress}}%",
-    "installing": "Đang cài đặt...",
-    "preparing": "Đang chuẩn bị...",
     "checkForUpdates": "Kiểm tra cập nhật",
-    "portableUpdateTitle": "Cần cập nhật thủ công",
-    "portableUpdateMessage": "Bản cài đặt di động không thể cập nhật tự động. Hãy tải trình cài đặt phù hợp với hệ thống của bạn bên dưới, chạy nó và cài vào cùng thư mục — thư mục Data/ (cài đặt, mô hình, bản ghi) của bạn được giữ nguyên.",
-    "portableUpdateButton": "Tải trình cài đặt",
-    "portableUpdateBrowseMessage": "Bản cài đặt di động không thể cập nhật tự động. Hãy tải phiên bản mới nhất phù hợp với hệ thống của bạn từ GitHub Releases và cài vào cùng thư mục — thư mục Data/ (cài đặt, mô hình, bản ghi) của bạn được giữ nguyên.",
-    "portableUpdateBrowseButton": "Mở GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Điểm mới trong Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Mở",
     "copy": "Sao chép",
     "clear": "Xóa",
-    "noOptionsFound": "Không tìm thấy tùy chọn"
+    "noOptionsFound": "Không tìm thấy tùy chọn",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Lỗi khi tải thư mục: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Cách khắc phục",
     "recorderBlocked": "Hiện không thể ghi phím tắt — Secure Input của macOS đang chặn các sự kiện phím. Hãy xử lý cảnh báo Secure Input trước.",
     "dismiss": "Bỏ qua"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

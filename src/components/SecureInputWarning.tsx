@@ -7,7 +7,7 @@ import { commands, type SecureInputStatus } from "@/bindings";
 
 // Detailed remediation steps live in the docs rather than in the banner
 export const SECURE_INPUT_HELP_URL =
-  "https://handy.computer/docs/troubleshooting#shortcuts-stopped-working-on-macos-secure-input";
+  "https://github.com/matiaz-imp/impulso-talker-app/blob/main/docs/solucion-de-problemas.md#los-atajos-dejaron-de-funcionar-en-mac-secure-input";
 
 /**
  * Compact warning banner shown while macOS Secure Input is stuck on.

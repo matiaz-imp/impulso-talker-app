@@ -19,7 +19,9 @@
     "postProcessing": "معالجة لاحقة",
     "history": "السجل",
     "debug": "تصحيح الأخطاء",
-    "about": "حول"
+    "about": "حول",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "غير مدعوم رسميًا",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "مستوى الصوت",
         "description": "ضبط مستوى صوت تنبيهات الصوت"
+      },
+      "soundTheme": {
+        "label": "سمة الصوت",
+        "description": "اختر سمة صوت لتنبيهات بدء وتوقف التسجيل",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "عرض المزيد",
       "showLess": "عرض أقل",
       "dropTitle": "أفلت الملف لنسخه",
-      "dropDescription": "سيظهر في السجل."
+      "dropDescription": "سيظهر في السجل.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "تصحيح الأخطاء",
@@ -772,10 +782,6 @@
         "title": "ترحيل النماذج",
         "description": "افتح شاشة تحديث النماذج ذات الصيغة القديمة فعليًا: تنزّل البدائل، وتبدّل النماذج، وتحذف الملفات القديمة",
         "button": "فتح"
-      },
-      "soundTheme": {
-        "label": "سمة الصوت",
-        "description": "اختر سمة صوت لتنبيهات بدء وتوقف التسجيل"
       },
       "wordCorrectionThreshold": {
         "title": "عتبة تصحيح الكلمات",
@@ -880,11 +886,6 @@
         "title": "مجلد بيانات التطبيق",
         "description": "الموقع الذي يخزن فيه Impulso Talker بياناته"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "دعم التطوير",
         "description": "ساعدنا في مواصلة بناء Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "استنتاج عالي الأداء لنموذج التعرف التلقائي على الكلام Whisper من OpenAI",
           "details": ".يستخدم Impulso Talker برنامج ggml لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "جاري التحقق من وجود تحديثات...",
-    "updateAvailableShort": "تحديث متاح",
     "upToDate": "محدث",
     "updateCheckingDisabled": "تم تعطيل التحقق من التحديث",
-    "downloading": "جاري التنزيل {{progress}}%...",
-    "installing": "جاري التثبيت...",
-    "preparing": "جاري التحضير...",
     "checkForUpdates": "التحقق من وجود تحديثات",
-    "portableUpdateTitle": "التحديث اليدوي مطلوب",
-    "portableUpdateMessage": "لا يمكن تحديث التثبيتات المحمولة تلقائيًا. نزّل المثبّت المناسب لنظامك من الزر أدناه، شغّله، وثبّته في المجلد نفسه — يبقى مجلد Data/ (الإعدادات والنماذج والتسجيلات) في مكانه.",
-    "portableUpdateButton": "تنزيل المثبّت",
-    "portableUpdateBrowseMessage": "لا يمكن تحديث التثبيتات المحمولة تلقائيًا. نزّل أحدث إصدار مناسب لنظامك من GitHub Releases وثبّته في المجلد نفسه — يبقى مجلد Data/ (الإعدادات والنماذج والتسجيلات) في مكانه.",
-    "portableUpdateBrowseButton": "فتح GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "الجديد في Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "فتح",
     "copy": "نسخ",
     "clear": "مسح",
-    "noOptionsFound": "لم يتم العثور على خيارات"
+    "noOptionsFound": "لم يتم العثور على خيارات",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "خطأ في تحميل المجلد: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "كيفية الإصلاح",
     "recorderBlocked": "لا يمكن تسجيل الاختصارات الآن — يحجب Secure Input في macOS أحداث المفاتيح. عالج تحذير Secure Input أولاً.",
     "dismiss": "تجاهل"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

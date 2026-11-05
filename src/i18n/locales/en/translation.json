@@ -19,7 +19,9 @@
     "postProcessing": "Post Process",
     "history": "History",
     "debug": "Debug",
-    "about": "About"
+    "about": "About",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Not officially supported",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Volume",
         "description": "Adjust the volume of audio feedback sounds"
+      },
+      "soundTheme": {
+        "label": "Start and end sound",
+        "description": "Choose how it sounds when dictation starts and ends",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Show more",
       "showLess": "Show less",
       "dropTitle": "Drop to transcribe",
-      "dropDescription": "It'll show up in History."
+      "dropDescription": "It'll show up in History.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Debug",
@@ -740,8 +750,8 @@
         "empty": "Waiting for logs… Entries appear here as the app emits them."
       },
       "updateChecks": {
-        "label": "Check for Updates",
-        "description": "Automatically check for new versions of Impulso Talker",
+        "label": "Tell me about new versions",
+        "description": "Once a day it asks GitHub whether there is a new version and tells you in the bottom bar. It never downloads or installs anything by itself.",
         "lockedDescription": "Disabled by system configuration (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -772,10 +782,6 @@
         "title": "Model Migration",
         "description": "Open the old-format model update screen for real: it downloads replacements, switches models and deletes old files",
         "button": "Open"
-      },
-      "soundTheme": {
-        "label": "Sound Theme",
-        "description": "Choose a sound theme for recording start and stop feedback"
       },
       "wordCorrectionThreshold": {
         "title": "Word Correction Threshold",
@@ -880,11 +886,6 @@
         "title": "App Data Directory",
         "description": "Location where Impulso Talker stores its data"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Support Development",
         "description": "Help us continue building Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "High-performance tensor library for on-device machine learning inference",
           "details": "Impulso Talker's local speech-to-text is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors. Models: Whisper (OpenAI, MIT) and Parakeet (NVIDIA, CC-BY-4.0)."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Checking for updates...",
-    "updateAvailableShort": "Update available",
     "upToDate": "Up to date",
     "updateCheckingDisabled": "Update Checking Disabled",
-    "downloading": "Downloading... {{progress}}%",
-    "installing": "Installing...",
-    "preparing": "Preparing...",
     "checkForUpdates": "Check for updates",
-    "portableUpdateTitle": "Manual update required",
-    "portableUpdateMessage": "Portable installs cannot be updated automatically. Download the installer for your system below, run it, and install to the same folder — your Data/ folder (settings, models, recordings) is kept in place.",
-    "portableUpdateButton": "Download installer",
-    "portableUpdateBrowseMessage": "Portable installs cannot be updated automatically. Download the latest version for your system from GitHub Releases and install it to the same folder — your Data/ folder (settings, models, recordings) is kept in place.",
-    "portableUpdateBrowseButton": "Open GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "New in Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Open",
     "copy": "Copy",
     "clear": "Clear",
-    "noOptionsFound": "No options found"
+    "noOptionsFound": "No options found",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Error loading directory: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "How to fix",
     "recorderBlocked": "Can't record shortcuts right now — macOS Secure Input is blocking key events. Resolve the Secure Input warning first.",
     "dismiss": "Dismiss"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

@@ -1,8 +1,18 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
+import {
+  Cog,
+  FlaskConical,
+  History,
+  House,
+  Info,
+  Sparkles,
+  Cpu,
+} from "lucide-react";
+import { ModesSettings } from "./modes/ModesSettings";
 import HandyTextLogo from "./icons/HandyTextLogo";
 import HandyHand from "./icons/HandyHand";
+import HandyMascot from "./icons/HandyMascot";
 import { useSettings } from "../hooks/useSettings";
 import {
   GeneralSettings,
@@ -32,6 +42,19 @@ interface SectionConfig {
 }
 
 export const SECTIONS_CONFIG = {
+  home: {
+    labelKey: "sidebar.home",
+    icon: House,
+    /** App renders Home itself: it needs to jump to the history. */
+    component: null,
+    enabled: () => true,
+  },
+  modes: {
+    labelKey: "sidebar.modes",
+    icon: Sparkles,
+    component: ModesSettings,
+    enabled: () => true,
+  },
   general: {
     labelKey: "sidebar.general",
     icon: HandyHand,
@@ -93,34 +116,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
     .map(([id, config]) => ({ id: id as SidebarSection, ...config }));
 
   return (
-    <div className="flex flex-col w-40 h-full border-e border-line items-center px-2">
-      <HandyTextLogo width={120} className="m-4" />
-      <div className="flex flex-col w-full items-center gap-1 pt-2 border-t border-line">
+    <header className="flex flex-wrap items-center gap-x-5 gap-y-1 border-b border-line px-4 py-2">
+      <div className="flex items-center gap-2">
+        <HandyMascot className="h-8 w-auto shrink-0" />
+        <HandyTextLogo size={19} />
+      </div>
+      <nav
+        aria-label={t("sidebar.navLabel", "Secciones")}
+        className="flex flex-wrap items-center gap-0.5 ms-auto"
+      >
         {availableSections.map((section) => {
-          const Icon = section.icon;
           const isActive = activeSection === section.id;
-
           return (
-            <div
+            <button
               key={section.id}
-              className={`flex gap-2 items-center p-2 w-full rounded-lg cursor-pointer transition-colors ${
-                isActive
-                  ? "bg-logo-primary/80"
-                  : "hover:bg-line hover:opacity-100 opacity-85"
-              }`}
+              type="button"
+              aria-current={isActive ? "page" : undefined}
               onClick={() => onSectionChange(section.id)}
+              className={`min-h-[36px] cursor-pointer rounded-lg px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-logo-primary ${
+                isActive
+                  ? "bg-wash font-semibold text-text"
+                  : "font-medium text-ink-2 hover:bg-wash hover:text-text"
+              }`}
             >
-              <Icon width={24} height={24} className="shrink-0" />
-              <p
-                className="text-sm font-medium truncate"
-                title={t(section.labelKey)}
-              >
-                {t(section.labelKey)}
-              </p>
-            </div>
+              {t(section.labelKey)}
+            </button>
           );
         })}
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };

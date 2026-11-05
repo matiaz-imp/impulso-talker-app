@@ -19,7 +19,9 @@
     "postProcessing": "Následné zpracování",
     "history": "Historie",
     "debug": "Ladění",
-    "about": "O aplikaci"
+    "about": "O aplikaci",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Oficiálně nepodporováno",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Hlasitost",
         "description": "Upravte hlasitost zvukové odezvy"
+      },
+      "soundTheme": {
+        "label": "Zvukový motiv",
+        "description": "Vyberte zvukový motiv pro odezvu při startu a ukončení nahrávání",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Zobrazit více",
       "showLess": "Zobrazit méně",
       "dropTitle": "Pusťte pro přepis",
-      "dropDescription": "Zobrazí se v historii."
+      "dropDescription": "Zobrazí se v historii.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Ladění",
@@ -772,10 +782,6 @@
         "title": "Migrace modelů",
         "description": "Doopravdy otevře obrazovku aktualizace modelů starého formátu: stáhne náhrady, přepne modely a smaže staré soubory",
         "button": "Otevřít"
-      },
-      "soundTheme": {
-        "label": "Zvukový motiv",
-        "description": "Vyberte zvukový motiv pro odezvu při startu a ukončení nahrávání"
       },
       "wordCorrectionThreshold": {
         "title": "Práh korekce slov",
@@ -880,11 +886,6 @@
         "title": "Adresář dat aplikace",
         "description": "Umístění, kde Impulso Talker ukládá data"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Podpořte vývoj",
         "description": "Pomozte nám pokračovat ve vývoji Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Vysoce výkonné inferenční zpracování modelu automatického rozpoznávání řeči Whisper od OpenAI",
           "details": "Impulso Talker používá ggml pro rychlé lokální zpracování řeči na text. Díky skvělé práci Georgiho Gerganova a přispěvatelů."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "Kontroluji aktualizace...",
-    "updateAvailableShort": "Dostupná aktualizace",
     "upToDate": "Vše aktuální",
     "updateCheckingDisabled": "Kontrola aktualizací vypnuta",
-    "downloading": "Stahování... {{progress}}%",
-    "installing": "Instalace...",
-    "preparing": "Příprava...",
     "checkForUpdates": "Zkontrolovat aktualizace",
-    "portableUpdateTitle": "Vyžadována ruční aktualizace",
-    "portableUpdateMessage": "Přenosné instalace nelze aktualizovat automaticky. Níže stáhněte instalátor pro svůj systém, spusťte jej a nainstalujte do stejné složky — vaše složka Data/ (nastavení, modely, nahrávky) zůstane na místě.",
-    "portableUpdateButton": "Stáhnout instalátor",
-    "portableUpdateBrowseMessage": "Přenosné instalace nelze aktualizovat automaticky. Stáhněte nejnovější verzi pro svůj systém z GitHub Releases a nainstalujte ji do stejné složky — vaše složka Data/ (nastavení, modely, nahrávky) zůstane na místě.",
-    "portableUpdateBrowseButton": "Otevřít GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Novinky v Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Otevřít",
     "copy": "Kopírovat",
     "clear": "Vymazat",
-    "noOptionsFound": "Nenalezeny žádné možnosti"
+    "noOptionsFound": "Nenalezeny žádné možnosti",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Chyba při načítání adresáře: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Jak to vyřešit",
     "recorderBlocked": "Zkratky teď nelze nahrát — Secure Input v macOS blokuje události kláves. Nejprve vyřešte upozornění na Secure Input.",
     "dismiss": "Zavřít"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

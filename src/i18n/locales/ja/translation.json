@@ -19,7 +19,9 @@
     "postProcessing": "後処理",
     "history": "履歴",
     "debug": "デバッグ",
-    "about": "概要"
+    "about": "概要",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "公式サポート対象外",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "音量",
         "description": "オーディオフィードバックの音量を調整"
+      },
+      "soundTheme": {
+        "label": "サウンドテーマ",
+        "description": "録音開始・停止フィードバックのサウンドテーマを選択",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "もっと見る",
       "showLess": "閉じる",
       "dropTitle": "ドロップして文字起こし",
-      "dropDescription": "履歴に表示されます。"
+      "dropDescription": "履歴に表示されます。",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "デバッグ",
@@ -772,10 +782,6 @@
         "title": "モデル移行",
         "description": "旧形式モデルの更新画面を実際に開きます。置き換えモデルのダウンロード、モデルの切り替え、古いファイルの削除が行われます",
         "button": "開く"
-      },
-      "soundTheme": {
-        "label": "サウンドテーマ",
-        "description": "録音開始・停止フィードバックのサウンドテーマを選択"
       },
       "wordCorrectionThreshold": {
         "title": "単語修正しきい値",
@@ -880,11 +886,6 @@
         "title": "アプリデータディレクトリ",
         "description": "Impulso Talker がデータを保存する場所"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "開発を支援",
         "description": "Impulso Talker の開発を支援してください",
@@ -897,23 +898,21 @@
           "description": "オンデバイス機械学習推論のための高性能テンソルライブラリ",
           "details": "Impulso Talker のローカルの音声からテキストへの文字起こしは transcribe.cpp と ggml を基盤としています。Georgi Gerganov 氏と貢献者の皆様の素晴らしい仕事に感謝します。"
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "アップデートを確認中…",
-    "updateAvailableShort": "アップデートあり",
     "upToDate": "最新です",
     "updateCheckingDisabled": "アップデート確認無効",
-    "downloading": "ダウンロード中… {{progress}}%",
-    "installing": "インストール中…",
-    "preparing": "準備中…",
     "checkForUpdates": "アップデートを確認",
-    "portableUpdateTitle": "手動での更新が必要です",
-    "portableUpdateMessage": "ポータブル版は自動的に更新できません。下のボタンからお使いのシステム向けのインストーラーをダウンロードし、実行して同じフォルダーにインストールしてください。Data フォルダー(設定、モデル、録音)はそのまま残ります。",
-    "portableUpdateButton": "インストーラーをダウンロード",
-    "portableUpdateBrowseMessage": "ポータブル版は自動的に更新できません。GitHub Releases からお使いのシステム向けの最新版をダウンロードし、同じフォルダーにインストールしてください。Data フォルダー(設定、モデル、録音)はそのまま残ります。",
-    "portableUpdateBrowseButton": "GitHub Releases を開く"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Impulso Talker v{{version}} の新機能"
@@ -927,7 +926,8 @@
     "open": "開く",
     "copy": "コピー",
     "clear": "クリア",
-    "noOptionsFound": "オプションが見つかりません"
+    "noOptionsFound": "オプションが見つかりません",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "ディレクトリの読み込みエラー: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "解決方法",
     "recorderBlocked": "現在ショートカットを記録できません。macOS の Secure Input がキーイベントをブロックしています。先に Secure Input の警告を解消してください。",
     "dismiss": "閉じる"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

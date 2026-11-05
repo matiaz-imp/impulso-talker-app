@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="branding/icon-azul.svg" width="96" alt="Impulso Talker">
+  <img src="branding/icon-claro.svg" width="96" alt="Impulso Talker">
 </p>
 
 <h1 align="center">Impulso Talker</h1>
@@ -9,8 +9,7 @@
   Gratis, funciona sin internet y tu voz no sale de tu equipo.
 </p>
 
-Impulso Talker es una versión en español de [Handy](https://github.com/cjpais/Handy) (licencia MIT), con marca,
-ajustes y guías propias de Agencia Impulsa. Funciona en **macOS** y **Windows**. Es una herramienta de uso personal:
+Impulso Talker es una app de dictado de Agencia Impulsa, con marca, ajustes y guías propias. Funciona en **macOS** y **Windows**. Es una herramienta de uso personal:
 no es un producto comercial ni tiene soporte formal.
 
 ## Qué hace
@@ -19,7 +18,9 @@ no es un producto comercial ni tiene soporte formal.
 - **Todo local.** La transcripción corre en tu computador con modelos abiertos (Whisper, Parakeet). No hace falta cuenta ni clave, y no se manda audio a ningún servicio.
 - **Español primero.** Si tu sistema está en español, parte transcribiendo en español. Si no, detecta el idioma solo.
 - **Limpia el texto sin costo.** Quita muletillas («eh», «mmm») y corrige nombres con tu lista de palabras personalizadas.
-- **Historial** de lo que has dictado, con su audio.
+- **Modos por app.** Correo, Mensajes, Código y Notas: la misma frase se escribe con mayúscula y punto en un correo, sin punto y en una línea en WhatsApp. Gratis, sin IA, y los editas a tu gusto.
+- **Inicio** con tu atajo, cuántas palabras has dictado y tus dictados recientes con buscador.
+- **Historial privado** de lo que has dictado, con su audio. Se queda en tu computador y lo borras cuando quieras (_Historial → Borrar todo_).
 - **Limpieza con IA, opcional.** Si quieres que un modelo de lenguaje ordene y reescriba lo dictado, puedes conectar tu propia clave de API (Anthropic, OpenAI, OpenRouter, Ollama local, etc.). Está apagada de fábrica y es 100 % opcional.
 
 ## Instalar
@@ -36,7 +37,7 @@ Elige según tu computador. Si usas un agente (Claude, ChatGPT u otro), pásale 
 > prueba de GitHub: se instalan, abren con la marca correcta, muestran la guía de bienvenida y (en Windows) se
 > desinstalan. Lo que **nadie ha probado todavía en un computador real es el micrófono, el atajo y el pegado**, porque
 > necesitan permisos de una persona. El **Mac con Intel** se probó además transcribiendo audios en esta misma máquina.
-> Si algo falla en tu computador, cuéntame.
+> Si algo falla en tu computador, abre una [incidencia](../../issues).
 
 ### Avisos de seguridad del sistema (es normal)
 
@@ -44,6 +45,12 @@ La app **no está firmada** con un certificado de desarrollador (cuesta ~US$99 a
 
 - **macOS:** si dice que no se puede abrir, ve a _Ajustes del Sistema → Privacidad y seguridad_ y pulsa **Abrir de todos modos**. Alternativa en Terminal: `xattr -dr com.apple.quarantine "/Applications/Impulso Talker.app"`. Si la compilaste tú (Mac Intel), no aparece este aviso.
 - **Windows:** en la ventana azul de SmartScreen pulsa **Más información → Ejecutar de todas formas**.
+
+## Actualizar
+
+La app te avisa abajo a la izquierda cuando hay una versión nueva («Versión X disponible»). Al pulsarla se abre la página de descargas: baja el instalador y ábrelo encima del anterior. **Tus ajustes, vocabulario, historial y modelos se conservan.** No se actualiza sola a propósito: nada se instala sin que tú lo decidas. Se puede apagar en _Acerca de → Avisarme de versiones nuevas_.
+
+En Mac, como la app no tiene firma de desarrollador, después de cada actualización hay que volver a dar los permisos de Micrófono y Accesibilidad ([cómo](docs/solucion-de-problemas.md#el-atajo-no-responde-después-de-actualizar-o-reinstalar-mac)).
 
 ## Primer uso
 
@@ -64,10 +71,7 @@ Si reinstalas la app en Mac y el atajo deja de responder aunque Accesibilidad ap
 
 ## Privacidad
 
-- La transcripción es **local**: el audio no se envía a ningún lado.
-- La app descarga los **modelos** desde Hugging Face (con respaldo en los servidores del proyecto base, Handy). Es lo único que sale a internet por defecto.
-- Si activas la **limpieza con IA**, el _texto_ dictado (no el audio) se envía al proveedor que elijas, con tu propia clave. Revisa su política de datos. Sin clave no se envía nada.
-- No hay telemetría ni cuentas (no encontré código de analítica en la app al revisarla). Tus datos viven en `~/Library/Application Support/cl.agenciaimpulsa.talker` (Mac) o `%APPDATA%\cl.agenciaimpulsa.talker` (Windows).
+Tu voz y tus textos **no salen de tu computador**: no hay cuentas, estadísticas ni reportes de errores. La red solo se usa para descargar modelos, para preguntar a GitHub si hay una versión nueva y, si tú lo activas con tu propia clave, para la limpieza con IA (que envía el _texto_, nunca el audio). Todo el detalle, dónde vive cada dato y cómo borrarlo está en [`PRIVACY.md`](PRIVACY.md); `bun run check:privacy` lo verifica en cada cambio.
 
 ## Problemas frecuentes
 
@@ -79,9 +83,8 @@ Si reinstalas la app en Mac y el atajo deja de responder aunque Accesibilidad ap
 | Tarda mucho                                    | Usa un modelo más chico (Whisper Small) o cierra apps pesadas. En equipos Intel antiguos es lo esperable.                                                                         |
 | Quedó en otro idioma                           | En Ajustes → Idioma elige _Español_ en vez de _Automático_.                                                                                                                       |
 | Windows Defender o el antivirus bloquea la app | Escribe teclas por ti, y eso a veces alerta a los antivirus. Permítela desde _Seguridad de Windows → Historial de protección_. Si no te fías, compílala tú mismo desde el código. |
-| Tengo Handy instalado también                  | Pueden convivir (guardan datos aparte), pero comparten el atajo por defecto: cambia uno de los dos en Ajustes → Atajos.                                                           |
 
-Para un diagnóstico rápido en Mac: `./scripts/doctor.sh`.
+Más casos en [`docs/solucion-de-problemas.md`](docs/solucion-de-problemas.md). Para un diagnóstico rápido en Mac: `./scripts/doctor.sh`.
 
 ## Desinstalar
 
@@ -91,10 +94,10 @@ Para un diagnóstico rápido en Mac: `./scripts/doctor.sh`.
 ## Para quien quiera tocar el código
 
 Es una app [Tauri 2](https://tauri.app) (Rust + React/TypeScript). La guía de desarrollo está en [`AGENTS.md`](AGENTS.md).
-Cómo se relaciona con el proyecto original y qué cambiamos: [`docs/FORK.md`](docs/FORK.md). Los íconos se generan con
+Los íconos se generan con
 [`branding/generate-icons.swift`](branding/generate-icons.swift).
 
 ## Créditos y licencia
 
-Construido sobre el trabajo de otros: **Handy** (CJ Pais, MIT), **Whisper** (OpenAI, MIT), **Parakeet** (NVIDIA, CC-BY-4.0),
-**ggml** y **Silero VAD**. Detalle en [`NOTICE.md`](NOTICE.md). Impulso Talker se distribuye bajo licencia [MIT](LICENSE).
+Construido sobre el trabajo de otros: **Whisper** (OpenAI, MIT), **Parakeet** (NVIDIA, CC-BY-4.0),
+**ggml** y **Silero VAD**. Detalle de licencias y avisos en [`NOTICE.md`](NOTICE.md). Impulso Talker se distribuye bajo licencia [MIT](LICENSE).

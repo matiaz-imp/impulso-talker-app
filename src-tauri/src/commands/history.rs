@@ -61,6 +61,22 @@ pub async fn delete_history_entry(
         .map_err(|e| e.to_string())
 }
 
+/// Borra todo el historial y sus grabaciones. No se puede deshacer.
+#[tauri::command]
+#[specta::specta]
+pub async fn delete_all_history(
+    history_manager: State<'_, Arc<HistoryManager>>,
+    jobs: State<'_, Arc<TranscriptionJobManager>>,
+) -> Result<u32, String> {
+    let ids = history_manager
+        .delete_all_entries()
+        .map_err(|e| e.to_string())?;
+    for id in &ids {
+        jobs.cancel(*id);
+    }
+    Ok(ids.len() as u32)
+}
+
 /// Queues the entry to be transcribed again with the current model. Its
 /// progress and outcome arrive as `TranscriptionJob` events.
 #[tauri::command]

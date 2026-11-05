@@ -19,7 +19,9 @@
     "postProcessing": "Postprocessament",
     "history": "Historial",
     "debug": "Depuració",
-    "about": "Quant a"
+    "about": "Quant a",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "Sense suport oficial",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "Volum",
         "description": "Ajusta el volum dels avisos sonors"
+      },
+      "soundTheme": {
+        "label": "Tema de so",
+        "description": "Trieu un tema de so per als avisos d'inici i d'aturada de l'enregistrament",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "Mostra'n més",
       "showLess": "Mostra'n menys",
       "dropTitle": "Deixa anar per transcriure",
-      "dropDescription": "Apareixerà a l'historial."
+      "dropDescription": "Apareixerà a l'historial.",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "Depuració",
@@ -772,10 +782,6 @@
         "title": "Migració de models",
         "description": "Obre de debò la pantalla d'actualització de models de format antic: baixa els substituts, canvia de model i elimina els fitxers antics",
         "button": "Obre"
-      },
-      "soundTheme": {
-        "label": "Tema de so",
-        "description": "Trieu un tema de so per als avisos d'inici i d'aturada de l'enregistrament"
       },
       "wordCorrectionThreshold": {
         "title": "Llindar de correcció de paraules",
@@ -880,11 +886,6 @@
         "title": "Directori de dades de l'aplicació",
         "description": "Ubicació on el Impulso Talker desa les dades"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "Dona suport al desenvolupament",
         "description": "Ajudeu-nos a continuar desenvolupant el Impulso Talker",
@@ -897,23 +898,21 @@
           "description": "Biblioteca de tensors d'alt rendiment per a la inferència d'aprenentatge automàtic al dispositiu",
           "details": "La transcripció local de veu a text del Impulso Talker es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "S'està comprovant si hi ha actualitzacions...",
-    "updateAvailableShort": "Hi ha una actualització disponible",
     "upToDate": "Actualitzat",
     "updateCheckingDisabled": "Comprovació d'actualitzacions desactivada",
-    "downloading": "S'està baixant... {{progress}}%",
-    "installing": "S'està instal·lant...",
-    "preparing": "S'està preparant...",
     "checkForUpdates": "Comprova si hi ha actualitzacions",
-    "portableUpdateTitle": "Cal actualitzar manualment",
-    "portableUpdateMessage": "Les instal·lacions portables no es poden actualitzar automàticament. Baixa l'instal·lador per al vostre sistema a continuació, executeu-lo i instal·leu-lo a la mateixa carpeta. La carpeta Data/ (configuració, models i enregistraments) es conserva.",
-    "portableUpdateButton": "Baixa l'instal·lador",
-    "portableUpdateBrowseMessage": "Les instal·lacions portables no es poden actualitzar automàticament. Baixa l'última versió per al vostre sistema des de GitHub Releases i instal·leu-la a la mateixa carpeta. La carpeta Data/ (configuració, models i enregistraments) es conserva.",
-    "portableUpdateBrowseButton": "Obriu GitHub Releases"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Novetats del Impulso Talker v{{version}}"
@@ -927,7 +926,8 @@
     "open": "Obre",
     "copy": "Copia",
     "clear": "Neteja",
-    "noOptionsFound": "No s'ha trobat cap opció"
+    "noOptionsFound": "No s'ha trobat cap opció",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "Error en carregar el directori: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "Com es resol",
     "recorderBlocked": "Ara no se'n poden enregistrar dreceres: l'entrada segura del macOS bloca els esdeveniments de tecla. Resol primer l'avís d'entrada segura.",
     "dismiss": "Descarta"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

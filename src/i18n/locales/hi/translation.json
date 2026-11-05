@@ -19,7 +19,9 @@
     "postProcessing": "पोस्ट प्रोसेस",
     "history": "इतिहास",
     "debug": "डिबग",
-    "about": "के बारे में"
+    "about": "के बारे में",
+    "home": "Home",
+    "modes": "Modes"
   },
   "onboarding": {
     "customModelDescription": "आधिकारिक रूप से समर्थित नहीं",
@@ -463,6 +465,11 @@
       "volume": {
         "title": "वॉल्यूम",
         "description": "ऑडियो फ़ीडबैक साउंड का वॉल्यूम सेट करें"
+      },
+      "soundTheme": {
+        "label": "साउंड थीम",
+        "description": "रिकॉर्डिंग शुरू और बंद होने के फ़ीडबैक के लिए कोई साउंड थीम चुनें",
+        "preview": "Play the start and end sounds"
       }
     },
     "advanced": {
@@ -716,7 +723,10 @@
       "showMore": "और दिखाएँ",
       "showLess": "कम दिखाएँ",
       "dropTitle": "ट्रांसक्राइब करने के लिए छोड़ें",
-      "dropDescription": "यह इतिहास में दिखाई देगा।"
+      "dropDescription": "यह इतिहास में दिखाई देगा।",
+      "clearAll": "Delete all",
+      "clearConfirm": "Yes, delete all",
+      "clearError": "Couldn't delete the history."
     },
     "debug": {
       "title": "डिबग",
@@ -772,10 +782,6 @@
         "title": "मॉडल माइग्रेशन",
         "description": "पुराने फ़ॉर्मेट वाले मॉडल की अपडेट स्क्रीन असली तरह खोलें: यह बदले हुए मॉडल डाउनलोड करती है, मॉडल बदलती है और पुरानी फ़ाइलें हटाती है",
         "button": "खोलें"
-      },
-      "soundTheme": {
-        "label": "साउंड थीम",
-        "description": "रिकॉर्डिंग शुरू और बंद होने के फ़ीडबैक के लिए कोई साउंड थीम चुनें"
       },
       "wordCorrectionThreshold": {
         "title": "शब्द सुधार की सीमा",
@@ -880,11 +886,6 @@
         "title": "ऐप डेटा फ़ोल्डर",
         "description": "वह जगह जहां Impulso Talker अपना डेटा सेव करता है"
       },
-      "sourceCode": {
-        "title": "Based on Handy",
-        "description": "Impulso Talker is a version of Handy (MIT license) with its own branding and defaults. View the original project.",
-        "button": "View Handy on GitHub"
-      },
       "supportDevelopment": {
         "title": "डेवलपमेंट में सहयोग करें",
         "description": "Impulso Talker को आगे बढ़ाने में हमारी मदद करें",
@@ -897,23 +898,21 @@
           "description": "डिवाइस पर ही मशीन लर्निंग इन्फ़रेंस के लिए हाई-परफ़ॉर्मेंस टेंसर लाइब्रेरी",
           "details": "Impulso Talker का लोकल स्पीच-टू-टेक्स्ट transcribe.cpp और ggml पर आधारित है. Georgi Gerganov और योगदान देने वालों के शानदार काम के लिए धन्यवाद."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "description": "Your dictations never leave this computer",
+        "details": "The audio and text of every dictation stay only on this computer and are sent to no one. The app has no analytics or accounts. It only goes online to download models and, if you leave it on, to ask GitHub whether a new version exists. You can delete everything in History → Delete all."
       }
     }
   },
   "footer": {
     "checkingUpdates": "अपडेट जांचे जा रहे हैं...",
-    "updateAvailableShort": "अपडेट उपलब्ध है",
     "upToDate": "अप-टू-डेट",
     "updateCheckingDisabled": "अपडेट जांच बंद है",
-    "downloading": "डाउनलोड हो रहा है... {{progress}}%",
-    "installing": "इंस्टॉल हो रहा है...",
-    "preparing": "तैयारी हो रही है...",
     "checkForUpdates": "अपडेट जांचें",
-    "portableUpdateTitle": "मैन्युअल अपडेट ज़रूरी है",
-    "portableUpdateMessage": "पोर्टेबल इंस्टॉल अपने आप अपडेट नहीं हो सकते. नीचे से अपने सिस्टम के लिए इंस्टॉलर डाउनलोड करें, उसे चलाएँ और उसी फ़ोल्डर में इंस्टॉल करें — आपका Data/ फ़ोल्डर (सेटिंग, मॉडल, रिकॉर्डिंग) जहाँ है वहीं बना रहता है.",
-    "portableUpdateButton": "इंस्टॉलर डाउनलोड करें",
-    "portableUpdateBrowseMessage": "पोर्टेबल इंस्टॉल अपने आप अपडेट नहीं हो सकते. GitHub Releases से अपने सिस्टम के लिए नया वर्शन डाउनलोड करें और उसे उसी फ़ोल्डर में इंस्टॉल करें — आपका Data/ फ़ोल्डर (सेटिंग, मॉडल, रिकॉर्डिंग) जहाँ है वहीं बना रहता है.",
-    "portableUpdateBrowseButton": "GitHub Releases खोलें"
+    "newVersion": "Version {{version}} available",
+    "checkFailed": "Couldn't check. Retry"
   },
   "whatsNew": {
     "title": "Impulso Talker v{{version}} में नया क्या है"
@@ -927,7 +926,8 @@
     "open": "खोलें",
     "copy": "कॉपी करें",
     "clear": "मिटाएं",
-    "noOptionsFound": "कोई विकल्प नहीं मिला"
+    "noOptionsFound": "कोई विकल्प नहीं मिला",
+    "cancel": "Cancel"
   },
   "errors": {
     "loadDirectory": "फ़ोल्डर लोड करने में गड़बड़ी: {{error}}",
@@ -988,5 +988,49 @@
     "learnMore": "इसे कैसे ठीक करें",
     "recorderBlocked": "अभी शॉर्टकट रिकॉर्ड नहीं किए जा सकते — macOS Secure Input कुंजी इवेंट ब्लॉक कर रहा है. पहले Secure Input चेतावनी हल करें.",
     "dismiss": "खारिज करें"
+  },
+  "home": {
+    "ready": "Ready to dictate",
+    "readyHint": "Press the shortcut in any app and speak.",
+    "modelLine": "Model: {{name}}",
+    "noModel": "No model selected",
+    "today": "Today",
+    "week": "Last 7 days",
+    "dictations_one": "{{count}} dictation",
+    "dictations_other": "{{count}} dictations",
+    "recent": "Recent dictations",
+    "seeAll": "See all history",
+    "search": "Search your dictations",
+    "noResults": "No dictations with that word.",
+    "empty": "Nothing dictated yet. Press the shortcut and speak: it will show up here.",
+    "words_one": "{{count}} word",
+    "words_other": "{{count}} words",
+    "copy": "Copy"
+  },
+  "modes": {
+    "title": "Modes by app",
+    "enabled": "Adjust text to the app",
+    "enabledHint": "Before pasting, tweak capitals, the final period and line breaks to match where you're typing. No AI, no cost.",
+    "name": "Mode name",
+    "delete": "Delete mode",
+    "apps": "Apps",
+    "noApps": "No apps yet",
+    "removeApp": "Remove {{app}}",
+    "detect": "Detect app",
+    "detecting": "Switch to the app… {{seconds}} s",
+    "manual": "or type its name",
+    "detectFailed": "No other app detected. Try again.",
+    "firstLetter": "First letter",
+    "endMark": "Final period",
+    "singleLine": "Lines",
+    "asIs": "As is",
+    "upper": "Capital",
+    "lower": "Lowercase",
+    "remove": "Remove",
+    "add": "Add",
+    "manyLines": "As spoken",
+    "oneLine": "One line",
+    "new": "New mode",
+    "newName": "New mode"
   }
 }

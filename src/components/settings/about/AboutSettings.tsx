@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getVersion } from "@tauri-apps/api/app";
-import { openUrl } from "@tauri-apps/plugin-opener";
 import { SettingsGroup } from "../../ui/SettingsGroup";
 import { SettingContainer } from "../../ui/SettingContainer";
-import { Button } from "../../ui/Button";
 import { AppDataDirectory } from "../AppDataDirectory";
+import { UpdateChecksToggle } from "../UpdateChecksToggle";
 import { AppLanguageSelector } from "../AppLanguageSelector";
 import { ThemeSelector } from "../ThemeSelector";
 import { LogDirectory } from "../debug";
@@ -42,18 +41,16 @@ export const AboutSettings: React.FC = () => {
           <span className="text-sm font-mono">v{version}</span>
         </SettingContainer>
 
+        <UpdateChecksToggle descriptionMode="tooltip" grouped={true} />
         <SettingContainer
-          title={t("settings.about.sourceCode.title")}
-          description={t("settings.about.sourceCode.description")}
+          title={t("settings.about.privacy.title")}
+          description={t("settings.about.privacy.description")}
           grouped={true}
+          layout="stacked"
         >
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => openUrl("https://github.com/cjpais/Handy")}
-          >
-            {t("settings.about.sourceCode.button")}
-          </Button>
+          <div className="text-sm text-ink-3">
+            {t("settings.about.privacy.details")}
+          </div>
         </SettingContainer>
 
         <AppDataDirectory descriptionMode="tooltip" grouped={true} />

@@ -1,80 +1,44 @@
 /* eslint-disable i18next/no-literal-string -- the brand name is a logo, not UI copy */
-// Impulso Talker wordmark: the mark on the left, the name on two lines.
+// Impulso Talker wordmark, in the Impulso Creator style: all lowercase in
+// Plus Jakarta Sans, "impulso" bold in Impulso blue, "talker" lighter in slate,
+// closed by the amber text cursor from the app icon.
+const BRAND_FONT =
+  'var(--font-brand, "Plus Jakarta Sans", ui-rounded, system-ui, sans-serif)';
+
 const HandyTextLogo = ({
-  width,
-  height,
-  className,
+  size = 22,
+  className = "",
 }: {
-  width?: number;
-  height?: number;
+  /** Font size in px; the cursor scales with it. */
+  size?: number;
   className?: string;
 }) => {
   return (
-    <svg
-      width={width}
-      height={height}
-      className={className}
-      viewBox="0 0 980 328"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+    <span
       role="img"
-      aria-label="Impulso Talker"
+      aria-label="impulso talker"
+      className={`inline-flex select-none items-center whitespace-nowrap leading-none ${className}`}
+      style={{ fontFamily: BRAND_FONT, fontSize: size }}
     >
-      <rect
-        x="10"
-        y="118"
-        width="38"
-        height="82"
-        rx="19"
-        className="fill-text"
-      />
-      <rect
-        x="68"
-        y="76"
-        width="38"
-        height="166"
-        rx="19"
-        className="fill-text"
-      />
-      <rect
-        x="126"
-        y="100"
-        width="38"
-        height="118"
-        rx="19"
-        className="fill-text"
-      />
-      <rect
-        x="196"
-        y="70"
-        width="16"
-        height="178"
-        rx="8"
-        style={{ fill: "var(--color-cursor)" }}
-      />
-      <text
-        x="270"
-        y="152"
-        fontSize="148"
-        fontWeight="700"
-        letterSpacing="-3"
-        className="fill-text"
-        style={{ fontFamily: "inherit" }}
+      <span
+        aria-hidden="true"
+        className="font-extrabold text-logo-primary"
+        style={{ letterSpacing: "-0.03em" }}
       >
-        Impulso
-      </text>
-      <text
-        x="270"
-        y="296"
-        fontSize="148"
-        fontWeight="700"
-        letterSpacing="-3"
-        className="fill-text"
-        style={{ fontFamily: "inherit" }}
+        impulso
+      </span>
+      <span
+        aria-hidden="true"
+        className="ms-[0.28em] font-medium text-ink-2"
+        style={{ letterSpacing: "-0.02em" }}
       >
-        Talker
-      </text>
-    </svg>
+        talker
+      </span>
+      <span
+        aria-hidden="true"
+        className="ms-[0.16em] h-[0.85em] w-[0.1em] rounded-full bg-cursor"
+      />
+    </span>
   );
 };
 
