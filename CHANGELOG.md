@@ -1,5 +1,9 @@
 # Cambios
 
+## Sin publicar
+
+- **Pegado más confiable**: la app ya no devuelve tu portapapeles anterior a los 60 ms. Espera a que la app de destino lea el dictado y recién entonces lo restaura, así no se pega lo que habías copiado antes (macOS y Windows). Se quitó el interruptor de Debug «pegado confiable», que ahora es siempre.
+
 ## 0.2.0 — marca propia, Inicio, Modos y privacidad
 
 - Sonidos de inicio y fin propios, sintetizados desde cero (`branding/generate-sounds.py`): **Cápsula** (por defecto), **Micro** y **Burbuja**. Reemplazan a Marimba y Pop; quien los tenía guardados oye Cápsula y conserva el resto de sus ajustes.

@@ -852,13 +852,14 @@ pub fn paste(text: String, app_handle: AppHandle) -> Result<(), String> {
             )?;
         }
         PasteMethod::CtrlV | PasteMethod::CtrlShiftV | PasteMethod::ShiftInsert => {
-            // Debug-gated receipt-sequenced paste (#502): restore the clipboard
-            // after the target actually reads the transcript, not on a timer.
-            // On success it fully handles the paste (including auto-submit and
-            // clipboard handling) asynchronously; on failure fall through to
-            // the legacy path untouched.
+            // Receipt-sequenced paste (#502): restore the clipboard after the
+            // target actually reads the transcript, not on a timer. A fixed
+            // timer lost the race on slow apps and pasted the user's OLD
+            // clipboard instead of the dictation. On success it fully handles
+            // the paste (including auto-submit and clipboard handling)
+            // asynchronously; on failure fall through to the legacy path.
             #[cfg(any(target_os = "macos", target_os = "windows"))]
-            if settings.reliable_paste {
+            {
                 // Runs entirely on the main thread, as it requires.
                 let (text, app) = (text.clone(), app_handle.clone());
                 let (auto_submit, auto_submit_key, clipboard_handling) = (
