@@ -25,6 +25,11 @@ Descarga el último instalador desde la página de _Releases_ del repositorio (e
 el comando `gh` de abajo solo es una comodidad, también sirve el enlace directo desde el navegador).
 
 ```bash
+# Sin GitHub CLI (recomendado): enlace directo, no pide cuenta
+curl -fL -o ~/Downloads/ImpulsoTalker.dmg https://github.com/matiaz-imp/impulso-talker-app/releases/latest/download/Impulso.Talker_0.2.0_aarch64.dmg   # Intel: ..._x64.dmg
+```
+
+```bash
 # macOS: *aarch64.dmg = chip Apple (M1 o posterior), *x64.dmg = Intel. Se ve con: uname -m (arm64 / x86_64)
 gh release download --repo matiaz-imp/impulso-talker-app --pattern "*aarch64.dmg" --dir ~/Downloads   # o "*x64.dmg"
 open ~/Downloads/*.dmg               # la persona arrastra la app a Aplicaciones
@@ -49,7 +54,7 @@ Requisitos: macOS 13 o superior y las _Command Line Tools_ (`xcode-select --inst
 
 ```bash
 git clone https://github.com/matiaz-imp/impulso-talker-app.git
-cd impulso-talker
+cd impulso-talker-app
 ./scripts/install-macos.sh
 ```
 
