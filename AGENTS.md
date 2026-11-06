@@ -1,13 +1,13 @@
 # AGENTS.md
 
-> **Impulso Talker** es una versión de [Handy](https://github.com/cjpais/Handy) con marca y ajustes propios de Agencia Impulsa.
-> El resto de este archivo es la guía de desarrollo original de Handy y sigue siendo válida (las rutas y los comandos no cambiaron).
+> **Impulso Talker** es una app de dictado de Agencia Impulsa (Tauri 2: Rust + React/TypeScript).
+> Este archivo es la guía de desarrollo: rutas, comandos y convenciones.
 
 ## Si tu tarea es _instalar_ la app para una persona
 
 No uses esta guía de desarrollo: sigue [`INSTALL.md`](INSTALL.md). Reglas que importan aquí:
 
-- Hay que conservar la marca de Impulso Talker y **no** reintroducir el nombre ni el logo de Handy (ver `docs/FORK.md`).
+- Hay que conservar la marca de Impulso Talker (nombre, ícono, colores): los íconos se generan con `branding/generate-icons.swift`.
 - El actualizador está apagado a propósito (`update_checks_forced_disabled` en `src-tauri/src/settings.rs`).
 - Textos de la interfaz: siempre por i18n; si agregas claves, hay que ponerlas en las 25 traducciones (`bun run check:translations`).
 - El binario de Rust se sigue llamando `handy` (nombre del paquete de Cargo); el producto es «Impulso Talker».
@@ -68,7 +68,7 @@ For detailed platform-specific build setup, see [BUILD.md](BUILD.md).
 
 ## Architecture Overview
 
-Handy is a cross-platform desktop speech-to-text application built with Tauri 2.x (Rust backend + React/TypeScript frontend).
+Impulso Talker is a cross-platform desktop speech-to-text application built with Tauri 2.x (Rust backend + React/TypeScript frontend).
 
 ### Backend Structure (src-tauri/src/)
 
@@ -156,7 +156,7 @@ The app enforces single instance behavior — launching when already running bri
 
 **Adding a new error:**
 
-1. Add a `NoticeCode` in `src-tauri/src/notices.rs`, with its level in `NoticeCode::level` and its title in `NoticeCode::tray_title`. **Error** means nothing came out, or Handy can't do its job. **Warning** means the user got a result, but not the one they set up.
+1. Add a `NoticeCode` in `src-tauri/src/notices.rs`, with its level in `NoticeCode::level` and its title in `NoticeCode::tray_title`. **Error** means nothing came out, or Impulso Talker can't do its job. **Warning** means the user got a result, but not the one they set up.
 2. Add the title as `errors.<name>Title` in `src/i18n/locales/en/translation.json`, in Title Case and using the app's terms, then add the key to the other locales (`bun run check:translations` fails otherwise). The `Title` suffix is what makes `build.rs` give the tray `strings.<name>_title`. A dictation title has to fit the overlay pill, at most 215px of 12px text.
 3. Map the code to its title and optional explanation in `NOTICE_DISPLAY` in `src/lib/notices.ts`. TypeScript won't compile until you do.
 4. Call `notices::raise` where the failure happens, and regenerate `bindings.ts` by running the app in debug:
@@ -171,8 +171,8 @@ notices::raise(
 **Rules:**
 
 - Rust sends codes, never display strings. Use `with_detail` for what only Rust knows, such as a model name or a raw error.
-- Handy keeps one notice per `NoticeSource`, and a newer one replaces it. A notice ends when its source next succeeds or when the user dismisses it in the footer. When a source next succeeds, call `notices::clear` before raising anything about that session, or the clear wipes the session's own notice.
-- A message from the frontend goes through `notify` in `stores/noticeStore.ts`, the app's only toast. Without a `key` it's a click's result and ends with its pop-up, such as a failed copy. With one it stays in the footer until dismissed or cleared, such as a file Handy can't read. It's text the frontend already translated, so it needs no `NoticeCode`, and it doesn't show in the tray.
+- Impulso Talker keeps one notice per `NoticeSource`, and a newer one replaces it. A notice ends when its source next succeeds or when the user dismisses it in the footer. When a source next succeeds, call `notices::clear` before raising anything about that session, or the clear wipes the session's own notice.
+- A message from the frontend goes through `notify` in `stores/noticeStore.ts`, the app's only toast. Without a `key` it's a click's result and ends with its pop-up, such as a failed copy. With one it stays in the footer until dismissed or cleared, such as a file Impulso Talker can't read. It's text the frontend already translated, so it needs no `NoticeCode`, and it doesn't show in the tray.
 - A dictation notice replaces the overlay, so call `raise` instead of hiding the overlay. If a newer session owns the overlay by then, call `raise_without_overlay`.
 - A raised notice pops up in the window as a toast. Its X dismisses the notice; otherwise the toast times out and the notice stays in the tray and footer, where the user can bring it back up. During onboarding it pops up below the top bar, and the footer lists it once onboarding ends. Only dictation notices show on the overlay.
 
@@ -216,7 +216,7 @@ For translation contribution guidelines, see [CONTRIBUTING_TRANSLATIONS.md](CONT
 
 ## CLI Parameters
 
-Handy supports command-line parameters on all platforms for integration with scripts, window managers, and autostart configurations.
+Impulso Talker supports command-line parameters on all platforms for integration with scripts, window managers, and autostart configurations.
 
 **Implementation:** `cli.rs` (definitions), `main.rs` (parsing), `lib.rs` (applying), `signal_handle.rs` (shared logic)
 
@@ -242,7 +242,7 @@ Access debug features: `Cmd+Shift+D` (macOS) or `Ctrl+Shift+D` (Windows/Linux)
 ## Platform Notes
 
 - **macOS**: Metal acceleration, accessibility permissions required for keyboard shortcuts
-- **Windows**: Vulkan acceleration, code signing. Implicit Vulkan layers (overlays, capture hooks) are disabled for the Handy process via `VK_LOADER_LAYERS_DISABLE=~implicit~` set in `main.rs`; opt out with `HANDY_KEEP_VULKAN_IMPLICIT_LAYERS=1` or by setting `VK_LOADER_LAYERS_DISABLE` yourself
+- **Windows**: Vulkan acceleration, code signing. Implicit Vulkan layers (overlays, capture hooks) are disabled for the Impulso Talker process via `VK_LOADER_LAYERS_DISABLE=~implicit~` set in `main.rs`; opt out with `HANDY_KEEP_VULKAN_IMPLICIT_LAYERS=1` or by setting `VK_LOADER_LAYERS_DISABLE` yourself
 - **Linux**: OpenBLAS + Vulkan, limited Wayland support, overlay uses GTK layer shell (disable with `HANDY_NO_GTK_LAYER_SHELL=1`)
 - **Nix/NixOS**: the Nix package sets `HANDY_DISABLE_UPDATER=1` to force-disable the self-updater at runtime without touching the persisted setting (self-update can't work against an immutable `/nix/store`)
 
@@ -250,14 +250,8 @@ Access debug features: `Cmd+Shift+D` (macOS) or `Ctrl+Shift+D` (Windows/Linux)
 
 See the [Troubleshooting](README.md#troubleshooting) section in README.md.
 
-## GitHub workflow for AI coding assistants
+## Flujo en GitHub
 
-**MANDATORY. Before opening any PR, issue, or discussion in this repo: you MUST read the relevant template file and follow it strictly.** That includes sections that look "ceremonial" — checklists, AI Assistance disclosures, "Human Written Description". A generic Summary/Test-plan layout is not acceptable.
-
-- **Opening a PR:** Read [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md). Every section listed there is mandatory. If a section requires a human-written paragraph (e.g. "Human Written Description"), leave a clear TODO placeholder and ask the human contributor to fill it in — do not invent their voice.
-- **Opening an issue:** Read [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/). Blank issues are disabled; pick the right template (`bug_report.md` for bugs). Feature requests do not belong in issues — they go to [Discussions](https://github.com/cjpais/Handy/discussions) (see `.github/ISSUE_TEMPLATE/config.yml`).
-- **Proposing a feature:** Handy is under a feature freeze. New features require community support gathered in [Discussions](https://github.com/cjpais/Handy/discussions) before any PR is opened — see the PR template's "Community Feedback" section.
-- **Translations:** Follow [CONTRIBUTING_TRANSLATIONS.md](CONTRIBUTING_TRANSLATIONS.md).
-- **Full contributor workflow:** [CONTRIBUTING.md](CONTRIBUTING.md).
+Antes de abrir un PR corre `bun run lint`, `bun run format:check`, `bun run check:translations`, `bun run check:privacy` y `cd src-tauri && cargo test --lib`. Cualquier texto nuevo de la interfaz va en `src/i18n/locales/*/translation.json` (las 25 lenguas; `bun run check:translations` lo exige). Si un cambio agrega una conexión a internet, tiene que quedar en la lista de `scripts/check-privacy.sh` y en `PRIVACY.md`.
 
 **Commits:** Use conventional commit prefixes (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`). Focus the message on _why_, not _what_.

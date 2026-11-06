@@ -10,16 +10,14 @@
 - **Privacidad**: _Historial → Borrar todo_ (textos, audios y restos de la base), `PRIVACY.md`, texto de privacidad en Acerca de y un control automático (`bun run check:privacy`) que falla si el código abre conexiones fuera de las tres permitidas. El registro parte en nivel Info.
 - **Avisos de versión nueva** en lugar del actualizador automático: una vez al día pregunta a GitHub y, si hay una versión mayor, lo dice abajo a la izquierda y abre la página de descargas. No descarga ni instala nada solo. Se apaga en Acerca de. Se quitó el complemento de actualización automática.
 - El selector de sonido pasó a _General → Sonido_.
-- Se quitó el bloque «Basado en Handy» de Acerca de y las menciones del README; el aviso de derechos de autor sigue en `LICENSE` y `NOTICE.md`.
+- Se quitaron las menciones visibles en Acerca de, el README y los documentos técnicos; el aviso de derechos de autor sigue en `LICENSE` y `NOTICE.md`.
 
 ## 0.1.0 — primera versión de Impulso Talker
 
-Basada en Handy 0.10.0 (commit `82dfab9f`).
-
 - Marca propia: nombre, ícono (tres barras de sonido y cursor amarillo), íconos de bandeja con estados, colores azul Impulso.
 - Español por defecto cuando el sistema está en español; muletilla «eh» quitada en español.
-- Actualizador de Handy apagado; sin firma de desarrollador.
-- «Acerca de» sin donaciones ni notas de versión de Handy; créditos de Handy, Whisper y Parakeet.
+- Actualizador automático apagado; sin firma de desarrollador.
+- «Acerca de» sin donaciones ni notas de versión; créditos de Whisper y Parakeet.
 - Guía de instalación para agentes (`INSTALL.md`), instalador para macOS (`scripts/install-macos.sh`), instalador para Windows sin probar
   (`scripts/install-windows.ps1`), diagnóstico (`scripts/doctor.sh`).
 - Publicación automática de instaladores para Apple Silicon, Mac Intel (experimental) y Windows al empujar una etiqueta `v*`.

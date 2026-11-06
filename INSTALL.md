@@ -62,7 +62,7 @@ El script, que no usa `sudo`:
 Opciones: `--solo-herramientas` (instala las herramientas y se detiene), `--sin-abrir`.
 
 En Windows, compilar desde el código fuente requiere Visual Studio Build Tools, CMake y Vulkan SDK; la guía
-está en [`docs/upstream/BUILD-handy.md`](docs/upstream/BUILD-handy.md). Para personas normales, usa el Camino A.
+está en [`docs/compilar.md`](docs/compilar.md). Para personas normales, usa el Camino A.
 
 ## Paso final: lo que debe hacer la persona (el agente no puede)
 
