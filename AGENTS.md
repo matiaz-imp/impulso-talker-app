@@ -197,7 +197,7 @@ src/i18n/
     └── ...
 ```
 
-For translation contribution guidelines, see [CONTRIBUTING_TRANSLATIONS.md](CONTRIBUTING_TRANSLATIONS.md).
+Each new UI string goes in all 25 files under `src/i18n/locales/*/translation.json`; `bun run check:translations` enforces it.
 
 ## Code Style
 
