@@ -17,7 +17,7 @@ La carpeta de datos es `~/Library/Application Support/cl.agenciaimpulsa.talker` 
 
 Solo estas tres cosas, y ninguna lleva tu voz ni tus textos:
 
-1. **Descarga de modelos.** Cuando eliges un modelo, se baja una vez desde Hugging Face (con un servidor de respaldo si Hugging Face falla). El servidor ve tu dirección IP y qué archivo pides, como cualquier descarga.
+1. **Descarga de modelos.** Cuando eliges un modelo, se baja una vez desde Hugging Face (`huggingface.co`). Si Hugging Face falla, usa un servidor de respaldo (`blob.handy.computer`). Cada archivo se comprueba contra una huella SHA-256 incluida en la app, así que un servidor no puede entregarte otro archivo sin que se note. El servidor ve tu dirección IP y qué archivo pides, como cualquier descarga.
 2. **Aviso de versión nueva.** Una vez al día la app pregunta a GitHub cuál es la última versión publicada. Sale únicamente tu dirección IP. No descarga ni instala nada por sí sola. Se apaga en _Acerca de → Avisarme de versiones nuevas_.
 3. **Limpieza con IA (opcional y apagada de fábrica).** Si la activas y pones tu propia clave de API, el **texto** de lo que dictas (no el audio) se envía al proveedor que elegiste (OpenAI, Anthropic, OpenRouter, etc.) para reescribirlo. Si lo que quieres es que nada salga, déjala apagada o usa un modelo local (por ejemplo Ollama).
 
