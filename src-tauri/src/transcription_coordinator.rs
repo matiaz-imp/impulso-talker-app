@@ -198,8 +198,13 @@ enum Effect {
 
 /// Commands processed sequentially by the coordinator thread.
 enum Command {
-    Input(InputEvent),
-    Cancel { recording_was_active: bool },
+    /// The instant is when the key edge really happened, not when the thread
+    /// got to it: starting a cold microphone blocks this thread for 300 ms+,
+    /// and a tap released meanwhile must not be measured as a long hold.
+    Input(InputEvent, Instant),
+    Cancel {
+        recording_was_active: bool,
+    },
     ProcessingFinished,
 }
 
@@ -605,8 +610,8 @@ impl TranscriptionCoordinator {
 
                     let was_locked = state.is_recording_locked();
                     match cmd {
-                        Command::Input(input) => {
-                            if let Some(effect) = state.on_input(input, Instant::now()) {
+                        Command::Input(input, at) => {
+                            if let Some(effect) = state.on_input(input, at) {
                                 run_effect(&app, &mut state, effect);
                             }
                         }
@@ -685,14 +690,17 @@ impl TranscriptionCoordinator {
     ) {
         if self
             .tx
-            .send(Command::Input(InputEvent {
-                binding_id: binding_id.to_string(),
-                hotkey_string: hotkey_string.to_string(),
-                is_pressed,
-                mode,
-                hold_threshold,
-                external,
-            }))
+            .send(Command::Input(
+                InputEvent {
+                    binding_id: binding_id.to_string(),
+                    hotkey_string: hotkey_string.to_string(),
+                    is_pressed,
+                    mode,
+                    hold_threshold,
+                    external,
+                },
+                Instant::now(),
+            ))
             .is_err()
         {
             warn!("Transcription coordinator channel closed");
