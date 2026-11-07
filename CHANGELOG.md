@@ -1,6 +1,6 @@
 # Cambios
 
-## Sin publicar
+## 0.2.1 — pegado y atajo más confiables
 
 - **Atajo a la primera**: si llevabas un rato sin dictar, el micrófono tardaba en abrir (~300 ms) y la app leía tu toque rápido como una tecla mantenida, cortando la grabación antes de empezar. Ahora mide el toque con la hora real en que lo hiciste.
 - **Pegado más confiable**: la app ya no devuelve tu portapapeles anterior a los 60 ms. Espera a que la app de destino lea el dictado y recién entonces lo restaura, así no se pega lo que habías copiado antes (macOS y Windows). Se quitó el interruptor de Debug «pegado confiable», que ahora es siempre.
